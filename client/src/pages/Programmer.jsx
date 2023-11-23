@@ -12,6 +12,15 @@ import { fetchRequirementsRequest } from "../slices/requirements";
 import { getRequirements } from "../selectors/requirements";
 import ProgrammerTable from "../components/Table/ProgrammerTable";
 import DynamicTable from "../components/Table/DynamicTable";
+import AlertDialog from "../components/Dialog/AlertDialog";
+
+const dataInicial = [
+  { 'SKU':'11060','KG PLAN': 3000,  'Break MIN':2600, 'Comida MIN':0},
+  { 'SKU':'X050B','KG PLAN': 5400,  'Break MIN':30, 'Comida MIN':30},
+  { 'SKU':'X210','KG PLAN': 5000,  'Break MIN':0, 'Comida MIN':0},
+  { 'SKU':'10155','KG PLAN': 5580,  'Break MIN':30, 'Comida MIN':0},
+  { 'SKU':'X450','KG PLAN': 870,  'Break MIN':0, 'Comida MIN':30}
+];
 
 export default function Programmer() {
   const dispatch = useDispatch();
@@ -32,12 +41,12 @@ export default function Programmer() {
     <div style={{ padding: "5px" }}></div>
       <Box>
         <Paper sx={{ width: "100%", overflow: "hidden", p: 2 }}>
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-baseline w-full">
           <Typography variant="h6" sx={{ mb: 2 }}>
             Programador
           </Typography>
-          <IconButton size="small" onClick={() => setOpenAlert(true)}>
-              <AddCircleOutlineIcon />
+          <IconButton>
+          <AlertDialog dataInicial={dataInicial} />
           </IconButton>
           </div>
           <ProgrammerTable list={requirements} />
