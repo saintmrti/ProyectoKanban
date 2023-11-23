@@ -1,0 +1,1 @@
+export { fetchRequirementsApi } from "./requirements";
