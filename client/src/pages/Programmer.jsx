@@ -69,6 +69,7 @@ export default function Programmer() {
             </Typography>
             <DynamicTable />
           </Paper>
+          {/*Componente Modal*/}
         </Box>
       )}
     </>

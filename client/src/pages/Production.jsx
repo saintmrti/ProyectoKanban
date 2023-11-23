@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ProductionTable from "../components/Table/ProductionTable";
+import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-
+import Barra from "./Prueba";
 import ProductionForm from "../components/Forms/ProductionForm";
 
 const style = {
@@ -57,9 +58,38 @@ const data = [
 
 const Production = () => {
   const [open, setOpen] = useState(false);
+  const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
+
+  const handleOnClickSpeedDial = () => {
+    setOpenSpeedDial(!openSpeedDial);
+  };
+  
   return (
     <div>
+      <div style={{ padding: "5px" }}>
+        {!openSpeedDial ? (
+          <Box
+            sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.3rem" }}
+          >
+            {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
+            <SpeedDial
+              ariaLabel="SpeedDial basic example"
+              sx={{ position: "absolute", bottom: 1, right: 3 }}
+              icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
+            ></SpeedDial>
+          </Box>
+        ) : (
+          <>
+          <CloseIcon
+            sx={{ position: "absolute", top:84, right: 20}}
+            fontSize="medium"
+            onClick={() => setOpenSpeedDial(!openSpeedDial)}
+          />
+          <Barra/>
+          </>
+        )}
+      </div>
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography variant="h6" component="div">

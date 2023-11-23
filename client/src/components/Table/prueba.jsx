@@ -76,12 +76,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: "#13100c",
     fontWeight: 600,
     textAlign: "center",
-    padding: "2px",
-    fontSize: 12,
+    padding: "1px",
+    fontSize: 10,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
-    padding: "10px",
+    fontSize: 11,
+    padding: "5px",
   },
 }));
 const StyledTableCell_1 = styled(TableCell)(({ theme }) => ({
@@ -89,12 +89,12 @@ const StyledTableCell_1 = styled(TableCell)(({ theme }) => ({
     color: "#13100c",
     fontWeight: 600,
     textAlign: "center",
-    padding: "2px",
-    fontSize: 12,
+    padding: "0px",
+    fontSize: 11,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
-    padding: "10px",
+    fontSize: 11,
+    //padding: "10px",
   },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -107,6 +107,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
+    //padding: "2px",
   },
 }));
 
