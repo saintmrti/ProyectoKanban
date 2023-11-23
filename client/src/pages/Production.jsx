@@ -13,6 +13,13 @@ import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import Barra from "./Prueba";
 import ProductionForm from "../components/Forms/ProductionForm";
+//agregado por zmm
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { useTheme } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+//aqui termina
+
 
 const style = {
   position: "absolute",
@@ -60,11 +67,20 @@ const Production = () => {
   const [open, setOpen] = useState(false);
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
+  //agregado por zmm
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = useState(0);
+  const maxSteps = 6;
 
-  const handleOnClickSpeedDial = () => {
-    setOpenSpeedDial(!openSpeedDial);
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-  
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+  //aqui termina.
+ 
   return (
     <div>
       <div style={{ padding: "5px" }}>
@@ -81,22 +97,27 @@ const Production = () => {
           </Box>
         ) : (
           <>
-          <CloseIcon
-            sx={{ position: "absolute", top:84, right: 20}}
-            fontSize="medium"
-            onClick={() => setOpenSpeedDial(!openSpeedDial)}
-          />
-          <Barra/>
+            <CloseIcon
+              sx={{ position: "absolute", top: 84, right: 20 }}
+              fontSize="medium"
+              onClick={() => setOpenSpeedDial(!openSpeedDial)}
+            />
+            <Barra />
           </>
         )}
       </div>
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <Typography variant="h6" component="div">
-            Plan Producción
-          </Typography>
-          <div className="flex justify-between items-center w-full">
-            <div>
+          <>
+            <Typography variant="h6" component="span">
+              Plan Producción
+            </Typography>
+            <IconButton size="small" onClick={() => setOpen(true)}>
+              <AddIcon />
+            </IconButton>
+          </>
+          <div className="flex justify-between items-center w-full h-0">
+            {/*<div>
               <IconButton size="small" onClick={() => setOpen(true)}>
                 <AddIcon />
               </IconButton>
@@ -108,7 +129,27 @@ const Production = () => {
               <IconButton size="small" onClick={(f) => f}>
                 <ArrowForwardIcon />
               </IconButton>
-            </div>
+            </div>*/}
+            <Button size="large" onClick={handleBack} disabled={activeStep === 0} sx={{ position: "relative", top:50, left: -40}}>
+            {theme.direction === "rtl" ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
+            
+          </Button>
+          <Button
+            size="large"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+            sx={{ position: "relative", top:50, right:-40}}
+          >
+            {theme.direction === "rtl" ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
           </div>
           <ProductionTable data={data} />
         </CardContent>
