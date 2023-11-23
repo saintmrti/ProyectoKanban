@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 // import PieChartIcon from "@mui/icons-material/PieChart";
 // import FactCheckIcon from "@mui/icons-material/FactCheck";
 import Box from "@mui/material/Box";
+import Navigation from "../Navegacion";
 
 // import { DrawerHeader, Drawer } from "../DrawerOld/materialStyled";
 // import { ListItem } from "./ListItem";
@@ -53,7 +54,9 @@ const NavProduction = () => {
           </ListItem>
         </List>
       </Drawer> */}
+      <Navigation/>
       <Outlet />
+      
     </Box>
   );
 };

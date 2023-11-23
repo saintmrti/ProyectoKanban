@@ -6,7 +6,8 @@ import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import SpeedDial from "@mui/material/SpeedDial";
 import AddIcon from "@mui/icons-material/Add";
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import IconButton from "@mui/material/IconButton";
 import { fetchRequirementsRequest } from "../slices/requirements";
 import { getRequirements } from "../selectors/requirements";
 import ProgrammerTable from "../components/Table/ProgrammerTable";
@@ -15,6 +16,7 @@ import DynamicTable from "../components/Table/DynamicTable";
 export default function Programmer() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const requirements = useSelector(getRequirements);
 
   const handleOnClick = () => {
@@ -27,12 +29,17 @@ export default function Programmer() {
 
   return (
     <>
+    <div style={{ padding: "5px" }}></div>
       <Box>
         <Paper sx={{ width: "100%", overflow: "hidden", p: 2 }}>
+          <div className="flex justify-between items-center w-full">
           <Typography variant="h6" sx={{ mb: 2 }}>
             Programador
           </Typography>
-
+          <IconButton size="small" onClick={() => setOpenAlert(true)}>
+              <AddCircleOutlineIcon />
+          </IconButton>
+          </div>
           <ProgrammerTable list={requirements} />
         </Paper>
       </Box>
