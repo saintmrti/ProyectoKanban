@@ -13,7 +13,7 @@ const indicadores = [
   },
   {
     name: "Planeación",
-    link: "/programador",
+    link: "/planeacion/programador",
     path: "planeacion",
     icon: "assignment",
   },

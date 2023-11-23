@@ -32,6 +32,7 @@ export default function Programmer() {
           <Typography variant="h6" sx={{ mb: 2 }}>
             Programador
           </Typography>
+
           <ProgrammerTable list={requirements} />
         </Paper>
       </Box>
