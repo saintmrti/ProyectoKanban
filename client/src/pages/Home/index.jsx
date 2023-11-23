@@ -86,7 +86,7 @@ const Home = () => {
                 backgroundColor: "#eeeeee",
               },
             }}
-            onClick={() => navigate("/programador")}
+            onClick={() => navigate("/planeacion/programador")}
           >
             <CardContent
               style={{
