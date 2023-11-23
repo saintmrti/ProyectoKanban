@@ -15,7 +15,7 @@ import {
   MuiCardMedia,
 } from "./styled";
 import Kanban from "../../assets/icons/kanban.png";
-// import Planeacion from "../../assets/icons/planeacion.png";
+import Planeacion from "../../assets/icons/planeacion.png";
 import Fmds from "../../assets/icons/fmds.png";
 import TpzRender from "../../assets/img/tpz_render.png";
 import MtyRender from "../../assets/img/mty_render.png";
@@ -96,7 +96,7 @@ const Home = () => {
               }}
             >
               <MDBox style={{ backgroundColor: "#477EE9" }}>
-                {/* <StyledIcon src={Planeacion} alt="Mi Icono" /> */}
+                <StyledIcon src={Planeacion} alt="Mi Icono" />
               </MDBox>
               <div style={{ textAlign: "right", paddingTop: "10px" }}>
                 <Title>Planeación</Title>
