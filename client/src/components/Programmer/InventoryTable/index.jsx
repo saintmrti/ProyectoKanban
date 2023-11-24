@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -98,7 +97,7 @@ function Cell({ value }) {
   return <StyledTableCell align="center">{value}</StyledTableCell>;
 }
 
-export default function DynamicTable({ onClick }) {
+export default function InventoryTable({ onClick }) {
   //const [data, setData] = useState(dataInicial);
   return (
     <TableContainer

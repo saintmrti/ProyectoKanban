@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import MiniTabla from "../components/Table/prueba"; //componente
+import WeeklyInvTable from "./WeeklyInvTable"; //componente
 import Grid from "@mui/material/Grid";
 // import Card from "@mui/material/Card";
 // import { CardContent } from "@mui/material";
@@ -16,13 +16,13 @@ const steps = [
     description: (
       <Grid container spacing={1} columns={13}>
         <Grid item xs={5}>
-          <MiniTabla semana={"Semana 34"} color={"DAF7A6"} extra={true} />
+          <WeeklyInvTable semana={"Semana 34"} color={"DAF7A6"} extra={true} />
         </Grid>
         <Grid item xs={4}>
-          <MiniTabla semana={"Semana 35"} color={"D2B4DE"} />
+          <WeeklyInvTable semana={"Semana 35"} color={"D2B4DE"} />
         </Grid>
         <Grid item xs={4}>
-          <MiniTabla semana={"Semana 36"} color={"DAF7A6"} />
+          <WeeklyInvTable semana={"Semana 36"} color={"DAF7A6"} />
         </Grid>
       </Grid>
     ),
@@ -32,13 +32,13 @@ const steps = [
     description: (
       <Grid container spacing={1} columns={13}>
         <Grid item xs={5}>
-          <MiniTabla semana={"Semana 37"} color={"ABEBC6"} extra={true} />
+          <WeeklyInvTable semana={"Semana 37"} color={"ABEBC6"} extra={true} />
         </Grid>
         <Grid item xs={4}>
-          <MiniTabla semana={"Semana 38"} color={"D2B4DE"} />
+          <WeeklyInvTable semana={"Semana 38"} color={"D2B4DE"} />
         </Grid>
         <Grid item xs={4}>
-          <MiniTabla semana={"Semana 39"} color={"E8DAEF"} />
+          <WeeklyInvTable semana={"Semana 39"} color={"E8DAEF"} />
         </Grid>
       </Grid>
     ),
@@ -48,20 +48,20 @@ const steps = [
     description: (
       <Grid container spacing={1} columns={13}>
         <Grid item xs={5}>
-          <MiniTabla semana={"Semana 40"} color={"DAF7A6"} extra={true} />
+          <WeeklyInvTable semana={"Semana 40"} color={"DAF7A6"} extra={true} />
         </Grid>
         <Grid item xs={4}>
-          <MiniTabla semana={"Semana 41"} color={"D2B4DE"} />
+          <WeeklyInvTable semana={"Semana 41"} color={"D2B4DE"} />
         </Grid>
         <Grid item xs={4}>
-          <MiniTabla semana={"Semana 42"} color={"DAF7A6"} />
+          <WeeklyInvTable semana={"Semana 42"} color={"DAF7A6"} />
         </Grid>
       </Grid>
     ),
   },
 ];
 
-export default function Barra() {
+export default function WeeklyInventory() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;

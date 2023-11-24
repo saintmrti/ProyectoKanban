@@ -115,7 +115,7 @@ function Cell({ value }) {
   return <StyledTableCell align="center">{value}</StyledTableCell>;
 }
 
-export default function MiniTabla({ semana, color, extra }) {
+export default function WeeklyInvTable({ semana, color, extra }) {
   const [data, setData] = useState(dataInicial);
 
   return (

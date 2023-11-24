@@ -54,9 +54,8 @@ const NavProduction = () => {
           </ListItem>
         </List>
       </Drawer> */}
-      <Navigation/>
+      <Navigation />
       <Outlet />
-      
     </Box>
   );
 };

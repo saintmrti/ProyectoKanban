@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import CloseIcon from "@mui/icons-material/Close";
 import SpeedDial from "@mui/material/SpeedDial";
 import AddIcon from "@mui/icons-material/Add";
-// import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from "@mui/material/IconButton";
-import { fetchRequirementsRequest } from "../slices/requirements";
-import { getRequirements } from "../selectors/requirements";
-import ProgrammerTable from "../components/Table/ProgrammerTable";
-import DynamicTable from "../components/Table/DynamicTable";
-import AlertDialog from "../components/Dialog/AlertDialog";
+
+import { fetchRequirementsRequest } from "../../slices/requirements";
+import { getRequirements } from "../../selectors/requirements";
+import ProgrammerTable from "./ProgrammerTable";
+import AlertDialog from "../Dialog/AlertDialog";
+import CloseIcon from "@mui/icons-material/Close";
+import InventoryTable from "./InventoryTable";
 
 const dataInicial = [
   { SKU: "11060", "KG PLAN": 3000, "Break MIN": 2600, "Comida MIN": 0 },
@@ -22,15 +22,15 @@ const dataInicial = [
   { SKU: "X450", "KG PLAN": 870, "Break MIN": 0, "Comida MIN": 30 },
 ];
 
-export default function Programmer() {
+const Programmer = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  // const [openAlert, setOpenAlert] = useState(false);
-  const requirements = useSelector(getRequirements);
 
   const handleOnClick = () => {
     setOpen(!open);
   };
+
+  const requirements = useSelector(getRequirements);
 
   useEffect(() => {
     dispatch(fetchRequirementsRequest());
@@ -38,7 +38,6 @@ export default function Programmer() {
 
   return (
     <>
-      <div style={{ padding: "5px" }}></div>
       <Box>
         <Paper sx={{ width: "100%", overflow: "hidden", p: 2 }}>
           <div className="flex justify-between items-baseline w-full">
@@ -84,11 +83,13 @@ export default function Programmer() {
             <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>
               Inventario Semanal
             </Typography>
-            <DynamicTable />
+            <InventoryTable />
           </Paper>
           {/*Componente Modal*/}
         </Box>
       )}
     </>
   );
-}
+};
+
+export default Programmer;

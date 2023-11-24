@@ -1,24 +1,22 @@
 import { useState } from "react";
-import ProductionTable from "../components/Table/ProductionTable";
 import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
 // import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { useTheme } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-import Barra from "./Prueba";
-import ProductionForm from "../components/Forms/ProductionForm";
-//agregado por zmm
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useTheme } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-//aqui termina
+import WeeklyInventory from "./WeeklyInventory";
+import ProductionForm from "./ProductionForm";
+import ProductionTable from "./ProductionTable";
 
 const style = {
   position: "absolute",
@@ -81,7 +79,7 @@ const Production = () => {
   //aqui termina.
 
   return (
-    <div>
+    <>
       <div style={{ padding: "5px" }}>
         {!openSpeedDial ? (
           <Box
@@ -101,7 +99,7 @@ const Production = () => {
               fontSize="medium"
               onClick={() => setOpenSpeedDial(!openSpeedDial)}
             />
-            <Barra />
+            <WeeklyInventory />
           </>
         )}
       </div>
@@ -179,7 +177,7 @@ const Production = () => {
           />
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
 

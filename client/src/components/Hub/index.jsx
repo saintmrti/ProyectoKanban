@@ -21,7 +21,7 @@ import TpzRender from "../../assets/img/tpz_render.png";
 import MtyRender from "../../assets/img/mty_render.png";
 import QroRender from "../../assets/img/qro_render.png";
 
-const Home = () => {
+export default function Hub() {
   const navigate = useNavigate();
   return (
     <Wrapper>
@@ -261,6 +261,4 @@ const Home = () => {
       </div>
     </Wrapper>
   );
-};
-
-export default Home;
+}
