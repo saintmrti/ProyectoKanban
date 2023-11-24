@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import moment from "moment";
 
 import NavBar from "./components/NavBar";
-import { DrawerHeader } from "./components/DrawerOld/materialStyled";
+import { DrawerHeader } from "./components/Drawer/materialStyled";
 import { Root } from "./components/routes";
 import { getTheme } from "./utilities/getTheme";
 
