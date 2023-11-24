@@ -80,39 +80,35 @@ const Production = () => {
 
   return (
     <>
-      <div style={{ padding: "5px" }}>
-        {!openSpeedDial ? (
-          <Box
-            sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.4rem" }}
-          >
-            {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
-            <SpeedDial
-              ariaLabel="SpeedDial basic example"
-              sx={{ position: "absolute", bottom: 1, right: 3 }}
-              icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
-            ></SpeedDial>
-          </Box>
-        ) : (
-          <>
-            <CloseIcon
-              sx={{ position: "absolute", top: 84, right: 20 }}
-              fontSize="medium"
-              onClick={() => setOpenSpeedDial(!openSpeedDial)}
-            />
-            <WeeklyInventory />
-          </>
-        )}
-      </div>
+      {!openSpeedDial ? (
+        <Box sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.4rem" }}>
+          {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: "absolute", bottom: 1, right: 3 }}
+            icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
+          ></SpeedDial>
+        </Box>
+      ) : (
+        <>
+          <CloseIcon
+            sx={{ position: "absolute", top: 84, right: 20 }}
+            fontSize="medium"
+            onClick={() => setOpenSpeedDial(!openSpeedDial)}
+          />
+          <WeeklyInventory />
+        </>
+      )}
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
-          <>
+          <div className="flex items-center">
             <Typography variant="h6" component="span">
               Plan Producción
             </Typography>
             <IconButton size="small" onClick={() => setOpen(true)}>
               <AddIcon />
             </IconButton>
-          </>
+          </div>
           <div className="flex justify-between items-center w-full h-0">
             {/*<div>
               <IconButton size="small" onClick={() => setOpen(true)}>

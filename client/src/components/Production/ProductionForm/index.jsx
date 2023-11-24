@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,6 +13,41 @@ import { productos } from "./dummyData";
 
 export default function ProductionForm({ data, setOpen, setProduct, product }) {
   const { register, handleSubmit, reset } = useForm();
+
+  const [timing, setTiming] = useState({
+    mezclado: {
+      inicio: "",
+      fin: "",
+    },
+    embutido: {
+      inicio: "",
+      fin: "",
+    },
+    cocimiento: {
+      inicio: "",
+      fin: "",
+    },
+    enfriamiento: {
+      inicio: "",
+      fin: "",
+    },
+    desmolde: {
+      inicio: "",
+      fin: "",
+    },
+    atemperado: {
+      inicio: "",
+      fin: "",
+    },
+    rebanado: {
+      inicio: "",
+      fin: "",
+    },
+    entrega: {
+      inicio: "",
+      fin: "",
+    },
+  });
 
   const onSubmit = (values) => {
     const newProduct = {
@@ -76,6 +112,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
       className="flex justify-center items-center flex-wrap"
       onSubmit={handleSubmit(onSubmit)}
     >
+      {console.log(timing)}
       <h1 className="text-3xl mb-5 w-full text-center">Agregar SKU</h1>
       <div className="grid grid-cols-4 gap-5 mb-10">
         <FormControl sx={{ width: "15rem" }}>
@@ -149,6 +186,13 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
               label="Inicio"
               type="time"
               size="small"
+              value={data[data.length - 1]?.procesos[0]?.fin || ""}
+              onChange={(e) =>
+                setTiming({
+                  ...timing,
+                  mezclado: { ...timing.mezclado, inicio: e.target.value },
+                })
+              }
               {...register("mezclado_inicio", { required: true })}
             />
             <TextField
@@ -156,6 +200,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
               label="Final"
               type="time"
               size="small"
+              value={timing.mezclado.fin || ""}
               {...register("mezclado_final", { required: true })}
             />
           </div>

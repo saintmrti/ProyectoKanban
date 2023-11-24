@@ -23,7 +23,7 @@ export default function AlertDialog({ dataInicial }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box>
       <Button variant="outlined" onClick={handleClickOpen}>
         Revisar
       </Button>
