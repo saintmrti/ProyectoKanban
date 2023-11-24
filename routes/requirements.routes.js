@@ -1,7 +1,7 @@
 const { Router } = require("express");
 
 const response = require("../helpers/response");
-const { getSummary } = require("../models/requirements.model");
+const { getSummary } = require("../queries/requirements");
 
 const router = Router();
 

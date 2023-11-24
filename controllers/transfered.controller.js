@@ -2,7 +2,7 @@ const _ = require("lodash");
 const Connection = require("../connection/db");
 const response = require("../helpers/response");
 
-const { getSummary, insertInventory } = require("../models/inventory.model");
+const { getSummary, insertInventory } = require("../queries/inventory");
 
 module.exports.transfered = async (req, res) => {
   try {

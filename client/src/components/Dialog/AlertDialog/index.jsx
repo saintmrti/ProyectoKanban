@@ -1,19 +1,18 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 
-import DialogTitle from '@mui/material/DialogTitle';
-import TablaProgramador from '../TablaProgramador';
-import Box from '@mui/material/Box';
-import TablaTiempoSTD from '../TablaTiempoSTD';
-import TablaRes from '../TablaRes';
+import DialogTitle from "@mui/material/DialogTitle";
+import TablaProgramador from "../TablaProgramador";
+import Box from "@mui/material/Box";
+import TablaTiempoSTD from "../TablaTiempoSTD";
+import TablaRes from "../TablaRes";
 
-export default function AlertDialog({dataInicial}) {
+export default function AlertDialog({ dataInicial }) {
   const [open, setOpen] = useState(false);
-  const [datosParaTablaRes, setDatosParaTablaRes] = useState(0)
+  const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,5 +54,4 @@ export default function AlertDialog({dataInicial}) {
       </Dialog>
     </Box>
   );
-  
 }

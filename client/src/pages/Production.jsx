@@ -4,8 +4,8 @@ import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -19,7 +19,6 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 //aqui termina
-
 
 const style = {
   position: "absolute",
@@ -80,7 +79,7 @@ const Production = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
   //aqui termina.
- 
+
   return (
     <div>
       <div style={{ padding: "5px" }}>
@@ -130,26 +129,30 @@ const Production = () => {
                 <ArrowForwardIcon />
               </IconButton>
             </div>*/}
-            <Button size="large" onClick={handleBack} disabled={activeStep === 0} sx={{ position: "relative", top:50, left: -40}}>
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            
-          </Button>
-          <Button
-            size="large"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-            sx={{ position: "relative", top:50, right:-40}}
-          >
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
+            <Button
+              size="large"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+              sx={{ position: "relative", top: 50, left: -40 }}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+            <Button
+              size="large"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+              sx={{ position: "relative", top: 50, right: -40 }}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
           </div>
           <ProductionTable data={data} />
         </CardContent>
