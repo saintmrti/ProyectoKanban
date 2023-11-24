@@ -17,7 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import WeeklyInventory from "./WeeklyInventory";
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
-
+import RackTable from "../RackTable";
 const style = {
   position: "absolute",
   top: "50%",
@@ -99,7 +99,7 @@ const Production = () => {
               fontSize="medium"
               onClick={() => setOpenSpeedDial(!openSpeedDial)}
             />
-            <WeeklyInventory />
+            <RackTable />
           </>
         )}
       </div>

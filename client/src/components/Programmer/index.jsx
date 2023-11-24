@@ -13,6 +13,7 @@ import ProgrammerTable from "./ProgrammerTable";
 import AlertDialog from "../Dialog/AlertDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import InventoryTable from "./InventoryTable";
+import WeeklyInventory from "../Production/WeeklyInventory";
 
 const dataInicial = [
   { SKU: "11060", "KG PLAN": 3000, "Break MIN": 2600, "Comida MIN": 0 },
@@ -38,6 +39,28 @@ const Programmer = () => {
 
   return (
     <>
+      <div style={{ padding: "5px" }}>
+        {!open ? (
+          <Box
+            sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.4rem" }}
+          >
+            <SpeedDial
+              ariaLabel="SpeedDial basic example"
+              sx={{ position: "absolute", bottom: 3, right: 3 }}
+              icon={<AddIcon onClick={handleOnClick} />}
+            ></SpeedDial>
+          </Box>
+        ) : (
+          <>
+            <CloseIcon
+              sx={{ position: "absolute", top: 84, right: 20 }}
+              fontSize="medium"
+              onClick={() => setOpenSpeedDial(!openSpeedDial)}
+            />
+            <WeeklyInventory />
+          </>
+        )}
+      </div>
       <Box>
         <Paper sx={{ width: "100%", overflow: "hidden", p: 2 }}>
           <div className="flex justify-between items-baseline w-full">
@@ -51,13 +74,7 @@ const Programmer = () => {
           <ProgrammerTable list={requirements} />
         </Paper>
       </Box>
-      <Box sx={{ position: "fixed", mt: 3, right: "1rem", bottom: "1rem" }}>
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{ position: "absolute", bottom: 3, right: 3 }}
-          icon={<AddIcon onClick={handleOnClick} />}
-        ></SpeedDial>
-      </Box>
+
       {open && (
         <Box
           sx={{
