@@ -5,7 +5,6 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import AddIcon from "@mui/icons-material/Add";
-import IconButton from "@mui/material/IconButton";
 
 import { fetchRequirementsRequest } from "../../slices/requirements";
 import { getRequirements } from "../../selectors/requirements";
@@ -63,13 +62,11 @@ const Programmer = () => {
       </div>
       <Box>
         <Paper sx={{ width: "100%", overflow: "hidden", p: 2 }}>
-          <div className="flex justify-between items-baseline w-full">
+          <div className="flex justify-between w-full">
             <Typography variant="h6" sx={{ mb: 2 }}>
               Programador
             </Typography>
-            <IconButton>
-              <AlertDialog dataInicial={dataInicial} />
-            </IconButton>
+            <AlertDialog dataInicial={dataInicial} />
           </div>
           <ProgrammerTable list={requirements} />
         </Paper>
