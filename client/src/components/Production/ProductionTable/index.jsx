@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -6,8 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import _ from "lodash";
-import { Fragment } from "react";
-import { styled } from "@mui/material/styles";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -69,24 +69,16 @@ export default function ProductionTable({ data }) {
             <StyledTableCell align="center">
               <b>Tipo</b>
             </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Inicio</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Fin</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Inicio</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Fin</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Inicio</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Fin</b>
-            </StyledTableCell>
+            {_.map(data[0].procesos, (proceso) => (
+              <Fragment key={proceso.nombre}>
+                <StyledTableCell align="center">
+                  <b>Inicio</b>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <b>Fin</b>
+                </StyledTableCell>
+              </Fragment>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>

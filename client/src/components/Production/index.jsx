@@ -5,10 +5,10 @@ import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
 // import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useTheme } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+// import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+// import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+// import { useTheme } from "@mui/material/styles";
+// import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -17,7 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import WeeklyInventory from "./WeeklyInventory";
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
-import RackTable from "../RackTable";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -56,6 +56,31 @@ const data = [
         inicio: "07:50",
         fin: "12:20",
       },
+      {
+        nombre: "Enfriamiento",
+        inicio: "12:20",
+        fin: "16:30",
+      },
+      {
+        nombre: "Desmolde",
+        inicio: "16:30",
+        fin: "16:55",
+      },
+      {
+        nombre: "Atemperado",
+        inicio: "16:55",
+        fin: "20:55",
+      },
+      {
+        nombre: "Rebanado",
+        inicio: "20:55",
+        fin: "22:55",
+      },
+      {
+        nombre: "Entrega",
+        inicio: "22:55",
+        fin: "23:10",
+      },
     ],
   },
 ];
@@ -65,17 +90,17 @@ const Production = () => {
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
   //agregado por zmm
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = 6;
+  // const theme = useTheme();
+  // const [activeStep, setActiveStep] = useState(0);
+  // const maxSteps = 6;
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  // const handleNext = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  // };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
   //aqui termina.
 
   return (
@@ -110,7 +135,7 @@ const Production = () => {
             </IconButton>
           </div>
           <div className="flex justify-between items-center w-full h-0">
-            {/*<div>
+            {/* <div>
               <IconButton size="small" onClick={() => setOpen(true)}>
                 <AddIcon />
               </IconButton>
@@ -122,8 +147,8 @@ const Production = () => {
               <IconButton size="small" onClick={(f) => f}>
                 <ArrowForwardIcon />
               </IconButton>
-            </div>*/}
-            <Button
+            </div> */}
+            {/* <Button
               size="large"
               onClick={handleBack}
               disabled={activeStep === 0}
@@ -146,7 +171,7 @@ const Production = () => {
               ) : (
                 <KeyboardArrowRight />
               )}
-            </Button>
+            </Button> */}
           </div>
           <ProductionTable data={data} />
         </CardContent>

@@ -6,6 +6,7 @@ export const productos = [
     kg_lote: 3000,
     no_racks: 3,
     tipo: "MOL",
+    mezclado: 100,
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const productos = [
     kg_lote: 3100,
     no_racks: 3,
     tipo: "MOL",
+    mezclado: 120,
   },
   {
     id: 3,
@@ -22,5 +24,6 @@ export const productos = [
     kg_lote: 3600,
     no_racks: 3.5,
     tipo: "MOL",
+    mezclado: 100,
   },
 ];
