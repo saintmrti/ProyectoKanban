@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -15,35 +15,7 @@ import { productos } from "./dummyData";
 export default function ProductionForm({ data, setOpen, setProduct, product }) {
   const { register, handleSubmit, reset, setValue } = useForm();
 
-  // const initialValues = {
-  //   mezclado_inicio: "",
-  //   mezclado_fin: "",
-  //   embutido_inicio: "",
-  //   embutido_fin: "",
-  //   cocimiento_inicio: "",
-  //   cocimiento_fin: "",
-  //   enfriamiento_inicio: "",
-  //   enfriamiento_fin: "",
-  //   desmolde_inicio: "",
-  //   desmolde_fin: "",
-  //   atemperado_inicio: "",
-  //   atemperado_fin: "",
-  //   rebanado_inicio: "",
-  //   rebanado_fin: "",
-  //   entrega_inicio: "",
-  //   entrega_fin: "",
-  // };
-
-  const [timing, setTiming] = useState({
-    mezclado: {
-      inicio: "",
-      fin: "",
-    },
-    embutido: {
-      inicio: "",
-      fin: "",
-    },
-  });
+  const process = data[data.length - 1]?.procesos;
 
   const onSubmit = (values) => {
     const newProduct = {
@@ -100,15 +72,12 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
     };
 
     data.push(newProduct);
-    // setTiming({ ...initialValues });
     setProduct(null);
     reset();
-    setOpen(false);
+    !process && setOpen(false);
   };
 
-  const process = data[data.length - 1]?.procesos;
-
-  const handleTimingChange = (value) => {
+  const handleTimingChangeMez = (value) => {
     const mezclado_min = _.find(productos, { name: product })?.mezclado;
     const mezclado_inicio = value;
     const mezclado_fin = calculateEndTime(mezclado_inicio, mezclado_min);
@@ -118,32 +87,39 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
         : calculateEndTime("06:00", 1);
     const embutido_fin = calculateEndTime(embutido_inicio, 90);
 
-    setTiming((prevTiming) => ({
-      ...prevTiming,
-      mezclado: {
-        inicio: mezclado_inicio,
-        fin: mezclado_fin,
-      },
-      embutido: {
-        inicio: embutido_inicio,
-        fin: embutido_fin,
-      },
-    }));
+    setValue("mezclado_inicio", mezclado_inicio);
     setValue("mezclado_fin", mezclado_fin);
     setValue("embutido_inicio", embutido_inicio);
     setValue("embutido_fin", embutido_fin);
   };
 
-  // const handleEndTimingChange = (e, process) => {
-  //   const endTiming = e.target.value;
-  //   setTiming((prevTiming) => ({
-  //     ...prevTiming,
-  //     [process]: {
-  //       ...prevTiming[process],
-  //       fin: endTiming,
-  //     },
-  //   }));
-  // };
+  const handleTimingChangeCo = (value) => {
+    const cocimiento_inicio = value;
+    const cocimiento_fin = calculateEndTime(cocimiento_inicio, 270);
+    const enfriamiento_inicio = cocimiento_fin;
+    const enfriamiento_fin = calculateEndTime(enfriamiento_inicio, 250);
+    const desmolde_inicio = enfriamiento_fin;
+    const desmolde_fin = calculateEndTime(desmolde_inicio, 25);
+    const atemperado_inicio = desmolde_fin;
+    const atemperado_fin = calculateEndTime(atemperado_inicio, 240);
+    const rebanado_inicio = atemperado_fin;
+    const rebanado_fin = calculateEndTime(rebanado_inicio, 120);
+    const entrega_inicio = rebanado_fin;
+    const entrega_fin = calculateEndTime(entrega_inicio, 15);
+
+    setValue("cocimiento_inicio", cocimiento_inicio);
+    setValue("cocimiento_fin", cocimiento_fin);
+    setValue("enfriamiento_inicio", enfriamiento_inicio);
+    setValue("enfriamiento_fin", enfriamiento_fin);
+    setValue("desmolde_inicio", desmolde_inicio);
+    setValue("desmolde_fin", desmolde_fin);
+    setValue("atemperado_inicio", atemperado_inicio);
+    setValue("atemperado_fin", atemperado_fin);
+    setValue("rebanado_inicio", rebanado_inicio);
+    setValue("rebanado_fin", rebanado_fin);
+    setValue("entrega_inicio", entrega_inicio);
+    setValue("entrega_fin", entrega_fin);
+  };
 
   const calculateEndTime = (startTime, min) => {
     return moment(startTime, "HH:mm").add(min, "minutes").format("HH:mm");
@@ -207,17 +183,15 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
           fin: entrega_fin,
         },
       };
-
-      // setTiming(newTiming);
-      setValue("rack", _.find(productos, { name: product })?.rack);
-      setValue("kg_lote", _.find(productos, { name: product })?.kg_lote);
-      setValue("no_racks", _.find(productos, { name: product })?.no_racks);
-      setValue("tipo", _.find(productos, { name: product })?.tipo);
       Object.keys(newTiming).forEach((processName) => {
         setValue(`${processName}_inicio`, newTiming[processName].inicio);
         setValue(`${processName}_fin`, newTiming[processName].fin);
       });
     }
+    setValue("rack", _.find(productos, { name: product })?.rack);
+    setValue("kg_lote", _.find(productos, { name: product })?.kg_lote);
+    setValue("no_racks", _.find(productos, { name: product })?.no_racks);
+    setValue("tipo", _.find(productos, { name: product })?.tipo);
   }, [product, process, setValue]);
 
   return (
@@ -290,7 +264,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
         {/* <h1 className="col-span-4 text-2xl text-center">
           Tiempos Precalculados
         </h1> */}
-        {!process && (
+        {!process && product && (
           <Fragment>
             <div className="col-span-2">
               <Typography variant="h6" component="div" sx={{ mb: 2 }}>
@@ -302,10 +276,11 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.mezclado?.inicio || ""}
                   {...register("mezclado_inicio", {
-                    required: false,
-                    onChange: (e) => handleTimingChange(e.target.value),
+                    required: true,
+                    onChange: (e) => handleTimingChangeMez(e.target.value),
                   })}
                 />
                 <TextField
@@ -313,9 +288,9 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
-                  value={timing?.mezclado?.fin || ""}
+                  defaultValue="00:00"
                   {...register("mezclado_fin", {
-                    required: false,
+                    required: true,
                     // onChange: (e) => handleEndTimingChange(e, "Mezclado"),
                   })}
                 />
@@ -331,7 +306,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
-                  value={timing?.embutido?.inicio || ""}
+                  defaultValue="00:00"
                   {...register("embutido_inicio", { required: false })}
                 />
                 <TextField
@@ -339,7 +314,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
-                  value={timing?.embutido?.fin || ""}
+                  defaultValue="00:00"
                   {...register("embutido_fin", { required: false })}
                 />
               </div>
@@ -354,14 +329,19 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.cocimiento?.inicio || ""}
-                  {...register("cocimiento_inicio", { required: false })}
+                  {...register("cocimiento_inicio", {
+                    required: false,
+                    onChange: (e) => handleTimingChangeCo(e.target.value),
+                  })}
                 />
                 <TextField
                   sx={{ width: "15rem" }}
                   label="Final"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.cocimiento?.fin || ""}
                   {...register("cocimiento_fin", { required: false })}
                 />
@@ -377,6 +357,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.enfriamiento?.inicio || ""}
                   {...register("enfriamiento_inicio", { required: false })}
                 />
@@ -385,6 +366,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.enfriamiento?.fin || ""}
                   {...register("enfriamiento_fin", { required: false })}
                 />
@@ -400,6 +382,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.desmolde?.inicio || ""}
                   {...register("desmolde_inicio", { required: false })}
                 />
@@ -408,6 +391,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.desmolde?.fin || ""}
                   {...register("desmolde_fin", { required: false })}
                 />
@@ -423,6 +407,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.atemperado?.inicio || ""}
                   {...register("atemperado_inicio", { required: false })}
                 />
@@ -431,6 +416,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.atemperado?.fin || ""}
                   {...register("atemperado_fin", { required: false })}
                 />
@@ -446,6 +432,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.rebanado?.inicio || ""}
                   {...register("rebanado_inicio", { required: false })}
                 />
@@ -454,6 +441,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.rebanado?.fin || ""}
                   {...register("rebanado_fin", { required: false })}
                 />
@@ -469,6 +457,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Inicio"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.entrega?.inicio || ""}
                   {...register("entrega_inicio", { required: false })}
                 />
@@ -477,6 +466,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
                   label="Final"
                   type="time"
                   size="small"
+                  defaultValue="00:00"
                   // value={timing?.entrega?.fin || ""}
                   {...register("entrega_fin", { required: false })}
                 />

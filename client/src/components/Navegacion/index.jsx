@@ -11,7 +11,7 @@ export default function Navigation() {
   const location = useLocation();
 
   return (
-    <Box sx={{ width: 257, height: "35px", mb: 1 }} elevation={3}>
+    <Box sx={{ width: 257, height: "35px", mb: 2 }} elevation={3}>
       {/*<BottomNavigationAction
         label="Programador"
         value="Programador" sx={{height:'30px', background: location.pathname === '/planeacion/programador' && '#E5E7E9'}}/>

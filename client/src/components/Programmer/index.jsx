@@ -39,28 +39,24 @@ const Programmer = () => {
 
   return (
     <>
-      <div style={{ padding: "5px" }}>
-        {!open ? (
-          <Box
-            sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.4rem" }}
-          >
-            <SpeedDial
-              ariaLabel="SpeedDial basic example"
-              sx={{ position: "absolute", bottom: 3, right: 3 }}
-              icon={<AddIcon onClick={handleOnClick} />}
-            ></SpeedDial>
-          </Box>
-        ) : (
-          <>
-            <CloseIcon
-              sx={{ position: "absolute", top: 84, right: 20 }}
-              fontSize="medium"
-              onClick={() => setOpenSpeedDial(!openSpeedDial)}
-            />
-            <WeeklyInventory />
-          </>
-        )}
-      </div>
+      {!open ? (
+        <Box sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.4rem" }}>
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            sx={{ position: "absolute", bottom: 3, right: 3 }}
+            icon={<AddIcon onClick={handleOnClick} />}
+          ></SpeedDial>
+        </Box>
+      ) : (
+        <>
+          <CloseIcon
+            sx={{ position: "absolute", top: 84, right: 20 }}
+            fontSize="medium"
+            onClick={() => setOpenSpeedDial(!openSpeedDial)}
+          />
+          <WeeklyInventory />
+        </>
+      )}
       <Box>
         <Paper sx={{ width: "100%", overflow: "hidden", p: 2 }}>
           <div className="flex justify-between w-full">
