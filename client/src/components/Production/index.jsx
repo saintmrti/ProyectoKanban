@@ -31,58 +31,58 @@ const style = {
 };
 
 const data = [
-  {
-    id: 1,
-    sec: 1,
-    destino: "MVC10",
-    producto: "X050B",
-    rack: "11 x 16",
-    kg_lote: 3000,
-    no_racks: 3.0,
-    tipo: "MOL",
-    procesos: [
-      {
-        nombre: "Mezclado",
-        inicio: "04:00",
-        fin: "05:40",
-      },
-      {
-        nombre: "Embutido",
-        inicio: "06:00",
-        fin: "07:31",
-      },
-      {
-        nombre: "Cocimiento",
-        inicio: "07:50",
-        fin: "12:20",
-      },
-      {
-        nombre: "Enfriamiento",
-        inicio: "12:20",
-        fin: "16:30",
-      },
-      {
-        nombre: "Desmolde",
-        inicio: "16:30",
-        fin: "16:55",
-      },
-      {
-        nombre: "Atemperado",
-        inicio: "16:55",
-        fin: "20:55",
-      },
-      {
-        nombre: "Rebanado",
-        inicio: "20:55",
-        fin: "22:55",
-      },
-      {
-        nombre: "Entrega",
-        inicio: "22:55",
-        fin: "23:10",
-      },
-    ],
-  },
+  // {
+  //   id: 1,
+  //   sec: 1,
+  //   destino: "MVC10",
+  //   producto: "X050B",
+  //   rack: "11 x 16",
+  //   kg_lote: 3000,
+  //   no_racks: 3.0,
+  //   tipo: "MOL",
+  //   procesos: [
+  //     {
+  //       nombre: "Mezclado",
+  //       inicio: "04:00",
+  //       fin: "05:40",
+  //     },
+  //     {
+  //       nombre: "Embutido",
+  //       inicio: "06:00",
+  //       fin: "07:31",
+  //     },
+  //     {
+  //       nombre: "Cocimiento",
+  //       inicio: "07:50",
+  //       fin: "12:20",
+  //     },
+  //     {
+  //       nombre: "Enfriamiento",
+  //       inicio: "12:20",
+  //       fin: "16:30",
+  //     },
+  //     {
+  //       nombre: "Desmolde",
+  //       inicio: "16:30",
+  //       fin: "16:55",
+  //     },
+  //     {
+  //       nombre: "Atemperado",
+  //       inicio: "16:55",
+  //       fin: "20:55",
+  //     },
+  //     {
+  //       nombre: "Rebanado",
+  //       inicio: "20:55",
+  //       fin: "22:55",
+  //     },
+  //     {
+  //       nombre: "Entrega",
+  //       inicio: "22:55",
+  //       fin: "23:10",
+  //     },
+  //   ],
+  // },
 ];
 
 const Production = () => {
