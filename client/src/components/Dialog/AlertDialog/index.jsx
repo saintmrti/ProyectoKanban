@@ -10,26 +10,14 @@ import Box from "@mui/material/Box";
 import TablaTiempoSTD from "../TablaTiempoSTD";
 import TablaRes from "../TablaRes";
 
-export default function AlertDialog({ dataInicial }) {
-  const [open, setOpen] = useState(false);
+export default function AlertDialog({ dataInicial, open, setOpen }) {
   const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Box>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Revisar
-      </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         maxWidth="x1"
@@ -46,8 +34,8 @@ export default function AlertDialog({ dataInicial }) {
           <TablaRes total={datosParaTablaRes} minutosPorDia={1080} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Recalcular</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={() => setOpen(false)}>Recalcular</Button>
+          <Button onClick={(f) => f} autoFocus>
             Aplicar
           </Button>
         </DialogActions>

@@ -104,7 +104,10 @@ const ProgrammerTable = ({ list }) => {
   }, [list]);
   return (
     <TableContainer
-      sx={{ maxHeight: 600, boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)" }}
+      sx={{
+        maxHeight: "calc(100% - 45px)",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+      }}
     >
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
@@ -141,6 +144,9 @@ const ProgrammerTable = ({ list }) => {
             </StyledTableCell>
             <StyledTableCell align="center">
               <b>Ajuste Cargas</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>Pedido</b>
             </StyledTableCell>
             <StyledTableCell align="center">
               <b>Inv Final 3</b>
@@ -210,6 +216,9 @@ const ProgrammerTable = ({ list }) => {
                     </Tooltip>
                   </div>
                 )}
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                {_.find(plan, { idProducto: row?.idProducto })?.pedido}
               </StyledTableCell>
               <StyledTableCell align="center">
                 {calculateInvFinal3(

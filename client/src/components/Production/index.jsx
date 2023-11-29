@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
-import WeeklyInventory from "./WeeklyInventory";
+import RackTable from "./RackTable";
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
 
@@ -106,7 +106,7 @@ const Production = () => {
   return (
     <>
       {!openSpeedDial ? (
-        <Box sx={{ position: "fixed", mt: 3, right: "0.1rem", top: "6.4rem" }}>
+        <Box sx={{ position: "fixed", mt: 3, right: "1rem", top: "7rem" }}>
           {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
           <SpeedDial
             ariaLabel="SpeedDial basic example"
@@ -121,7 +121,7 @@ const Production = () => {
             fontSize="medium"
             onClick={() => setOpenSpeedDial(!openSpeedDial)}
           />
-          <WeeklyInventory />
+          <RackTable />
         </>
       )}
       <Card sx={{ minWidth: 275 }}>
