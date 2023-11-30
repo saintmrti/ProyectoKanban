@@ -2,23 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 const Slice = createSlice({
-  name: "requirements",
+  name: "requirement",
   initialState: {
     data: {},
     isFetching: false,
     didError: false,
   },
   reducers: {
-    fetchRequirementsRequest: (state) => {
+    fetchRequirementRequest: (state) => {
       state.isFetching = true;
       state.didError = false;
     },
-    fetchRequirementsSuccess: (state, action) => {
+    fetchRequirementSuccess: (state, action) => {
       const { data } = action.payload;
       state.data = _.keyBy(data, "id");
       state.isFetching = false;
     },
-    fetchRequirementsError: (state) => {
+    fetchRequirementError: (state) => {
       state.isFetching = false;
       state.didError = true;
     },
@@ -26,8 +26,8 @@ const Slice = createSlice({
 });
 
 export const {
-  fetchRequirementsRequest,
-  fetchRequirementsSuccess,
-  fetchRequirementsError,
+  fetchRequirementRequest,
+  fetchRequirementSuccess,
+  fetchRequirementError,
 } = Slice.actions;
 export default Slice.reducer;

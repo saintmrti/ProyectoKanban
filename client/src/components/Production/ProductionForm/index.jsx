@@ -1,21 +1,28 @@
 import { Fragment, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
+// import FormHelperText from "@mui/material/FormHelperText";
 import _ from "lodash";
 import { Typography } from "@mui/material";
 import moment from "moment";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import { productos } from "./dummyData";
 
 export default function ProductionForm({ data, setOpen, setProduct, product }) {
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset, setValue, control } = useForm({
+    defaultValues: {
+      producto: null,
+    },
+  });
 
   const process = data[data.length - 1]?.procesos;
+  const skuOptions = _.map(productos, "name");
 
   const onSubmit = (values) => {
     const newProduct = {
@@ -201,32 +208,51 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
     >
       <h1 className="text-2xl mb-5 w-full text-center">Seleccionar SKU</h1>
       <div className="grid grid-cols-4 gap-5 mb-10">
+        <Controller
+          name="producto"
+          control={control}
+          rules={{ required: false }}
+          render={({ field }) => (
+            <Autocomplete
+              {...field}
+              disablePortal
+              id="combo-box-demo"
+              options={skuOptions}
+              sx={{ width: "15rem" }}
+              size="small"
+              renderInput={(params) => <TextField {...params} label="SKU" />}
+              onChange={(_, value) => {
+                setProduct(value);
+                field.onChange(value);
+              }}
+            />
+          )}
+        />
         <FormControl sx={{ width: "15rem" }} size="small">
-          <InputLabel id="sku">SKU</InputLabel>
+          <InputLabel id="destino">Destino</InputLabel>
           <Select
-            labelId="sku"
-            id="select-sku"
-            label="SKU"
+            labelId="destino"
+            id="select-destino"
+            label="Destino"
             autoComplete="off"
             defaultValue=""
-            {...register("producto", {
+            {...register("destino", {
               required: true,
-              onChange: (e) => setProduct(e.target.value),
             })}
           >
-            <MenuItem value="X050B">X050B</MenuItem>
-            <MenuItem value="X519">X519</MenuItem>
-            <MenuItem value="X168">X168</MenuItem>
+            <MenuItem value="MVC10">MVC 10</MenuItem>
+            <MenuItem value="MVC12">MVC 12</MenuItem>
+            <MenuItem value="ULMA2">ULMA 2</MenuItem>
           </Select>
         </FormControl>
-        <TextField
+        {/* <TextField
           sx={{ width: "15rem" }}
           label="Destino"
           type="text"
           size="small"
           autoComplete="off"
           {...register("destino", { required: true })}
-        />
+        /> */}
         <TextField
           sx={{ width: "15rem" }}
           label="Rack"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,9 +10,16 @@ import TablaProgramador from "../TablaProgramador";
 import Box from "@mui/material/Box";
 import TablaTiempoSTD from "../TablaTiempoSTD";
 import TablaRes from "../TablaRes";
+import { insertSlicedRequest } from "../../../slices/sliced";
 
-export default function AlertDialog({ dataInicial, open, setOpen }) {
+export default function AlertDialog({ dataInicial, open, setOpen, realPlan }) {
+  const dispatch = useDispatch();
   const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
+
+  const handleOnClick = () => {
+    setOpen(!open);
+    dispatch(insertSlicedRequest({ products: realPlan }));
+  };
 
   return (
     <Box>
@@ -35,8 +43,8 @@ export default function AlertDialog({ dataInicial, open, setOpen }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Recalcular</Button>
-          <Button onClick={(f) => f} autoFocus>
-            Aplicar
+          <Button onClick={handleOnClick} autoFocus>
+            Guardar
           </Button>
         </DialogActions>
       </Dialog>

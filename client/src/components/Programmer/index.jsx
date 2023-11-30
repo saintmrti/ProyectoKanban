@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
 import AddIcon from "@mui/icons-material/Add";
 
-import { fetchRequirementsRequest } from "../../slices/requirements";
-import { getRequirements } from "../../selectors/requirements";
+import { fetchRequirementRequest } from "../../slices/requirement";
+import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
 import AlertDialog from "../Dialog/AlertDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import WeeklyInventory from "./WeeklyInventory";
-import Button from "@mui/material/Button";
 
 const dataInicial = [
   { SKU: "11060", "KG PLAN": 3000, "Break MIN": 2600, "Comida MIN": 0 },
@@ -28,18 +25,16 @@ const Programmer = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
 
+  // const { data: sliced } = useSelector((state) => state.sliced);
+
   const handleOnClick = () => {
     setOpen(!open);
   };
 
-  const handleClickProgramer = () => {
-    setOpenDialog(!openDialog);
-  };
-
-  const requirements = useSelector(getRequirements);
+  const { list: requirements, filteredByFamily1 } = useSelector(getRequirement);
 
   useEffect(() => {
-    dispatch(fetchRequirementsRequest());
+    dispatch(fetchRequirementRequest());
   }, [dispatch]);
 
   return (
@@ -62,28 +57,20 @@ const Programmer = () => {
           <WeeklyInventory />
         </>
       )}
-      <Box sx={{ height: "calc(100vh - 163px)" }}>
-        {console.log(realPlan)}
-        <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
-          <div className="flex justify-between w-full">
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Programador
-            </Typography>
-            <div className="ml-auto">
-              <Button variant="outlined" onClick={handleClickProgramer}>
-                Revisar
-              </Button>
-            </div>
-          </div>
-          <AlertDialog
-            dataInicial={dataInicial}
-            openDialog={openDialog}
-            setOpen={setOpenDialog}
-            open={openDialog}
-          />
-          <ProgrammerTable list={requirements} setRealPlan={setRealPlan} />
-        </Paper>
-      </Box>
+      {console.log(filteredByFamily1)}
+      <AlertDialog
+        dataInicial={dataInicial}
+        openDialog={openDialog}
+        setOpen={setOpenDialog}
+        open={openDialog}
+        realPlan={realPlan}
+      />
+      <ProgrammerTable
+        list={requirements}
+        setRealPlan={setRealPlan}
+        setOpenDialog={setOpenDialog}
+        openDialog={openDialog}
+      />
       {/* {open && (
         <Box
           sx={{

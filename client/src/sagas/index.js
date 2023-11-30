@@ -1,1 +1,2 @@
-export { fetchRequirementsSaga } from "./requirements";
+export { fetchRequirementSaga } from "./requirement";
+export { insertSlicedSaga } from "./sliced";

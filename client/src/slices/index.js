@@ -1,7 +1,9 @@
-import requirements from "./requirements";
+import requirement from "./requirement";
+import sliced from "./sliced";
 
 const reducer = {
-  requirements,
+  requirement,
+  sliced,
 };
 
 export default reducer;

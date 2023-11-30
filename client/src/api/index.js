@@ -1,1 +1,2 @@
-export { fetchRequirementsApi } from "./requirements";
+export { fetchRequirementApi } from "./requirement";
+export { insertSlicedApi } from "./sliced";

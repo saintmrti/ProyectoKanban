@@ -12,3 +12,5 @@ module.exports.getSummary = async (conn) => {
     `);
   return data;
 };
+
+module.exports.insertRequirement = async (conn, products) => {};

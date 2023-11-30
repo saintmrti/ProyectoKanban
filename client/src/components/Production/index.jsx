@@ -86,9 +86,14 @@ const data = [
 ];
 
 const Production = () => {
-  const [open, setOpen] = useState(false);
+  const [openProd, setOpenProd] = useState(false);
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
+
+  const handleOnCloseProd = () => {
+    setOpenProd(false);
+    setProduct(null);
+  };
   //agregado por zmm
   // const theme = useTheme();
   // const [activeStep, setActiveStep] = useState(0);
@@ -130,7 +135,7 @@ const Production = () => {
             <Typography variant="h6" component="span">
               Plan Producción
             </Typography>
-            <IconButton size="small" onClick={() => setOpen(true)}>
+            <IconButton size="small" onClick={() => setOpenProd(true)}>
               <AddIcon />
             </IconButton>
           </div>
@@ -176,12 +181,12 @@ const Production = () => {
           <ProductionTable data={data} />
         </CardContent>
       </Card>
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={openProd} onClose={handleOnCloseProd}>
         <Box sx={style}>
           <IconButton
             aria-label="close"
             size="small"
-            onClick={() => setOpen(false)}
+            onClick={handleOnCloseProd}
             sx={{
               position: "absolute",
               right: 8,
@@ -192,7 +197,7 @@ const Production = () => {
           </IconButton>
           <ProductionForm
             data={data}
-            setOpen={setOpen}
+            setOpen={setOpenProd}
             setProduct={setProduct}
             product={product}
           />

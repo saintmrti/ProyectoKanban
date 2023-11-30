@@ -10,7 +10,8 @@ const moment = require("moment");
 const momentTz = require("moment-timezone");
 
 const inventoryRoutes = require("./routes/inventory.routes");
-const requirementsRoutes = require("./routes/requirements.routes");
+const requirementRoutes = require("./routes/requirement.routes");
+const slicedRoutes = require("./routes/sliced.routes");
 
 const app = express();
 moment.updateLocale("es", es);
@@ -27,7 +28,8 @@ app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Routes
 app.use("/api/inventario", inventoryRoutes);
-app.use("/api/requerimiento", requirementsRoutes);
+app.use("/api/requerimiento", requirementRoutes);
+app.use("/api/rebanado", slicedRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/dist/index.html"));
