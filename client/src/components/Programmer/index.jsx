@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { fetchRequirementRequest } from "../../slices/requirement";
 import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
-import AlertDialog from "../Dialog/AlertDialog";
+import AlertDialog from "./Dialog/AlertDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import WeeklyInventory from "./WeeklyInventory";
 
@@ -25,13 +25,11 @@ const Programmer = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
 
-  // const { data: sliced } = useSelector((state) => state.sliced);
-
   const handleOnClick = () => {
     setOpen(!open);
   };
 
-  const { list: requirements, filteredByFamily1 } = useSelector(getRequirement);
+  const requirements = useSelector(getRequirement);
 
   useEffect(() => {
     dispatch(fetchRequirementRequest());
@@ -40,7 +38,7 @@ const Programmer = () => {
   return (
     <>
       {!open ? (
-        <Box sx={{ position: "fixed", mt: 3, right: "1rem", top: "7rem" }}>
+        <Box sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}>
           <SpeedDial
             ariaLabel="SpeedDial basic example"
             sx={{ position: "absolute", bottom: 3, right: 3 }}
@@ -57,7 +55,6 @@ const Programmer = () => {
           <WeeklyInventory />
         </>
       )}
-      {console.log(filteredByFamily1)}
       <AlertDialog
         dataInicial={dataInicial}
         openDialog={openDialog}
@@ -71,35 +68,6 @@ const Programmer = () => {
         setOpenDialog={setOpenDialog}
         openDialog={openDialog}
       />
-      {/* {open && (
-        <Box
-          sx={{
-            position: "fixed",
-            mt: 3,
-            right: "0.1rem",
-            top: "1rem",
-            zIndex: 100,
-          }}
-        >
-          <Paper
-            sx={{
-              width: "320px",
-              padding: "10px",
-              height: "calc(100vh - 10px)",
-            }}
-          >
-            <CloseIcon
-              fontSize="medium"
-              sx={{ marginTop: "12%" }}
-              onClick={() => setOpen(!open)}
-            />
-            <Typography variant="h6" sx={{ textAlign: "center", mb: 2 }}>
-              Inventario Semanal
-            </Typography>
-            <InventoryTable />
-          </Paper>
-        </Box>
-      )} */}
     </>
   );
 };

@@ -10,7 +10,7 @@ import TablaProgramador from "../TablaProgramador";
 import Box from "@mui/material/Box";
 import TablaTiempoSTD from "../TablaTiempoSTD";
 import TablaRes from "../TablaRes";
-import { insertSlicedRequest } from "../../../slices/sliced";
+import { insertSlicedRequest } from "../../../../slices/sliced";
 
 export default function AlertDialog({ dataInicial, open, setOpen, realPlan }) {
   const dispatch = useDispatch();

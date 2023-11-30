@@ -111,7 +111,7 @@ const Production = () => {
   return (
     <>
       {!openSpeedDial ? (
-        <Box sx={{ position: "fixed", mt: 3, right: "1rem", top: "7rem" }}>
+        <Box sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}>
           {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
           <SpeedDial
             ariaLabel="SpeedDial basic example"

@@ -1,4 +1,5 @@
 import _ from "lodash";
+import moment from "moment-timezone";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,21 +9,17 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-import moment from "moment-timezone";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import IconButton from "@mui/material/IconButton";
-// import Typography from "@mui/material/Typography";
-// import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-// import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-// import Toolbar from "@mui/material/Toolbar";
+// import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+
+import GroupFilter from "../GroupFilter";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,6 +47,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
   const [load, setLoad] = useState(null);
+  const [filteredPlan, setFilteredPlan] = useState([]);
   const [product, setProduct] = useState(null);
 
   const handleEditClick = (index) => {
@@ -113,15 +111,15 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
   };
 
   useEffect(() => {
-    setPlan(
-      _.map(list, (row) => ({
-        idProducto: row.idProducto,
-        sku: row.producto,
-        ajuste_carga: 0,
-        pedido: 0,
-      }))
-    );
+    const planData = _.map(list, (row) => ({
+      ...row,
+      ajuste_carga: 0,
+      pedido: 0,
+    }));
+    setPlan(planData);
+    setFilteredPlan(planData);
   }, [list]);
+
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
@@ -129,7 +127,8 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
           <Typography variant="h6" sx={{ mb: 2 }}>
             Programador
           </Typography>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center">
+            <GroupFilter setFilteredPlan={setFilteredPlan} plan={plan} />
             <Button variant="outlined" onClick={handleClickProgramer}>
               Revisar
             </Button>
@@ -189,7 +188,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {_.map(list, (row) => (
+              {_.map(filteredPlan, (row) => (
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="center">
                     {row.producto}
@@ -236,11 +235,11 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
                           onChange={(e) => setLoad(e.target.value)}
                           size="small"
                         />
-                        <Tooltip title="guardar">
-                          <IconButton size="small" onClick={handleSaveClick}>
-                            <SaveIcon />
-                          </IconButton>
-                        </Tooltip>
+                        {/* <Tooltip title="guardar"> */}
+                        <IconButton size="small" onClick={handleSaveClick}>
+                          <SaveIcon />
+                        </IconButton>
+                        {/* </Tooltip> */}
                       </div>
                     ) : (
                       <div className="flex justify-center items-center">
@@ -248,14 +247,14 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
                           _.find(plan, { idProducto: row?.idProducto })
                             ?.ajuste_carga
                         }
-                        <Tooltip title="editar">
-                          <IconButton
-                            size="small"
-                            onClick={() => handleEditClick(row.idProducto)}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
+                        {/* <Tooltip title="editar"> */}
+                        <IconButton
+                          size="small"
+                          onClick={() => handleEditClick(row.idProducto)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        {/* </Tooltip> */}
                       </div>
                     )}
                   </StyledTableCell>
