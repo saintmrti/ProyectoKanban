@@ -140,6 +140,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
+          {console.log(plan)}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

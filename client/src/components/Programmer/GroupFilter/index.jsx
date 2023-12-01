@@ -40,6 +40,18 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
 
   return (
     <>
+      <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
+        <InputLabel id="filtro-negativos">Ajustar</InputLabel>
+        <Select
+          labelId="filtro-negativos"
+          id="negativos"
+          defaultValue="all"
+          label="Select List"
+        >
+          <MenuItem value="all">Todos</MenuItem>
+          <MenuItem value="familyN">Negativos</MenuItem>
+        </Select>
+      </FormControl>
       <FormControl sx={{ width: "15rem", mr: 5 }} size="small">
         <InputLabel id="list-selector-label">Grupo</InputLabel>
         <Select
