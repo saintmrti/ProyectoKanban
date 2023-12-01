@@ -43,17 +43,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const today = moment().format("DD MMM");
 const tomorrow = moment().add(1, "days").format("DD MMM");
 
-const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
+const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
   const [load, setLoad] = useState(null);
   const [filteredPlan, setFilteredPlan] = useState([]);
   const [product, setProduct] = useState(null);
-
   const handleEditClick = (index) => {
     setProduct(index);
   };
-
+  
   const handleSaveClick = () => {
     if (
       load !== null &&
@@ -86,9 +85,10 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
     const arrayPlan = [];
     _.map(plan, (row) => {
       if (row.ajuste_carga > 0) {
+        //console.log(row, 'row Programmer Table')
         arrayPlan.push({
           idProducto: row.idProducto,
-          sku: row.sku,
+          sku: row.producto,//row.sku
           ajuste_carga: row.ajuste_carga,
           pedido: row.pedido,
         });
@@ -129,9 +129,14 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
           </Typography>
           <div className="ml-auto flex items-center">
             <GroupFilter setFilteredPlan={setFilteredPlan} plan={plan} />
-            <Button variant="outlined" onClick={handleClickProgramer}>
-              Revisar
-            </Button>
+            {plan?.some((obj) => obj.ajuste_carga !== 0) ? 
+              <Button variant="outlined" onClick={handleClickProgramer}>
+                Revisar
+              </Button> : 
+              <Button variant="outlined" disabled>
+                Revisar
+              </Button>
+            }
           </div>
         </div>
         <TableContainer
@@ -140,7 +145,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
-          {console.log(plan)}
+          {/*onsole.log(plan)*/}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

@@ -24,7 +24,8 @@ const Programmer = () => {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
-
+  console.log(realPlan, 'realPlan')
+  console.log(dataInicial)
   const handleOnClick = () => {
     setOpen(!open);
   };
@@ -56,7 +57,6 @@ const Programmer = () => {
         </>
       )}
       <AlertDialog
-        dataInicial={dataInicial}
         openDialog={openDialog}
         setOpen={setOpenDialog}
         open={openDialog}

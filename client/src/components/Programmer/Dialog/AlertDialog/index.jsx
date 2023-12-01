@@ -12,7 +12,7 @@ import TablaTiempoSTD from "../TablaTiempoSTD";
 import TablaRes from "../TablaRes";
 import { insertSlicedRequest } from "../../../../slices/sliced";
 
-export default function AlertDialog({ dataInicial, open, setOpen, realPlan }) {
+export default function AlertDialog({ open, setOpen, realPlan }) {
   const dispatch = useDispatch();
   const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
 
@@ -33,11 +33,11 @@ export default function AlertDialog({ dataInicial, open, setOpen, realPlan }) {
         <DialogTitle id="alert-dialog-title">{"Revisa tus datos"}</DialogTitle>
         <DialogContent sx={{ margin: "0px", overflowY: "auto" }}>
           <TablaProgramador
-            dataInicial={dataInicial}
+            dataInicial={realPlan}
             setDatosParaTablaRes={setDatosParaTablaRes}
           />
         </DialogContent>
-        <DialogContent sx={{ display: "flex", width: "41%", gap: 1 }}>
+        <DialogContent sx={{ display: "flex", width: "70%", gap: 1 }}>
           <TablaTiempoSTD />
           <TablaRes total={datosParaTablaRes} minutosPorDia={1080} />
         </DialogContent>
