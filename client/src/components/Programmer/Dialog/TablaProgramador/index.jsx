@@ -12,7 +12,7 @@ import { styled } from "@mui/material/styles";
 
 //Tabla que consulta Hoja "Tiempos de rebanado concentrado"
 const tiempos_de_rebanado = [
-  { SKU: "X198", KgPorHora: 1620 },
+  { SKU: "X010", KgPorHora: 1620 },
   { SKU: "X168", KgPorHora: 1620 },
   { SKU: "X169", KgPorHora: 1620 },
   { SKU: "X396", KgPorHora: 1512 },
@@ -41,7 +41,7 @@ const tiempos_de_rebanado = [
 ];
 //Tabla que consulta "Tiempo de Cambio"
 const datosParaTiempoDeCambio = [
-  { SKU: "11060", cantidad: 0 },
+  { SKU: "X010", cantidad: 10 },
   { SKU: "X050B", cantidad: 10 },
   { SKU: "X050B", cantidad: 0 },
   { SKU: "X210", cantidad: 70 },
@@ -78,20 +78,20 @@ const datosLeadTime = [
 ];
 //Nombre de las columnas de la tabla principal
 const columns = [
-  "Hra de Formulación",
-  "Hora Rebanado inicio",
-  "Hora Rebanado final",
+  //"Hra de Formulación",
+  //"Hora Rebanado inicio",
+  //"Hora Rebanado final",
   "PRIORIDAD",
-  "SKU",
-  "KG PLAN",
+  "sku",
+  "pedido",
   "KG/HR",
   "HR UTILIZADA",
   "Tiempos STD de producción",
   "Tiempo de cambio",
   "MIN UTILIZADOS",
-  "Break MIN",
-  "Comida MIN",
-  "Lead Time",
+  //"Break MIN",
+  //"Comida MIN",
+  //"Lead Time",
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -134,8 +134,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Cell({ value }) {
-  return <StyledTableCell align="center">{value}</StyledTableCell>;
+function Cell({ value, setRealPlan, row }) {
+  const [editableValue, setEditableValue] = useState(value);
+
+  const handleChange = (event) => {
+    setEditableValue(event.target.value);
+  };
+
+  const handleFoco = () => {
+    if (setRealPlan) {
+      setRealPlan((prevPlan) => {
+        const updatedArrayPlan = prevPlan.map((item) =>
+          item.idProducto === row.idProducto ? { ...item, pedido: editableValue } : item
+        );
+        return updatedArrayPlan;
+      });
+    }
+  };
+
+  return setRealPlan ? (
+    <StyledTableCell align="center">
+      <input
+         type="number"
+        value={editableValue}
+        onChange={handleChange}
+        onBlur={handleFoco}
+      />
+    </StyledTableCell>
+  ) : (
+    <StyledTableCell align="center">{value}</StyledTableCell>
+  );
 }
 
 function obtenerKgHr(skuBuscado) {
@@ -161,28 +189,30 @@ function obtenerLeadTime(skuBuscado) {
 export default function TablaProgramador({
   dataInicial,
   setDatosParaTablaRes,
+  setRealPlan
 }) {
   const [data, setData] = useState(dataInicial);
-
+  console.log(data, 'nuevos datos iniciales')
   useEffect(() => {
-    let anterior = [];
+    //let anterior = [];
     let sumaMinUtilizados = 0;
     const newData = data.map((obj, index) => {
-      let kgHr = obtenerKgHr(obj["SKU"]);
-      let hrUtilizada = kgHr === 0 ? 0 : obj["KG PLAN"] / kgHr; //hras
+      let kgHr = obtenerKgHr(obj["sku"]);
+      let hrUtilizada = kgHr === 0 ? 0 : obj["pedido"] / kgHr; //hras
       let tiemSTDdeProduccion =
-        obj["SKU"] !== ""
+        obj["sku"] !== ""
           ? moment.duration(7, "minutes")
           : moment.duration(0, "minutes");
       let tiempoDeCambio = moment.duration(
-        obtenerTiempodeCambio(obj["SKU"]),
+        obtenerTiempodeCambio(obj["sku"]),
         "minutes"
       );
       let minUtilizados = moment
         .duration(hrUtilizada, "hours")
         .add(tiempoDeCambio)
         .add(tiemSTDdeProduccion);
-      let leadTime = obtenerLeadTime(obj["SKU"]);
+        /*
+      let leadTime = obtenerLeadTime(obj["sku"]);
       let hraRebadoInicio =
         index === 0
           ? moment("1900-01-01T06:00:00")
@@ -194,29 +224,32 @@ export default function TablaProgramador({
         .add(moment.duration(obj["Break MIN"], "minutes"))
         .add(moment.duration(obj["Comida MIN"], "minutes"));
       anterior.push(hraRebadoFinal.clone());
+      
       let hraFormulacion = hraRebadoInicio
         .clone()
         .subtract(moment.duration(leadTime, "hours"))
         .add(24, "hours");
+      */
       sumaMinUtilizados += minUtilizados.asMinutes();
+  
       return {
         ...obj,
-        "Hora Rebanado inicio": hraRebadoInicio.format("HH:mm"),
-        "Hora Rebanado final": hraRebadoFinal.format("HH:mm"),
+        //"Hora Rebanado inicio": hraRebadoInicio.format("HH:mm"),
+        //"Hora Rebanado final": hraRebadoFinal.format("HH:mm"),
         PRIORIDAD: index + 1,
         "KG/HR": kgHr,
         "HR UTILIZADA": hrUtilizada.toFixed(1),
         "Tiempos STD de producción": tiemSTDdeProduccion.asMinutes(),
         "Tiempo de cambio": tiempoDeCambio.asMinutes(),
         "MIN UTILIZADOS": minUtilizados.asMinutes().toFixed(1),
-        "Lead Time": leadTime,
-        "Hra de Formulación": hraFormulacion.format("HH:mm"),
+        //"Lead Time": leadTime,
+        //"Hra de Formulación": hraFormulacion.format("HH:mm"),
       };
     });
     setData(newData);
     setDatosParaTablaRes(sumaMinUtilizados);
   }, []);
-
+  console.log(dataInicial, 'cambian?')
   return (
     <TableContainer
       component={Paper}
@@ -229,7 +262,7 @@ export default function TablaProgramador({
       <Table sx={{ minWidth: 80 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <StyledTableCell_1
+            {/*<StyledTableCell_1
               align="center"
               sx={{ background: `#FFFFFF` }}
               colSpan={1}
@@ -252,15 +285,16 @@ export default function TablaProgramador({
               align="center"
               sx={{ background: `#FFFFFF` }}
               colSpan={1}
-            ></StyledTableCell_1>
+></StyledTableCell_1>*/}
             <StyledTableCell_1
               align="center"
               sx={{ background: `#F8ED10` }}
-              colSpan={7}
+              colSpan={8}
             >
               CAPTURA SKU Y KGS
             </StyledTableCell_1>
-            <StyledTableCell_1
+
+            {/*<StyledTableCell_1
               align="center"
               sx={{ background: `#FFFFFF` }}
               colSpan={1}
@@ -274,7 +308,7 @@ export default function TablaProgramador({
               align="center"
               sx={{ background: `#FFFFFF` }}
               colSpan={1}
-            ></StyledTableCell_1>
+></StyledTableCell_1>*/}
           </TableRow>
           <TableRow>
             {columns.map((column) => (
@@ -287,10 +321,16 @@ export default function TablaProgramador({
         <TableBody>
           {data.map((row, rowIndex) => (
             <StyledTableRow key={rowIndex}>
-              {columns.map((column) => (
-                <Cell key={column} value={row[column]} />
-              ))}
-            </StyledTableRow>
+            {columns.map((column) => (
+              <Cell
+                key={column}
+                value={row[column]}
+                setRealPlan={column === "pedido" ? setRealPlan : undefined}
+                row={row}
+              />
+            ))}
+          </StyledTableRow>
+          
           ))}
         </TableBody>
       </Table>
