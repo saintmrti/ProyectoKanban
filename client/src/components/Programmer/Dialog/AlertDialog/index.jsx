@@ -12,7 +12,7 @@ import TablaTiempoSTD from "../TablaTiempoSTD";
 import TablaRes from "../TablaRes";
 import { insertSlicedRequest } from "../../../../slices/sliced";
 
-export default function AlertDialog({ open, setOpen, realPlan }) {
+export default function AlertDialog({ open, setOpen, realPlan,setRealPlan }) {
   const dispatch = useDispatch();
   const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
 
@@ -35,6 +35,7 @@ export default function AlertDialog({ open, setOpen, realPlan }) {
           <TablaProgramador
             dataInicial={realPlan}
             setDatosParaTablaRes={setDatosParaTablaRes}
+            setRealPlan={setRealPlan}
           />
         </DialogContent>
         <DialogContent sx={{ display: "flex", width: "70%", gap: 1 }}>

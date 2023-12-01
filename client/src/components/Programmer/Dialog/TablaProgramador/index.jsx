@@ -134,8 +134,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Cell({ value }) {
-  return <StyledTableCell align="center">{value}</StyledTableCell>;
+function Cell({ value, setRealPlan, row }) {
+  const [editableValue, setEditableValue] = useState(value);
+
+  const handleChange = (event) => {
+    setEditableValue(event.target.value);
+  };
+
+  const handleFoco = () => {
+    if (setRealPlan) {
+      setRealPlan((prevPlan) => {
+        const updatedArrayPlan = prevPlan.map((item) =>
+          item.idProducto === row.idProducto ? { ...item, producto: editableValue } : item
+        );
+        return updatedArrayPlan;
+      });
+    }
+  };
+
+  return setRealPlan ? (
+    <StyledTableCell align="center">
+      <input
+         type="number"
+        value={editableValue}
+        onChange={handleChange}
+        onBlur={handleFoco}
+      />
+    </StyledTableCell>
+  ) : (
+    <StyledTableCell align="center">{value}</StyledTableCell>
+  );
 }
 
 function obtenerKgHr(skuBuscado) {
@@ -161,6 +189,7 @@ function obtenerLeadTime(skuBuscado) {
 export default function TablaProgramador({
   dataInicial,
   setDatosParaTablaRes,
+  setRealPlan
 }) {
   const [data, setData] = useState(dataInicial);
   console.log(data, 'nuevos datos iniciales')
@@ -220,7 +249,7 @@ export default function TablaProgramador({
     setData(newData);
     setDatosParaTablaRes(sumaMinUtilizados);
   }, []);
-
+  console.log(dataInicial, 'cambian?')
   return (
     <TableContainer
       component={Paper}
@@ -292,10 +321,16 @@ export default function TablaProgramador({
         <TableBody>
           {data.map((row, rowIndex) => (
             <StyledTableRow key={rowIndex}>
-              {columns.map((column) => (
-                <Cell key={column} value={row[column]} />
-              ))}
-            </StyledTableRow>
+            {columns.map((column) => (
+              <Cell
+                key={column}
+                value={row[column]}
+                setRealPlan={column === "pedido" ? setRealPlan : undefined}
+                row={row}
+              />
+            ))}
+          </StyledTableRow>
+          
           ))}
         </TableBody>
       </Table>

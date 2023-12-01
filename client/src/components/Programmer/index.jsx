@@ -61,6 +61,7 @@ const Programmer = () => {
         setOpen={setOpenDialog}
         open={openDialog}
         realPlan={realPlan}
+        setRealPlan={setRealPlan}
       />
       <ProgrammerTable
         list={requirements}
