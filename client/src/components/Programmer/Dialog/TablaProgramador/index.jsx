@@ -145,7 +145,7 @@ function Cell({ value, setRealPlan, row }) {
     if (setRealPlan) {
       setRealPlan((prevPlan) => {
         const updatedArrayPlan = prevPlan.map((item) =>
-          item.idProducto === row.idProducto ? { ...item, producto: editableValue } : item
+          item.idProducto === row.idProducto ? { ...item, pedido: editableValue } : item
         );
         return updatedArrayPlan;
       });
