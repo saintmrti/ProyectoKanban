@@ -20,7 +20,7 @@ const SliceHistory = () => {
           type="date"
           size="small"
           defaultValue="2023-11-06"
-          sx={{ ml: 5 }}
+          sx={{ ml: 5, width: "15rem" }}
         />
       </div>
       <div className="grid grid-cols-6 gap-2">
