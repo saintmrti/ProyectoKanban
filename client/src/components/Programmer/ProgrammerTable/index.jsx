@@ -43,7 +43,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const today = moment().format("DD MMM");
 const tomorrow = moment().add(1, "days").format("DD MMM");
 
-const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
+const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
   const [load, setLoad] = useState(null);
@@ -52,7 +52,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
   const handleEditClick = (index) => {
     setProduct(index);
   };
-  
+
   const handleSaveClick = () => {
     if (
       load !== null &&
@@ -61,16 +61,26 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
       load.trim() !== ""
     ) {
       const loadValue = parseInt(load);
+      const pedido = (id) =>
+        loadValue * (_.find(list, { idProducto: id })?.min_kg_carga || 0);
       if (!isNaN(loadValue)) {
         const updatedData = plan.map((row) =>
           row.idProducto === product
             ? {
                 ...row,
                 ajuste_carga: loadValue,
-                pedido:
-                  loadValue *
-                  (_.find(list, { idProducto: row.idProducto })?.min_kg_carga ||
-                    0),
+                pedido: pedido(product),
+                inv_final_3: calculateInvFinal3(
+                  row?.inv_final_1,
+                  row?.prox_salida,
+                  pedido(product)
+                ),
+                dif_inv_final: calculateDifInvFinal(
+                  row?.inv_final_1,
+                  row?.prox_salida,
+                  row?.tiendita,
+                  pedido(product)
+                ),
               }
             : row
         );
@@ -88,7 +98,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
         //console.log(row, 'row Programmer Table')
         arrayPlan.push({
           idProducto: row.idProducto,
-          sku: row.producto,//row.sku
+          sku: row.producto, //row.sku
           ajuste_carga: row.ajuste_carga,
           pedido: row.pedido,
         });
@@ -115,6 +125,13 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
       ...row,
       ajuste_carga: 0,
       pedido: 0,
+      inv_final_3: calculateInvFinal3(row?.inv_final_1, row?.prox_salida, 0),
+      dif_inv_final: calculateDifInvFinal(
+        row?.inv_final_1,
+        row?.prox_salida,
+        row?.tiendita,
+        0
+      ),
     }));
     setPlan(planData);
     setFilteredPlan(planData);
@@ -135,10 +152,13 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
               </Button> : 
               <Button variant="outlined" disabled>
                 Revisar
-              </Button>*/
-            }
-            <Button variant="outlined" onClick={handleClickProgramer} disabled={!plan.some((obj) => obj.ajuste_carga !== 0)}>
-                Revisar
+              </Button>*/}
+            <Button
+              variant="outlined"
+              onClick={handleClickProgramer}
+              disabled={!plan.some((obj) => obj.ajuste_carga !== 0)}
+            >
+              Revisar
             </Button>
           </div>
         </div>
@@ -148,7 +168,6 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan}) => {
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
-          {/*onsole.log(plan)*/}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
