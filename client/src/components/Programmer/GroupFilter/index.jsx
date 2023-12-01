@@ -32,6 +32,9 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
       case "family5":
         setFilteredPlan(_.filter(plan, (item) => item.idProducto > 86));
         break;
+      case "familyN":
+        setFilteredPlan(_.filter(plan, (item) => item.dif_inv_final < 0));
+        break;
       default:
         setFilteredPlan(plan);
         break;
@@ -47,6 +50,7 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
           id="negativos"
           defaultValue="all"
           label="Select List"
+          onChange={handleListChange}
         >
           <MenuItem value="all">Todos</MenuItem>
           <MenuItem value="familyN">Negativos</MenuItem>

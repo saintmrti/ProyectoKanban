@@ -62,16 +62,26 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
       load.trim() !== ""
     ) {
       const loadValue = parseInt(load);
+      const pedido = (id) =>
+        loadValue * (_.find(list, { idProducto: id })?.min_kg_carga || 0);
       if (!isNaN(loadValue)) {
         const updatedData = plan.map((row) =>
           row.idProducto === product
             ? {
                 ...row,
                 ajuste_carga: loadValue,
-                pedido:
-                  loadValue *
-                  (_.find(list, { idProducto: row.idProducto })?.min_kg_carga ||
-                    0),
+                pedido: pedido(product),
+                inv_final_3: calculateInvFinal3(
+                  row?.inv_final_1,
+                  row?.prox_salida,
+                  pedido(product)
+                ),
+                dif_inv_final: calculateDifInvFinal(
+                  row?.inv_final_1,
+                  row?.prox_salida,
+                  row?.tiendita,
+                  pedido(product)
+                ),
               }
             : row
         );
@@ -115,6 +125,13 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
       ...row,
       ajuste_carga: 0,
       pedido: 0,
+      inv_final_3: calculateInvFinal3(row?.inv_final_1, row?.prox_salida, 0),
+      dif_inv_final: calculateDifInvFinal(
+        row?.inv_final_1,
+        row?.prox_salida,
+        row?.tiendita,
+        0
+      ),
     }));
     setPlan(planData);
     setFilteredPlan(planData);
@@ -140,7 +157,6 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
-          {console.log(plan)}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
