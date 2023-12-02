@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { blue } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 
 export default function SlicedPlanTable({ pedido }) {
   const list = _.values(pedido)[0];
@@ -23,7 +23,8 @@ export default function SlicedPlanTable({ pedido }) {
               colSpan={2}
               align="center"
               sx={{
-                backgroundColor: theme.palette.primary.main,
+                backgroundColor:
+                  day === "Hoy" ? green[600] : theme.palette.primary.main,
                 color: blue[50],
               }}
             >

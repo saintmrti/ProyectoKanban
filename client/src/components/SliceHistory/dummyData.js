@@ -44,7 +44,7 @@ export const history = [
     fecha: "09/11/2023",
   },
   {
-    Viernes: [
+    Hoy: [
       { sku: "X438", pedido: "9278" },
       { sku: "CF0126", pedido: "2691" },
       { sku: "81388", pedido: "3278" },

@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-import _ from "lodash";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import { useTheme } from "@mui/material/styles";
 
 const data = [
-{
+  {
     PRODUCTO: "X050B",
     BATCH: 1000,
     CANTIDAD: 3,
@@ -113,28 +111,42 @@ const data = [
     "Plan 14W": 1723,
     "Saldo Plan 14W": -277,
   },
-  
 ];
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.hover,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 600,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 11,
+    fontSize: 12,
   },
 }));
 
 const TableConsolidado = () => {
   const theme = useTheme();
-  const rubros = ["PRODUCTO", "BATCH", "CANTIDAD", "TIPO_DE_RACK", "PROGRAMA", "UNIDADES", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "Total", "Plan 14W", "Saldo Plan 14W"];
+  const rubros = [
+    "PRODUCTO",
+    "BATCH",
+    "CANTIDAD",
+    "TIPO_DE_RACK",
+    "PROGRAMA",
+    "UNIDADES",
+    "LUNES",
+    "MARTES",
+    "MIÉRCOLES",
+    "JUEVES",
+    "VIERNES",
+    "SÁBADO",
+    "Total",
+    "Plan 14W",
+    "Saldo Plan 14W",
+  ];
 
   return (
     <Paper>
-      <TableContainer sx={{ maxHeight: "500px", width: '100%' }}>
+      <TableContainer sx={{ maxHeight: "500px", width: "100%" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

@@ -70,21 +70,21 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
   return (
     <>
       <TextField
+        id="product-search"
+        label="Buscar Sku"
+        variant="outlined"
+        size="small"
+        value={searchText}
+        onChange={handleSearchChange}
+        sx={{ width: "15rem", mr: 2 }}
+      />
+      <TextField
         id="date"
         label="Fecha"
         type="date"
         size="small"
         defaultValue="2023-12-01"
         sx={{ mr: 2, width: "15rem" }}
-      />
-      <TextField
-        id="product-search"
-        label="Buscar Producto"
-        variant="outlined"
-        size="small"
-        value={searchText}
-        onChange={handleSearchChange}
-        sx={{ width: "15rem", mr: 2 }}
       />
       <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
         <InputLabel id="filtro-negativos">Ajustar</InputLabel>

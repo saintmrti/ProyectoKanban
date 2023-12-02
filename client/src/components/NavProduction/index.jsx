@@ -38,7 +38,7 @@ const NavProduction = () => {
               location.pathname != "/planeacion/historico" && "#74A1CD",
           }}
         >
-          Historico Rebanado
+          Historico
         </Button>
       </div>
       <Outlet />
