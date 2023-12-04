@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Input from '@mui/material/Input'
 // import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
@@ -136,11 +137,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Cell({ value, setRealPlan, row }) {
   const [editableValue, setEditableValue] = useState(value);
-
   const handleChange = (event) => {
     setEditableValue(event.target.value);
   };
-
   const handleFoco = () => {
     if (setRealPlan) {
       setRealPlan((prevPlan) => {
@@ -153,12 +152,14 @@ function Cell({ value, setRealPlan, row }) {
   };
 
   return setRealPlan ? (
-    <StyledTableCell align="center">
-      <input
-         type="number"
+    <StyledTableCell align="center" sx={{width:'10%'}}>
+      <Input
+        type="number"
         value={editableValue}
         onChange={handleChange}
         onBlur={handleFoco}
+        size="small"
+
       />
     </StyledTableCell>
   ) : (
