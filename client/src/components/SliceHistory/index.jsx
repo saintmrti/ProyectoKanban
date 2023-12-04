@@ -2,6 +2,7 @@ import _ from "lodash";
 import Card from "@mui/material/Card";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
+import TableConsolidado from "../TableConsolidado";
 
 import SlicedPlanTable from "./SlicedPlanTable";
 import { history } from "./dummyData";
@@ -23,7 +24,8 @@ const SliceHistory = () => {
           sx={{ ml: 5, width: "15rem" }}
         />
       </div>
-      <div className="grid grid-cols-6 gap-2">
+      <TableConsolidado />
+      <div className="grid grid-cols-6 gap-2 mt-4">
         {_.map(history, (pedido, index) => (
           <Card
             key={index}
