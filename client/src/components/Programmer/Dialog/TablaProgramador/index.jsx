@@ -161,8 +161,7 @@ function Cell({ value, setRealPlan, row }) {
         value={editableValue}
         onChange={handleChange}
         onBlur={handleFoco}
-        size="small"
-
+        style={{ fontSize: 'inherit' }}
       />
     </StyledTableCell>
   ) : (
@@ -196,7 +195,8 @@ export default function TablaProgramador({
   setRealPlan
 }) {
   const [data, setData] = useState(dataInicial);
-  console.log(data, 'nuevos datos iniciales')
+  console.log(data, 'data');
+
   useEffect(() => {
     //let anterior = [];
     let sumaMinUtilizados = 0;
@@ -215,6 +215,7 @@ export default function TablaProgramador({
         .duration(hrUtilizada, "hours")
         .add(tiempoDeCambio)
         .add(tiemSTDdeProduccion);
+      let barras = 10;
         /*
       let leadTime = obtenerLeadTime(obj["sku"]);
       let hraRebadoInicio =
@@ -246,6 +247,7 @@ export default function TablaProgramador({
         "Tiempos STD de producción": tiemSTDdeProduccion.asMinutes(),
         "Tiempo de cambio": tiempoDeCambio.asMinutes(),
         "MIN UTILIZADOS": minUtilizados.asMinutes().toFixed(1),
+        "barras": barras
         //"Lead Time": leadTime,
         //"Hra de Formulación": hraFormulacion.format("HH:mm"),
       };
@@ -322,26 +324,25 @@ export default function TablaProgramador({
               SKU
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
-              KG PLAN
+              KG Plan
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
-              <div># BARRAS</div>
-              <div>INGRESAR</div>
+              <div># Barras</div>
+              <div>Ingresar</div>
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
               KG/HR
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
-              HR UTILIZADA
+              HR Utilizada
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
               <div>Tiempo STD</div>
               <div>de Produccion</div>
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
-            <div>Tiempo de</div>
+              <div>Tiempo de</div>
               <div>Cambio</div>
-             
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
             <div>Minutos</div>
