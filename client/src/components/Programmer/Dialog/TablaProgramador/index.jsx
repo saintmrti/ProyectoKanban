@@ -6,13 +6,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Input from '@mui/material/Input';
+import Typography from '@mui/material/Typography';
 // import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
 
 //Tabla que consulta Hoja "Tiempos de rebanado concentrado"
 const tiempos_de_rebanado = [
-  { SKU: "X010", KgPorHora: 1620 },
+  { SKU: "X198", KgPorHora: 1620 },
   { SKU: "X168", KgPorHora: 1620 },
   { SKU: "X169", KgPorHora: 1620 },
   { SKU: "X396", KgPorHora: 1512 },
@@ -41,7 +43,7 @@ const tiempos_de_rebanado = [
 ];
 //Tabla que consulta "Tiempo de Cambio"
 const datosParaTiempoDeCambio = [
-  { SKU: "X010", cantidad: 10 },
+  { SKU: "11060", cantidad: 0 },
   { SKU: "X050B", cantidad: 10 },
   { SKU: "X050B", cantidad: 0 },
   { SKU: "X210", cantidad: 70 },
@@ -84,6 +86,7 @@ const columns = [
   "PRIORIDAD",
   "sku",
   "pedido",
+  "barras",
   "KG/HR",
   "HR UTILIZADA",
   "Tiempos STD de producción",
@@ -106,6 +109,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 12,
     padding: "10px",
+  
   },
 }));
 const StyledTableCell_1 = styled(TableCell)(({ theme }) => ({
@@ -136,11 +140,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function Cell({ value, setRealPlan, row }) {
   const [editableValue, setEditableValue] = useState(value);
-
   const handleChange = (event) => {
     setEditableValue(event.target.value);
   };
-
   const handleFoco = () => {
     if (setRealPlan) {
       setRealPlan((prevPlan) => {
@@ -153,12 +155,13 @@ function Cell({ value, setRealPlan, row }) {
   };
 
   return setRealPlan ? (
-    <StyledTableCell align="center">
-      <input
-         type="number"
+    <StyledTableCell align="center" sx={{width:'10%'}}>
+      <Input
+        type="number"
         value={editableValue}
         onChange={handleChange}
         onBlur={handleFoco}
+        style={{ fontSize: 'inherit' }}
       />
     </StyledTableCell>
   ) : (
@@ -192,7 +195,8 @@ export default function TablaProgramador({
   setRealPlan
 }) {
   const [data, setData] = useState(dataInicial);
-  console.log(data, 'nuevos datos iniciales')
+  console.log(data, 'data');
+
   useEffect(() => {
     //let anterior = [];
     let sumaMinUtilizados = 0;
@@ -211,6 +215,7 @@ export default function TablaProgramador({
         .duration(hrUtilizada, "hours")
         .add(tiempoDeCambio)
         .add(tiemSTDdeProduccion);
+      let barras = 10;
         /*
       let leadTime = obtenerLeadTime(obj["sku"]);
       let hraRebadoInicio =
@@ -242,6 +247,7 @@ export default function TablaProgramador({
         "Tiempos STD de producción": tiemSTDdeProduccion.asMinutes(),
         "Tiempo de cambio": tiempoDeCambio.asMinutes(),
         "MIN UTILIZADOS": minUtilizados.asMinutes().toFixed(1),
+        "barras": barras
         //"Lead Time": leadTime,
         //"Hra de Formulación": hraFormulacion.format("HH:mm"),
       };
@@ -289,7 +295,7 @@ export default function TablaProgramador({
             <StyledTableCell_1
               align="center"
               sx={{ background: `#F8ED10` }}
-              colSpan={8}
+              colSpan={9}
             >
               CAPTURA SKU Y KGS
             </StyledTableCell_1>
@@ -311,26 +317,52 @@ export default function TablaProgramador({
 ></StyledTableCell_1>*/}
           </TableRow>
           <TableRow>
-            {columns.map((column) => (
-              <StyledTableCell align="left" key={column}>
-                {`${column}`}
-              </StyledTableCell>
-            ))}
+            <StyledTableCell align="left" colSpan={1}>
+              Prioridad
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              SKU
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              KG Plan
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              <div># Barras</div>
+              <div>Ingresar</div>
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              KG/HR
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              HR Utilizada
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              <div>Tiempo STD</div>
+              <div>de Produccion</div>
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+              <div>Tiempo de</div>
+              <div>Cambio</div>
+            </StyledTableCell>
+            <StyledTableCell align="left" colSpan={1}>
+            <div>Minutos</div>
+              <div>Utilizados</div>
+             
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((row, rowIndex) => (
             <StyledTableRow key={rowIndex}>
-            {columns.map((column) => (
-              <Cell
-                key={column}
-                value={row[column]}
-                setRealPlan={column === "pedido" ? setRealPlan : undefined}
-                row={row}
-              />
-            ))}
-          </StyledTableRow>
-          
+              {columns.map((column) => (
+                <Cell
+                  key={column}
+                  value={row[column]}
+                  setRealPlan={column === "pedido" ? setRealPlan : undefined}
+                  row={row}
+                />
+              ))}
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>

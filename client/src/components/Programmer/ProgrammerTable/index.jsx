@@ -146,13 +146,6 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
           </Typography>
           <div className="ml-auto flex items-center">
             <GroupFilter setFilteredPlan={setFilteredPlan} plan={plan} />
-            {/*plan?.some((obj) => obj.ajuste_carga !== 0) ? 
-              <Button variant="outlined" onClick={handleClickProgramer}>
-                Revisar
-              </Button> : 
-              <Button variant="outlined" disabled>
-                Revisar
-              </Button>*/}
             <Button
               variant="outlined"
               onClick={handleClickProgramer}

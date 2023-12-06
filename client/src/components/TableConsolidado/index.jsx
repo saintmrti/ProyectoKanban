@@ -27,7 +27,7 @@ const data = [
     "Saldo Plan 14W": -4000,
   },
   {
-    PRODUCTO: "X050B",
+    PRODUCTO: "",
     BATCH: 1000,
     CANTIDAD: 3,
     TIPO_DE_RACK: "11 X 16",
@@ -61,7 +61,7 @@ const data = [
     "Saldo Plan 14W": 0,
   },
   {
-    PRODUCTO: "X135",
+    PRODUCTO: "",
     BATCH: 1000,
     CANTIDAD: 3,
     TIPO_DE_RACK: "11 X 16",
@@ -95,7 +95,7 @@ const data = [
     "Saldo Plan 14W": 0,
   },
   {
-    PRODUCTO: "11039",
+    PRODUCTO: "",
     BATCH: 1000,
     CANTIDAD: 2,
     TIPO_DE_RACK: "11 X 16",

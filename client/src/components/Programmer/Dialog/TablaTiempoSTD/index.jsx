@@ -30,7 +30,7 @@ export default function TablaTiempoSTD() {
               colSpan={2}
               sx={{ background: "#e2e2e2", fontWeight: 600 }}
             >
-              Tiempos STD de Producción
+              Tiem STD de Prod
             </TableCell>
           </TableRow>
         </TableHead>
