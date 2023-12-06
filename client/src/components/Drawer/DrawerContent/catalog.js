@@ -17,6 +17,12 @@ const indicadores = [
     path: "planeacion",
     icon: "assignment",
   },
+  {
+    name: "Capacidad",
+    link: "/capacidad",
+    path: "capacidad",
+    icon: "assignment_ind",
+  },
 ];
 const operacion = [
   {

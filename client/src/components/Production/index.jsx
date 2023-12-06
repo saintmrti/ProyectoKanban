@@ -3,8 +3,8 @@ import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
-// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 // import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 // import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 // import { useTheme } from "@mui/material/styles";
@@ -31,82 +31,82 @@ const style = {
 };
 
 const data = [
-  // {
-  //   id: 1,
-  //   sec: 1,
-  //   destino: "MVC10",
-  //   producto: "X050B",
-  //   rack: "11 x 16",
-  //   kg_lote: 3000,
-  //   no_racks: 3.0,
-  //   tipo: "MOL",
-  //   procesos: [
-  //     {
-  //       nombre: "Mezclado",
-  //       inicio: "04:00",
-  //       fin: "05:40",
-  //     },
-  //     {
-  //       nombre: "Embutido",
-  //       inicio: "06:00",
-  //       fin: "07:31",
-  //     },
-  //     {
-  //       nombre: "Cocimiento",
-  //       inicio: "07:50",
-  //       fin: "12:20",
-  //     },
-  //     {
-  //       nombre: "Enfriamiento",
-  //       inicio: "12:20",
-  //       fin: "16:30",
-  //     },
-  //     {
-  //       nombre: "Desmolde",
-  //       inicio: "16:30",
-  //       fin: "16:55",
-  //     },
-  //     {
-  //       nombre: "Atemperado",
-  //       inicio: "16:55",
-  //       fin: "20:55",
-  //     },
-  //     {
-  //       nombre: "Rebanado",
-  //       inicio: "20:55",
-  //       fin: "22:55",
-  //     },
-  //     {
-  //       nombre: "Entrega",
-  //       inicio: "22:55",
-  //       fin: "23:10",
-  //     },
-  //   ],
-  // },
+  {
+    id: 1,
+    sec: 1,
+    destino: "MVC10",
+    producto: "X050B",
+    rack: "11 x 16",
+    kg_lote: 3000,
+    no_racks: 3.0,
+    tipo: "MOL",
+    procesos: [
+      {
+        nombre: "Mezclado",
+        inicio: "04:00",
+        fin: "05:40",
+      },
+      {
+        nombre: "Embutido",
+        inicio: "06:00",
+        fin: "07:31",
+      },
+      {
+        nombre: "Cocimiento",
+        inicio: "07:50",
+        fin: "12:20",
+      },
+      {
+        nombre: "Enfriamiento",
+        inicio: "12:20",
+        fin: "16:30",
+      },
+      {
+        nombre: "Desmolde",
+        inicio: "16:30",
+        fin: "16:55",
+      },
+      {
+        nombre: "Atemperado",
+        inicio: "16:55",
+        fin: "20:55",
+      },
+      {
+        nombre: "Rebanado",
+        inicio: "20:55",
+        fin: "22:55",
+      },
+      {
+        nombre: "Entrega",
+        inicio: "22:55",
+        fin: "23:10",
+      },
+    ],
+  },
 ];
 
 const Production = () => {
   const [openProd, setOpenProd] = useState(false);
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
+  const [procesoIndex, setProcesoIndex] = useState(0);
 
   const handleOnCloseProd = () => {
     setOpenProd(false);
     setProduct(null);
   };
-  //agregado por zmm
-  // const theme = useTheme();
-  // const [activeStep, setActiveStep] = useState(0);
-  // const maxSteps = 6;
 
-  // const handleNext = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  // };
+  const handleNext = () => {
+    if (procesoIndex < data[0].procesos.length - 4) {
+      setProcesoIndex(procesoIndex + 1);
+    }
+  };
 
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
-  //aqui termina.
+  const handleBack = () => {
+    if (procesoIndex > 0) {
+      setProcesoIndex(procesoIndex - 1);
+    }
+  };
 
   return (
     <>
@@ -138,47 +138,16 @@ const Production = () => {
             <IconButton size="small" onClick={() => setOpenProd(true)}>
               <AddIcon />
             </IconButton>
-          </div>
-          <div className="flex justify-between items-center w-full h-0">
-            {/* <div>
-              <IconButton size="small" onClick={() => setOpen(true)}>
-                <AddIcon />
-              </IconButton>
-            </div>
-            <div>
-              <IconButton size="small" onClick={(f) => f}>
+            <div className="ml-auto">
+              <IconButton size="small" onClick={handleBack}>
                 <ArrowBackIcon />
               </IconButton>
-              <IconButton size="small" onClick={(f) => f}>
+              <IconButton size="small" onClick={handleNext}>
                 <ArrowForwardIcon />
               </IconButton>
-            </div> */}
-            {/* <Button
-              size="large"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-              sx={{ position: "relative", top: 50, left: -40 }}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-            </Button>
-            <Button
-              size="large"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-              sx={{ position: "relative", top: 50, right: -40 }}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button> */}
+            </div>
           </div>
-          <ProductionTable data={data} />
+          <ProductionTable data={data} procesoIndex={procesoIndex} />
         </CardContent>
       </Card>
       <Modal open={openProd} onClose={handleOnCloseProd}>

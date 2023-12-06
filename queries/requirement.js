@@ -8,7 +8,7 @@ module.exports.getSummary = async (conn) => {
       FROM Qualtia_Prod_inv_req AS r
       INNER JOIN Qualtia_Prod_producto_cat AS p
       ON r.idProducto = p.id
-      WHERE fecha = '2023-11-16';
+      WHERE fecha = '2023-12-01';
     `);
   return data;
 };

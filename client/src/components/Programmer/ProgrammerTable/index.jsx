@@ -98,7 +98,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
         //console.log(row, 'row Programmer Table')
         arrayPlan.push({
           idProducto: row.idProducto,
-          sku: row.producto, //row.sku
+          sku: row.producto,
           ajuste_carga: row.ajuste_carga,
           pedido: row.pedido,
         });

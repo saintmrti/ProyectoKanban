@@ -29,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // },
 }));
 
-export default function ProductionTable({ data }) {
+export default function ProductionTable({ data, procesoIndex }) {
   return (
     <TableContainer
       component={Paper}
@@ -41,11 +41,18 @@ export default function ProductionTable({ data }) {
             <StyledTableCell align="center" colSpan={7}>
               Celda 2
             </StyledTableCell>
-            {_.map(data[0]?.procesos, (proceso) => (
-              <StyledTableCell key={proceso.nombre} align="center" colSpan={2}>
-                {proceso.nombre}
-              </StyledTableCell>
-            ))}
+            {_.map(
+              _.slice(data[0].procesos, procesoIndex, procesoIndex + 4),
+              (proceso) => (
+                <StyledTableCell
+                  key={proceso.nombre}
+                  align="center"
+                  colSpan={2}
+                >
+                  {proceso.nombre}
+                </StyledTableCell>
+              )
+            )}
           </TableRow>
           <TableRow>
             <StyledTableCell sx={{ width: "2rem" }}>
@@ -69,7 +76,7 @@ export default function ProductionTable({ data }) {
             <StyledTableCell align="center">
               <b>Tipo</b>
             </StyledTableCell>
-            {_.map(data[0]?.procesos, (proceso) => (
+            {_.map(_.take(data[0].procesos, 4), (proceso) => (
               <Fragment key={proceso.nombre}>
                 <StyledTableCell align="center">
                   <b>Inicio</b>
@@ -93,16 +100,19 @@ export default function ProductionTable({ data }) {
               <StyledTableCell align="center">{row.kg_lote}</StyledTableCell>
               <StyledTableCell align="center">{row.no_racks}</StyledTableCell>
               <StyledTableCell align="center">{row.tipo}</StyledTableCell>
-              {_.map(row?.procesos, (proceso) => (
-                <Fragment key={proceso.nombre}>
-                  <StyledTableCell align="center">
-                    {proceso.inicio}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {proceso.fin}
-                  </StyledTableCell>
-                </Fragment>
-              ))}
+              {_.map(
+                _.slice(row.procesos, procesoIndex, procesoIndex + 4),
+                (proceso) => (
+                  <Fragment key={proceso.nombre}>
+                    <StyledTableCell align="center">
+                      {proceso.inicio}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {proceso.fin}
+                    </StyledTableCell>
+                  </Fragment>
+                )
+              )}
             </StyledTableRow>
           ))}
         </TableBody>
