@@ -1,48 +1,67 @@
-import _ from "lodash";
-import { useState } from "react";
+// import _ from "lodash";
+import { useState, useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
+// import TextField from "@mui/material/TextField";
+import { dataOptions } from "../CapacityTable/dummyData";
 
-const GroupFilter = ({ setSelectedArr, data }) => {
-  const [searchText, setSearchText] = useState("");
+const selectOptions = Object.keys(dataOptions).map((key) => ({
+  key: key,
+  label: key.charAt(0).toUpperCase() + key.slice(1).replace("_", " "),
+}));
 
-  const handleListChange = (event) => {
+const GroupFilter = ({ setSelectedArr }) => {
+  // const [searchText, setSearchText] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState(selectOptions[0].key);
+  const [subGroupOptions, setSubGroupOptions] = useState([]);
+  const [selectedSubGroup, setSelectedSubGroup] = useState("");
+
+  const handleOnChangeGroup = (event) => {
     const { value } = event.target;
-    switch (value) {
-      case "family1":
-        setSelectedArr(data?.celda_1);
-        break;
-    }
+    setSelectedGroup(value);
   };
 
-  const handleSearchChange = (event) => {
+  const handleOnChangeSubGroup = (event) => {
     const { value } = event.target;
-    setSearchText(value);
-
-    if (value) {
-      setSelectedArr(
-        data.filter((item) =>
-          item.producto.toLowerCase().startsWith(value.toLowerCase())
-        )
-      );
-    } else {
-      setSelectedArr(data);
-    }
+    setSelectedSubGroup(value);
+    setSelectedArr(dataOptions[selectedGroup][value] || []);
   };
 
-  // useEffect(() => {
-  //   if (plan && plan.length > 0) {
-  //     const skus = plan.map((item) => item.producto);
-  //     setUniqueSKUs(_.uniq(skus));
+  // const handleSearchChange = (event) => {
+  //   const { value } = event.target;
+  //   setSearchText(value);
+
+  //   if (value) {
+  //     setSelectedArr(
+  //       selectedArr.filter((item) =>
+  //         item.sku.toLowerCase().startsWith(value.toLowerCase())
+  //       )
+  //     );
+  //   } else {
+  //     setSelectedArr(realGroup);
   //   }
-  // }, [plan]);
+  // };
+
+  useEffect(() => {
+    const subGroups = dataOptions[selectedGroup]
+      ? Object.keys(dataOptions[selectedGroup])
+      : [];
+    setSubGroupOptions(subGroups);
+    const firstSubGroup = subGroups[0] || "";
+    setSelectedSubGroup(firstSubGroup);
+
+    if (firstSubGroup) {
+      setSelectedArr(dataOptions[selectedGroup][firstSubGroup]);
+    } else {
+      setSelectedArr([]);
+    }
+  }, [selectedGroup]);
 
   return (
     <>
-      <TextField
+      {/* <TextField
         id="product-search"
         label="Buscar Sku"
         variant="outlined"
@@ -50,31 +69,38 @@ const GroupFilter = ({ setSelectedArr, data }) => {
         value={searchText}
         onChange={handleSearchChange}
         sx={{ width: "15rem", mr: 2 }}
-      />
+      /> */}
       <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
         <InputLabel id="filtro-negativos">Grupo</InputLabel>
         <Select
           labelId="filtro-negativos"
           id="negativos"
-          defaultValue="formulacion"
+          value={selectedGroup}
           label="Select List"
-          onChange={handleListChange}
+          onChange={handleOnChangeGroup}
         >
-          <MenuItem value="formulacion">Formulacion</MenuItem>
+          {selectOptions.map((opcion) => (
+            <MenuItem key={opcion.key} value={opcion.key}>
+              {opcion.label}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <FormControl sx={{ width: "15rem" }} size="small">
-        <InputLabel id="list-selector-label">Maquina</InputLabel>
+        <InputLabel id="list-selector-label">Subgrupo</InputLabel>
         <Select
           labelId="list-selector-label"
           id="list-selector"
-          defaultValue="celda_1"
+          value={selectedSubGroup}
           label="Select List"
-          onChange={handleListChange}
+          onChange={handleOnChangeSubGroup}
         >
-          <MenuItem value="celda_1">Celda 1</MenuItem>
-          <MenuItem value="celda_2">Celda 2</MenuItem>
-          <MenuItem value="celda_3">Celda 3</MenuItem>
+          {subGroupOptions.map((subGroup) => (
+            <MenuItem key={subGroup} value={subGroup}>
+              {subGroup.charAt(0).toUpperCase() +
+                subGroup.slice(1).replace("_", " ")}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </>

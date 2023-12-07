@@ -1,5 +1,6 @@
+import { useState, Fragment } from "react";
 import _ from "lodash";
-import { useState } from "react";
+// import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import { styled } from "@mui/material/styles";
@@ -8,16 +9,21 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-// import EditIcon from "@mui/icons-material/Edit";
+import EditIcon from "@mui/icons-material/Edit";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DeleteIcon from "@mui/icons-material/Delete";
 // import SaveIcon from "@mui/icons-material/Save";
-// import IconButton from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 // import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
 // import Button from "@mui/material/Button";
 
 import GroupFilter from "../GroupFilter";
+import { dataTimings } from "./dummyData";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,15 +44,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // },
 }));
 
-const CapacityTable = ({ data }) => {
+const CapacityTable = ({
+  setEditProduct,
+  setOpenForm,
+  selectedArr,
+  setSelectedArr,
+}) => {
   //   const theme = useTheme();
-  const [selectedArr, setSelectedArr] = useState([]);
-  //   const [load, setLoad] = useState(null);
-  //   const [filteredPlan, setFilteredPlan] = useState([]);
-  //   const [product, setProduct] = useState(null);
-  //   const handleEditClick = (index) => {
-  //     setProduct(index);
-  //   };
+
+  const [timings, setTimings] = useState(false);
+  const handleEditClick = (index) => {
+    setEditProduct(index);
+  };
 
   return (
     <Box sx={{ height: "calc(100vh - 112px)" }}>
@@ -56,10 +65,22 @@ const CapacityTable = ({ data }) => {
             Capacidad
           </Typography>
           <div className="ml-auto flex items-center">
-            <GroupFilter data={data} setSelectedArr={setSelectedArr} />
+            <GroupFilter
+              selectedArr={selectedArr}
+              setSelectedArr={setSelectedArr}
+            />
+            <Tooltip title="Mostrar tiempos">
+              <IconButton sx={{ ml: 1 }} onClick={() => setTimings(!timings)}>
+                <AccessTimeIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Agregar sku">
+              <IconButton onClick={(f) => f}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
           </div>
         </div>
-        {console.log(selectedArr)}
         <TableContainer
           sx={{
             maxHeight: "calc(100% - 45px)",
@@ -69,69 +90,124 @@ const CapacityTable = ({ data }) => {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>
-                  <b>SKU</b>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <b>Clasificación Familia</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Tamaño de Lote</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Tipo de Rack</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b># Rack por Lote</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Peso de Barra</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Cantidad de Barras</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Alineación Formulación</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Alineación Emulsión</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <b>Tipo Emulsión</b>
-                </StyledTableCell>
+                {timings ? (
+                  <Fragment>
+                    <StyledTableCell>
+                      <b>SKU</b>
+                    </StyledTableCell>
+                    {_.map(dataTimings, (timing, index) => (
+                      <StyledTableCell key={index} align="center">
+                        <b>{timing}</b>
+                      </StyledTableCell>
+                    ))}
+                  </Fragment>
+                ) : (
+                  <>
+                    <StyledTableCell>
+                      <b>SKU</b>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <b>Familia</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Lote (Kg)</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Rack</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b># Rack</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Peso de Barra</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>No. de Barras</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Alineación Formulación</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Alineación Emulsión</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Tipo Emulsión</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <b>Acciones</b>
+                    </StyledTableCell>
+                  </>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
-              {_.map(data, (row, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell>{row.sku}</StyledTableCell>
-                  <StyledTableCell>{row.familia}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.tamano_lote}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.tipo_rack}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.no_rack_lote}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.peso_promedio_barra}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.cantidad_barras}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.formulacion}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.emulsion}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row.tipo_emulsion}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {timings ? (
+                _.map(selectedArr, (row) => {
+                  return (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell>{row.sku}</StyledTableCell>
+                      {_.map(dataTimings, (timing, index) => (
+                        <StyledTableCell key={index} align="center">
+                          -
+                        </StyledTableCell>
+                      ))}
+                    </StyledTableRow>
+                  );
+                })
+              ) : (
+                <>
+                  {_.map(selectedArr, (row) => (
+                    <StyledTableRow key={row.id}>
+                      <StyledTableCell>{row.sku}</StyledTableCell>
+                      <StyledTableCell>{row.familia}</StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.kg_lote}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.tipo_rack}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.no_rack_lote}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.kg_barra}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.no_barras}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.formulacion}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.emulsion}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.tipo_emulsion}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <div className="flex items-center justify-end">
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              handleEditClick(row.id), setOpenForm(true);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              // handleEditClick(index);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </div>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
