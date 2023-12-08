@@ -65,13 +65,13 @@ export default function ProductionTable({ data, procesoIndex }) {
               <b>SKU</b>
             </StyledTableCell>
             <StyledTableCell align="center">
+              <b>Lote (kg)</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
               <b>Rack</b>
             </StyledTableCell>
             <StyledTableCell align="center">
-              <b>Kg. Lote</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>No. Racks</b>
+              <b># Racks</b>
             </StyledTableCell>
             <StyledTableCell align="center">
               <b>Tipo</b>
@@ -96,10 +96,12 @@ export default function ProductionTable({ data, procesoIndex }) {
               </StyledTableCell>
               <StyledTableCell align="center">{row.destino}</StyledTableCell>
               <StyledTableCell align="center">{row.producto}</StyledTableCell>
-              <StyledTableCell align="center">{row.rack}</StyledTableCell>
               <StyledTableCell align="center">{row.kg_lote}</StyledTableCell>
-              <StyledTableCell align="center">{row.no_racks}</StyledTableCell>
-              <StyledTableCell align="center">{row.tipo}</StyledTableCell>
+              <StyledTableCell align="center">{row.rack}</StyledTableCell>
+              <StyledTableCell align="center">{row.no_rack}</StyledTableCell>
+              <StyledTableCell align="center">
+                {row.tipo_emulsion}
+              </StyledTableCell>
               {_.map(
                 _.slice(row?.procesos, procesoIndex, procesoIndex + 4),
                 (proceso) => (

@@ -20,13 +20,8 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
       setValue("sku", product.sku);
       setValue("id_familia", product.idFamilia);
       setValue("kg_lote", product.kg_lote);
-      setValue("tipo_rack", product.tipo_rack);
-      setValue("no_rack_lote", product.no_rack_lote);
-      setValue("kg_barra", product.kg_barra);
-      setValue("no_barras", product.no_barras);
-      setValue("tipo", product.tipo);
-      setValue("formulacion", product.formulacion);
-      setValue("emulsion", product.emulsion);
+      setValue("rack", product.rack);
+      setValue("no_rack", product.no_rack);
       setValue("tipo_emulsion", product.tipo_emulsion);
     }
   }, [product, setValue]);
@@ -39,7 +34,7 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
       <h1 className="text-2xl mb-5 w-full text-center">
         {editProduct ? "Editar SKU" : "Agregar SKU"}
       </h1>
-      <div className="grid grid-cols-4 gap-5 mb-10">
+      <div className="grid grid-cols-2 gap-5 mb-10">
         <TextField
           sx={{ width: "15rem" }}
           label="SKU"
@@ -81,7 +76,7 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
           type="text"
           size="small"
           autoComplete="off"
-          {...register("tipo_rack", { required: true })}
+          {...register("rack", { required: true })}
         />
         <TextField
           sx={{ width: "15rem" }}
@@ -91,9 +86,9 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
             min: 0,
           }}
           size="small"
-          {...register("no_rack_lote", { required: true })}
+          {...register("no_rack", { required: true })}
         />
-        <TextField
+        {/* <TextField
           sx={{ width: "15rem" }}
           label="Kg Barra"
           type="number"
@@ -126,7 +121,7 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
           type="text"
           size="small"
           {...register("emulsion", { required: true })}
-        />
+        /> */}
         <TextField
           sx={{ width: "15rem" }}
           label="Tipo Emulsión"
@@ -136,62 +131,22 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
         />
       </div>
       <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
-      <div className="grid grid-cols-4 gap-5 mb-10">
+      <div className="grid grid-cols-2 gap-5 mb-10">
         <TextField
           sx={{ width: "15rem" }}
-          label="Congelador"
+          label="Mezclado"
           type="time"
           defaultValue="00:00"
           size="small"
-          {...register("congelador", { required: true })}
+          {...register("mezclado", { required: true })}
         />
         <TextField
           sx={{ width: "15rem" }}
-          label="Corte Deshuese"
+          label="Embutido"
           type="time"
           defaultValue="00:00"
           size="small"
-          {...register("corte_deshuese", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Salmuerizador 1"
-          type="time"
-          defaultValue="00:00"
-          size="small"
-          {...register("salmuerizador_1", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Salmuerizador 2"
-          type="time"
-          defaultValue="00:00"
-          size="small"
-          {...register("salmuerizador_2", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Salmuerizador 3"
-          type="time"
-          defaultValue="00:00"
-          size="small"
-          {...register("salmuerizador_3", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Viriomix"
-          type="time"
-          defaultValue="00:00"
-          size="small"
-          {...register("viorimix", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Emulsiones"
-          type="time"
-          defaultValue="00:00"
-          size="small"
-          {...register("salmuerizador_1", { required: true })}
+          {...register("embutido", { required: true })}
         />
         <TextField
           sx={{ width: "15rem" }}
@@ -199,7 +154,7 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
           type="time"
           defaultValue="00:00"
           size="small"
-          {...register("salmuerizador_2", { required: true })}
+          {...register("cocimiento", { required: true })}
         />
         <TextField
           sx={{ width: "15rem" }}
@@ -207,15 +162,39 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
           type="time"
           defaultValue="00:00"
           size="small"
-          {...register("salmuerizador_3", { required: true })}
+          {...register("enfriamiento", { required: true })}
         />
         <TextField
           sx={{ width: "15rem" }}
-          label="Rebanados"
+          label="Desmolde"
           type="time"
           defaultValue="00:00"
           size="small"
-          {...register("viorimix", { required: true })}
+          {...register("desmolde", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Atemperado"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("atemperado", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Rebanado"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("rebanado", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Entrega"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("entrega", { required: true })}
         />
       </div>
     </form>

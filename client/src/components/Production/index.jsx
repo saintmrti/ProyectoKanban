@@ -39,7 +39,7 @@ const data = [
   //   rack: "11 x 16",
   //   kg_lote: 3000,
   //   no_racks: 3.0,
-  //   tipo: "MOL",
+  //   tipo_emulsion: "MOL",
   //   procesos: [
   //     {
   //       nombre: "Mezclado",

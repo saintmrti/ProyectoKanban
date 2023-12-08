@@ -13,7 +13,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 
 import { productos } from "./dummyData";
 
-export default function ProductionForm({ data, setOpen, setProduct, product }) {
+export default function ProductionForm({ data, setProduct, product }) {
   const { register, handleSubmit, reset, setValue, control } = useForm({
     defaultValues: {
       producto: null,
@@ -31,8 +31,8 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
       producto: values.producto,
       rack: values.rack,
       kg_lote: values.kg_lote,
-      no_racks: values.no_racks,
-      tipo: values.tipo,
+      no_rack: values.no_rack,
+      tipo_emulsion: values.tipo_emulsion,
       procesos: [
         {
           nombre: "Mezclado",
@@ -198,8 +198,11 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
     }
     setValue("rack", _.find(productos, { name: product })?.rack);
     setValue("kg_lote", _.find(productos, { name: product })?.kg_lote);
-    setValue("no_racks", _.find(productos, { name: product })?.no_racks);
-    setValue("tipo", _.find(productos, { name: product })?.tipo);
+    setValue("no_rack", _.find(productos, { name: product })?.no_rack);
+    setValue(
+      "tipo_emulsion",
+      _.find(productos, { name: product })?.tipo_emulsion
+    );
   }, [product, process, setValue]);
 
   return (
@@ -267,16 +270,18 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
           label="No Racks"
           type="number"
           size="small"
-          value={product ? _.find(productos, { name: product })?.no_racks : ""}
-          {...register("no_racks", { required: true })}
+          value={product ? _.find(productos, { name: product })?.no_rack : ""}
+          {...register("no_rack", { required: true })}
         />
         <TextField
           sx={{ width: "15rem", mb: 2 }}
           label="Tipo"
           type="text"
           size="small"
-          value={product ? _.find(productos, { name: product })?.tipo : ""}
-          {...register("tipo", { required: true })}
+          value={
+            product ? _.find(productos, { name: product })?.tipo_emulsion : ""
+          }
+          {...register("tipo_emulsion", { required: true })}
         />
         <div></div>
         <div></div>

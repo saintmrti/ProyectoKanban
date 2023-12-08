@@ -104,6 +104,9 @@ const CapacityTable = ({
                         <b>{timing}</b>
                       </StyledTableCell>
                     ))}
+                    <StyledTableCell align="right">
+                      <b>Acciones</b>
+                    </StyledTableCell>
                   </Fragment>
                 ) : (
                   <>
@@ -122,7 +125,7 @@ const CapacityTable = ({
                     <StyledTableCell align="center">
                       <b># Rack</b>
                     </StyledTableCell>
-                    <StyledTableCell align="center">
+                    {/* <StyledTableCell align="center">
                       <b>Peso de Barra</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
@@ -133,7 +136,7 @@ const CapacityTable = ({
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <b>Alineación Emulsión</b>
-                    </StyledTableCell>
+                    </StyledTableCell> */}
                     <StyledTableCell align="center">
                       <b>Tipo Emulsión</b>
                     </StyledTableCell>
@@ -155,6 +158,26 @@ const CapacityTable = ({
                           -
                         </StyledTableCell>
                       ))}
+                      <StyledTableCell align="right">
+                        <div className="flex items-center justify-end">
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              handleEditClick(row.id), setOpenForm(true);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              // handleEditClick(index);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </div>
+                      </StyledTableCell>
                     </StyledTableRow>
                   );
                 })
@@ -168,12 +191,12 @@ const CapacityTable = ({
                         {row.kg_lote}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.tipo_rack}
+                        {row.rack}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.no_rack_lote}
+                        {row.no_rack}
                       </StyledTableCell>
-                      <StyledTableCell align="center">
+                      {/* <StyledTableCell align="center">
                         {row.kg_barra}
                       </StyledTableCell>
                       <StyledTableCell align="center">
@@ -184,7 +207,7 @@ const CapacityTable = ({
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.emulsion}
-                      </StyledTableCell>
+                      </StyledTableCell> */}
                       <StyledTableCell align="center">
                         {row.tipo_emulsion}
                       </StyledTableCell>
