@@ -42,7 +42,7 @@ export default function ProductionTable({ data, procesoIndex }) {
               Celda 2
             </StyledTableCell>
             {_.map(
-              _.slice(data[0].procesos, procesoIndex, procesoIndex + 4),
+              _.slice(data[0]?.procesos, procesoIndex, procesoIndex + 4),
               (proceso) => (
                 <StyledTableCell
                   key={proceso.nombre}
@@ -76,7 +76,7 @@ export default function ProductionTable({ data, procesoIndex }) {
             <StyledTableCell align="center">
               <b>Tipo</b>
             </StyledTableCell>
-            {_.map(_.take(data[0].procesos, 4), (proceso) => (
+            {_.map(_.take(data[0]?.procesos, 4), (proceso) => (
               <Fragment key={proceso.nombre}>
                 <StyledTableCell align="center">
                   <b>Inicio</b>
@@ -101,7 +101,7 @@ export default function ProductionTable({ data, procesoIndex }) {
               <StyledTableCell align="center">{row.no_racks}</StyledTableCell>
               <StyledTableCell align="center">{row.tipo}</StyledTableCell>
               {_.map(
-                _.slice(row.procesos, procesoIndex, procesoIndex + 4),
+                _.slice(row?.procesos, procesoIndex, procesoIndex + 4),
                 (proceso) => (
                   <Fragment key={proceso.nombre}>
                     <StyledTableCell align="center">

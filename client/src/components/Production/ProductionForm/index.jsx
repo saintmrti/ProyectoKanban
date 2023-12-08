@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,6 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 // import FormHelperText from "@mui/material/FormHelperText";
 import _ from "lodash";
-import { Typography } from "@mui/material";
 import moment from "moment";
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -81,7 +80,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
     data.push(newProduct);
     setProduct(null);
     reset();
-    !process && setOpen(false);
+    // !process && setOpen(false);
   };
 
   const handleTimingChangeMez = (value) => {
@@ -135,7 +134,6 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
   useEffect(() => {
     if (process && process.length > 0 && product) {
       const mezclado_min = _.find(productos, { name: product })?.mezclado;
-
       let mezclado_inicio = process[0].fin;
       let mezclado_fin = calculateEndTime(process[0].fin, mezclado_min);
       let embutido_inicio =
@@ -194,6 +192,9 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
         setValue(`${processName}_inicio`, newTiming[processName].inicio);
         setValue(`${processName}_fin`, newTiming[processName].fin);
       });
+    } else {
+      handleTimingChangeMez("04:00");
+      handleTimingChangeCo("07:50");
     }
     setValue("rack", _.find(productos, { name: product })?.rack);
     setValue("kg_lote", _.find(productos, { name: product })?.kg_lote);
@@ -207,7 +208,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-2xl mb-5 w-full text-center">Seleccionar SKU</h1>
-      <div className="grid grid-cols-4 gap-5 mb-10">
+      <div className="flex flex-col">
         <Controller
           name="producto"
           control={control}
@@ -218,7 +219,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
               disablePortal
               id="combo-box-demo"
               options={skuOptions}
-              sx={{ width: "15rem" }}
+              sx={{ width: "15rem", mb: 2 }}
               size="small"
               renderInput={(params) => <TextField {...params} label="SKU" />}
               onChange={(_, value) => {
@@ -228,7 +229,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
             />
           )}
         />
-        <FormControl sx={{ width: "15rem" }} size="small">
+        <FormControl sx={{ width: "15rem", mb: 2 }} size="small">
           <InputLabel id="destino">Destino</InputLabel>
           <Select
             labelId="destino"
@@ -245,16 +246,8 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
             <MenuItem value="ULMA2">ULMA 2</MenuItem>
           </Select>
         </FormControl>
-        {/* <TextField
-          sx={{ width: "15rem" }}
-          label="Destino"
-          type="text"
-          size="small"
-          autoComplete="off"
-          {...register("destino", { required: true })}
-        /> */}
         <TextField
-          sx={{ width: "15rem" }}
+          sx={{ width: "15rem", mb: 2 }}
           label="Rack"
           type="text"
           size="small"
@@ -262,7 +255,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
           {...register("rack", { required: true })}
         />
         <TextField
-          sx={{ width: "15rem" }}
+          sx={{ width: "15rem", mb: 2 }}
           label="Kg Lote"
           type="number"
           size="small"
@@ -270,7 +263,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
           {...register("kg_lote", { required: true })}
         />
         <TextField
-          sx={{ width: "15rem" }}
+          sx={{ width: "15rem", mb: 2 }}
           label="No Racks"
           type="number"
           size="small"
@@ -278,7 +271,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
           {...register("no_racks", { required: true })}
         />
         <TextField
-          sx={{ width: "15rem" }}
+          sx={{ width: "15rem", mb: 2 }}
           label="Tipo"
           type="text"
           size="small"
@@ -290,7 +283,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
         {/* <h1 className="col-span-4 text-2xl text-center">
           Tiempos Precalculados
         </h1> */}
-        {!process && product && (
+        {/* {!process && product && (
           <Fragment>
             <div className="col-span-2">
               <Typography variant="h6" component="div" sx={{ mb: 2 }}>
@@ -499,7 +492,7 @@ export default function ProductionForm({ data, setOpen, setProduct, product }) {
               </div>
             </div>
           </Fragment>
-        )}
+        )} */}
       </div>
       <div className="w-full flex justify-center">
         <Button variant="contained" type="submit">

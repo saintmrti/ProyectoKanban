@@ -75,7 +75,11 @@ const CapacityTable = ({
               </IconButton>
             </Tooltip>
             <Tooltip title="Agregar sku">
-              <IconButton onClick={(f) => f}>
+              <IconButton
+                onClick={() => {
+                  setOpenForm(true), setEditProduct(null);
+                }}
+              >
                 <AddIcon />
               </IconButton>
             </Tooltip>
@@ -87,7 +91,7 @@ const CapacityTable = ({
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
           }}
         >
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label="sticky table" size="small">
             <TableHead>
               <TableRow>
                 {timings ? (

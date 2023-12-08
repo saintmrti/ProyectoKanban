@@ -36,7 +36,9 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
       className="flex justify-center items-center flex-wrap"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-2xl mb-5 w-full text-center">Editar SKU</h1>
+      <h1 className="text-2xl mb-5 w-full text-center">
+        {editProduct ? "Editar SKU" : "Agregar SKU"}
+      </h1>
       <div className="grid grid-cols-4 gap-5 mb-10">
         <TextField
           sx={{ width: "15rem" }}
@@ -52,7 +54,7 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
             labelId="family"
             id="select-family"
             label="Familia"
-            defaultValue={product.idFamilia || ""}
+            defaultValue={product?.idFamilia || ""}
             {...register("id_familia", {
               required: true,
             })}
@@ -131,6 +133,89 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
           type="text"
           size="small"
           {...register("tipo_emulsion", { required: true })}
+        />
+      </div>
+      <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
+      <div className="grid grid-cols-4 gap-5 mb-10">
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Congelador"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("congelador", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Corte Deshuese"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("corte_deshuese", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Salmuerizador 1"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("salmuerizador_1", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Salmuerizador 2"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("salmuerizador_2", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Salmuerizador 3"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("salmuerizador_3", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Viriomix"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("viorimix", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Emulsiones"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("salmuerizador_1", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Cocimiento"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("salmuerizador_2", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Enfriamiento"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("salmuerizador_3", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem" }}
+          label="Rebanados"
+          type="time"
+          defaultValue="00:00"
+          size="small"
+          {...register("viorimix", { required: true })}
         />
       </div>
     </form>
