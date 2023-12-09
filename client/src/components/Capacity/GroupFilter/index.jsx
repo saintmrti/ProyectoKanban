@@ -71,10 +71,10 @@ const GroupFilter = ({ setSelectedArr }) => {
         sx={{ width: "15rem", mr: 2 }}
       /> */}
       <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
-        <InputLabel id="filtro-negativos">Grupo</InputLabel>
+        <InputLabel id="filtro-linea">Linea de Producción</InputLabel>
         <Select
-          labelId="filtro-negativos"
-          id="negativos"
+          labelId="filtro-linea"
+          id="linea"
           value={selectedGroup}
           label="Select List"
           onChange={handleOnChangeGroup}
@@ -87,7 +87,7 @@ const GroupFilter = ({ setSelectedArr }) => {
         </Select>
       </FormControl>
       <FormControl sx={{ width: "15rem" }} size="small">
-        <InputLabel id="list-selector-label">Subgrupo</InputLabel>
+        <InputLabel id="list-selector-label">Maquina</InputLabel>
         <Select
           labelId="list-selector-label"
           id="list-selector"

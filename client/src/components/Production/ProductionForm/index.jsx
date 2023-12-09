@@ -193,8 +193,8 @@ export default function ProductionForm({ data, setProduct, product }) {
         setValue(`${processName}_fin`, newTiming[processName].fin);
       });
     } else {
-      handleTimingChangeMez("04:00");
-      handleTimingChangeCo("07:50");
+      handleTimingChangeMez("06:00");
+      handleTimingChangeCo("09:50");
     }
     setValue("rack", _.find(productos, { name: product })?.rack);
     setValue("kg_lote", _.find(productos, { name: product })?.kg_lote);

@@ -26,4 +26,22 @@ export const productos = [
     tipo_emulsion: "MOL",
     mezclado: 100,
   },
+  {
+    id: 4,
+    name: "X452",
+    rack: "11 x 16",
+    kg_lote: 2000,
+    no_rack: 2,
+    tipo_emulsion: "INY",
+    mezclado: 140,
+  },
+  {
+    id: 5,
+    name: "10155",
+    rack: "11 x 11",
+    kg_lote: 3100,
+    no_rack: 3,
+    tipo_emulsion: "MOL",
+    mezclado: 120,
+  },
 ];
