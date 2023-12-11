@@ -283,3 +283,13 @@ export const dataTimings = [
   "Rebanado",
   "Entrega",
 ];
+
+export const dataFamily = [
+  "Jamones Granel",
+  "Jamones Rebanados",
+  "Jamones Pastel",
+  "Salchichas Granel",
+  "Salchichas para Asar",
+  "Salchichas Especialidades",
+  "Especialidades",
+];

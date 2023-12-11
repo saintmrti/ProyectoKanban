@@ -6,6 +6,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import _ from "lodash";
+
+import { dataFamily } from "../CapacityTable/dummyData";
 const CapacityForm = ({ selectedArr, editProduct }) => {
   const { register, handleSubmit, setValue } = useForm();
 
@@ -18,7 +20,7 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
   useEffect(() => {
     if (product) {
       setValue("sku", product.sku);
-      setValue("id_familia", product.idFamilia);
+      setValue("familia", product.descripcion);
       setValue("kg_lote", product.kg_lote);
       setValue("rack", product.rack);
       setValue("no_rack", product.no_rack);
@@ -49,14 +51,16 @@ const CapacityForm = ({ selectedArr, editProduct }) => {
             labelId="family"
             id="select-family"
             label="Familia"
-            defaultValue={product?.idFamilia || ""}
-            {...register("id_familia", {
+            defaultValue={product?.descripcion || ""}
+            {...register("familia", {
               required: true,
             })}
           >
-            <MenuItem value="1">Jamones Granel</MenuItem>
-            <MenuItem value="3">Jamones Rebanados</MenuItem>
-            <MenuItem value="2">Salchichas Granel</MenuItem>
+            {dataFamily.map((item) => (
+              <MenuItem key={item} value={item}>
+                {item}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         <TextField

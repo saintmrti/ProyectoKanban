@@ -1,22 +1,21 @@
-// import _ from "lodash";
 import { useState, useEffect } from "react";
+import _ from "lodash";
+import { useSelector } from "react-redux";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-// import TextField from "@mui/material/TextField";
-import { dataOptions } from "../CapacityTable/dummyData";
 
-const selectOptions = Object.keys(dataOptions).map((key) => ({
-  key: key,
-  label: key.charAt(0).toUpperCase() + key.slice(1).replace("_", " "),
-}));
+import { getCapacity, getLinesProduction } from "../../../selectors/capacity";
 
 const GroupFilter = ({ setSelectedArr }) => {
   // const [searchText, setSearchText] = useState("");
-  const [selectedGroup, setSelectedGroup] = useState(selectOptions[0].key);
+  const [selectedGroup, setSelectedGroup] = useState();
+  const [selectedSubGroup, setSelectedSubGroup] = useState();
   const [subGroupOptions, setSubGroupOptions] = useState([]);
-  const [selectedSubGroup, setSelectedSubGroup] = useState("");
+
+  const data = useSelector(getCapacity);
+  const lines = useSelector(getLinesProduction);
 
   const handleOnChangeGroup = (event) => {
     const { value } = event.target;
@@ -26,7 +25,6 @@ const GroupFilter = ({ setSelectedArr }) => {
   const handleOnChangeSubGroup = (event) => {
     const { value } = event.target;
     setSelectedSubGroup(value);
-    setSelectedArr(dataOptions[selectedGroup][value] || []);
   };
 
   // const handleSearchChange = (event) => {
@@ -45,43 +43,39 @@ const GroupFilter = ({ setSelectedArr }) => {
   // };
 
   useEffect(() => {
-    const subGroups = dataOptions[selectedGroup]
-      ? Object.keys(dataOptions[selectedGroup])
-      : [];
-    setSubGroupOptions(subGroups);
-    const firstSubGroup = subGroups[0] || "";
-    setSelectedSubGroup(firstSubGroup);
-
-    if (firstSubGroup) {
-      setSelectedArr(dataOptions[selectedGroup][firstSubGroup]);
-    } else {
-      setSelectedArr([]);
+    if (lines.length > 0) {
+      setSelectedGroup(lines[0]?.idLinea);
     }
-  }, [selectedGroup]);
+  }, [lines]);
+
+  useEffect(() => {
+    if (selectedGroup) {
+      const values = _.values(data[selectedGroup]);
+      setSelectedSubGroup(values[0][0].idMaquina);
+      setSubGroupOptions(values);
+    }
+  }, [selectedGroup, data]);
+
+  useEffect(() => {
+    if (selectedSubGroup) {
+      setSelectedArr(data[selectedGroup][selectedSubGroup]);
+    }
+  }, [selectedSubGroup, data, selectedGroup, setSelectedArr]);
 
   return (
     <>
-      {/* <TextField
-        id="product-search"
-        label="Buscar Sku"
-        variant="outlined"
-        size="small"
-        value={searchText}
-        onChange={handleSearchChange}
-        sx={{ width: "15rem", mr: 2 }}
-      /> */}
       <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
-        <InputLabel id="filtro-linea">Linea de Producción</InputLabel>
+        <InputLabel id="filtro-linea">Linea</InputLabel>
         <Select
           labelId="filtro-linea"
           id="linea"
-          value={selectedGroup}
+          value={selectedGroup || ""}
           label="Select List"
           onChange={handleOnChangeGroup}
         >
-          {selectOptions.map((opcion) => (
-            <MenuItem key={opcion.key} value={opcion.key}>
-              {opcion.label}
+          {_.map(lines, (linea) => (
+            <MenuItem key={linea.idLinea} value={linea.idLinea}>
+              {linea.linea}
             </MenuItem>
           ))}
         </Select>
@@ -91,14 +85,13 @@ const GroupFilter = ({ setSelectedArr }) => {
         <Select
           labelId="list-selector-label"
           id="list-selector"
-          value={selectedSubGroup}
+          value={selectedSubGroup || ""}
           label="Select List"
           onChange={handleOnChangeSubGroup}
         >
-          {subGroupOptions.map((subGroup) => (
-            <MenuItem key={subGroup} value={subGroup}>
-              {subGroup.charAt(0).toUpperCase() +
-                subGroup.slice(1).replace("_", " ")}
+          {_.map(subGroupOptions, (machine) => (
+            <MenuItem key={machine[0].idMaquina} value={machine[0].idMaquina}>
+              {machine[0].maquina}
             </MenuItem>
           ))}
         </Select>

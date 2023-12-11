@@ -114,7 +114,7 @@ const CapacityTable = ({
                       <b>SKU</b>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <b>Familia</b>
+                      <b>Clasificación Familia</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <b>Lote (Kg)</b>
@@ -186,7 +186,7 @@ const CapacityTable = ({
                   {_.map(selectedArr, (row) => (
                     <StyledTableRow key={row.id}>
                       <StyledTableCell>{row.sku}</StyledTableCell>
-                      <StyledTableCell>{row.familia}</StyledTableCell>
+                      <StyledTableCell>{row.descripcion}</StyledTableCell>
                       <StyledTableCell align="center">
                         {row.kg_lote}
                       </StyledTableCell>

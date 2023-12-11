@@ -1,22 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-// import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-// import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-// import { useTheme } from "@mui/material/styles";
-// import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import RackTable from "./RackTable";
+
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
+import { fetchCapacityRequest } from "../../slices/capacity";
 
 const style = {
   position: "absolute",
@@ -86,6 +85,7 @@ const data = [
 ];
 
 const Production = () => {
+  const dispatch = useDispatch();
   const [openProd, setOpenProd] = useState(false);
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
@@ -107,6 +107,10 @@ const Production = () => {
       setProcesoIndex(procesoIndex - 1);
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchCapacityRequest());
+  }, [dispatch]);
 
   return (
     <>

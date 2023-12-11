@@ -1,4 +1,7 @@
+import _ from "lodash";
+import moment from "moment";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -6,12 +9,9 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-// import FormHelperText from "@mui/material/FormHelperText";
-import _ from "lodash";
-import moment from "moment";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import { productos } from "./dummyData";
+import { getListSku } from "../../../selectors/capacity";
 
 export default function ProductionForm({ data, setProduct, product }) {
   const { register, handleSubmit, reset, setValue, control } = useForm({
@@ -20,8 +20,13 @@ export default function ProductionForm({ data, setProduct, product }) {
     },
   });
 
+  // const [selectedMachine, setSelectedMachine] = useState(null);
+  // const [skuOptions, setSkuOptions] = useState([]);
+  const list = useSelector(getListSku);
+  // const groupByMachine = _.groupBy(list, "idMaquina");
+  // const machines = _.uniqBy(list, "idMaquina");
   const process = data[data.length - 1]?.procesos;
-  const skuOptions = _.map(productos, "name");
+  const skuOptions = _.map(list, "sku");
 
   const onSubmit = (values) => {
     const newProduct = {
@@ -84,7 +89,7 @@ export default function ProductionForm({ data, setProduct, product }) {
   };
 
   const handleTimingChangeMez = (value) => {
-    const mezclado_min = _.find(productos, { name: product })?.mezclado;
+    const mezclado_min = 120;
     const mezclado_inicio = value;
     const mezclado_fin = calculateEndTime(mezclado_inicio, mezclado_min);
     const embutido_inicio =
@@ -131,9 +136,17 @@ export default function ProductionForm({ data, setProduct, product }) {
     return moment(startTime, "HH:mm").add(min, "minutes").format("HH:mm");
   };
 
+  // useEffect(() => {
+  //   if (selectedMachine) {
+  //     const listSku = groupByMachine[selectedMachine];
+  //     const options = _.map(listSku, "sku");
+  //     setSkuOptions(options);
+  //   }
+  // }, [selectedMachine]);
+
   useEffect(() => {
     if (process && process.length > 0 && product) {
-      const mezclado_min = _.find(productos, { name: product })?.mezclado;
+      const mezclado_min = 120;
       let mezclado_inicio = process[0].fin;
       let mezclado_fin = calculateEndTime(process[0].fin, mezclado_min);
       let embutido_inicio =
@@ -196,13 +209,10 @@ export default function ProductionForm({ data, setProduct, product }) {
       handleTimingChangeMez("06:00");
       handleTimingChangeCo("09:50");
     }
-    setValue("rack", _.find(productos, { name: product })?.rack);
-    setValue("kg_lote", _.find(productos, { name: product })?.kg_lote);
-    setValue("no_rack", _.find(productos, { name: product })?.no_rack);
-    setValue(
-      "tipo_emulsion",
-      _.find(productos, { name: product })?.tipo_emulsion
-    );
+    setValue("rack", _.find(list, { sku: product })?.rack);
+    setValue("kg_lote", _.find(list, { sku: product })?.kg_lote);
+    setValue("no_rack", _.find(list, { sku: product })?.no_rack);
+    setValue("tipo_emulsion", _.find(list, { sku: product })?.tipo_emulsion);
   }, [product, process, setValue]);
 
   return (
@@ -211,7 +221,25 @@ export default function ProductionForm({ data, setProduct, product }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-2xl mb-5 w-full text-center">Seleccionar SKU</h1>
+      {console.log(product)}
       <div className="flex flex-col">
+        {/* <FormControl sx={{ width: "15rem", mb: 2 }} size="small">
+          <InputLabel id="maquina">Maquina</InputLabel>
+          <Select
+            labelId="maquina"
+            id="select-maquina"
+            label="Maquina"
+            autoComplete="off"
+            defaultValue={machines[0]?.idMaquina || ""}
+            onChange={(e) => setSelectedMachine(e.target.value)}
+          >
+            {_.map(machines, (machine) => (
+              <MenuItem key={machine.idMaquina} value={machine.idMaquina}>
+                {machine.maquina}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl> */}
         <Controller
           name="producto"
           control={control}
@@ -254,7 +282,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="Rack"
           type="text"
           size="small"
-          value={product ? _.find(productos, { name: product })?.rack : ""}
+          value={product ? _.find(list, { sku: product })?.rack : ""}
           {...register("rack", { required: true })}
         />
         <TextField
@@ -262,7 +290,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="Kg Lote"
           type="number"
           size="small"
-          value={product ? _.find(productos, { name: product })?.kg_lote : ""}
+          value={product ? _.find(list, { sku: product })?.kg_lote : ""}
           {...register("kg_lote", { required: true })}
         />
         <TextField
@@ -270,7 +298,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="No Racks"
           type="number"
           size="small"
-          value={product ? _.find(productos, { name: product })?.no_rack : ""}
+          value={product ? _.find(list, { sku: product })?.no_rack : ""}
           {...register("no_rack", { required: true })}
         />
         <TextField
@@ -278,9 +306,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="Tipo"
           type="text"
           size="small"
-          value={
-            product ? _.find(productos, { name: product })?.tipo_emulsion : ""
-          }
+          value={product ? _.find(list, { sku: product })?.tipo_emulsion : ""}
           {...register("tipo_emulsion", { required: true })}
         />
         <div></div>

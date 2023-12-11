@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { fetchCapacityRequest } from "../../slices/capacity";
-import { getCapacity } from "../../selectors/capacity";
+// import { getCapacity } from "../../selectors/capacity";
 import CapacityTable from "./CapacityTable";
 import CapacityForm from "./CapacityForm";
 
@@ -28,7 +28,7 @@ const Capacity = () => {
   const [editProduct, setEditProduct] = useState(null);
   const [selectedArr, setSelectedArr] = useState();
 
-  const data = useSelector(getCapacity);
+  // const data = useSelector(getCapacity);
 
   const handleOnCloseForm = () => {
     setOpenForm(false);
@@ -46,7 +46,6 @@ const Capacity = () => {
         selectedArr={selectedArr}
         setSelectedArr={setSelectedArr}
       />
-      {console.log(data)}
       <Modal open={openForm} onClose={handleOnCloseForm}>
         <Box sx={style}>
           <IconButton
