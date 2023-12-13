@@ -6,7 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-import { getCapacity, getLinesProduction } from "../../../selectors/capacity";
+import { getCapacity, getLines } from "../../../selectors/capacity";
 
 const GroupFilter = ({ setSelectedArr }) => {
   // const [searchText, setSearchText] = useState("");
@@ -15,7 +15,7 @@ const GroupFilter = ({ setSelectedArr }) => {
   const [subGroupOptions, setSubGroupOptions] = useState([]);
 
   const data = useSelector(getCapacity);
-  const lines = useSelector(getLinesProduction);
+  const lines = useSelector(getLines);
 
   const handleOnChangeGroup = (event) => {
     const { value } = event.target;

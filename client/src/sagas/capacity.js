@@ -1,10 +1,16 @@
 import { takeLatest, call, put, cancelled } from "redux-saga/effects";
 
-import { fetchCapacityApi } from "../api";
+import { fetchCapacityApi, insertCapacityApi, updateCapacityApi } from "../api";
 import {
   fetchCapacityRequest,
   fetchCapacitySuccess,
   fetchCapacityError,
+  insertCapacityRequest,
+  insertCapacitySuccess,
+  insertCapacityError,
+  updateCapacityRequest,
+  updateCapacitySuccess,
+  updateCapacityError,
 } from "../slices/capacity";
 
 function* fetchCapacity() {
@@ -23,4 +29,40 @@ function* fetchCapacity() {
 
 export function* fetchCapacitySaga() {
   yield takeLatest(fetchCapacityRequest.toString(), fetchCapacity);
+}
+
+function* insertCapacity({ payload }) {
+  try {
+    const { data, isError } = yield call(insertCapacityApi.run, payload);
+    if (isError) throw new Error();
+    yield put(insertCapacitySuccess({ data }));
+  } catch (e) {
+    yield put(insertCapacityError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(insertCapacityApi.cancel);
+    }
+  }
+}
+
+export function* insertCapacitySaga() {
+  yield takeLatest(insertCapacityRequest.toString(), insertCapacity);
+}
+
+function* updateCapacity({ payload }) {
+  try {
+    const { data, isError } = yield call(updateCapacityApi.run, payload);
+    if (isError) throw new Error();
+    yield put(updateCapacitySuccess({ data }));
+  } catch (e) {
+    yield put(updateCapacityError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(updateCapacityApi.cancel);
+    }
+  }
+}
+
+export function* updateCapacitySaga() {
+  yield takeLatest(updateCapacityRequest.toString(), updateCapacity);
 }

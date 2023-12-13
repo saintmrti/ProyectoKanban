@@ -102,6 +102,32 @@ export default function DrawerContent({ setOpen, open }) {
       </ListItem>
       <Collapse in={openItems.includes(0)}>
         <List>
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <Tooltip title="Kanban" disableHoverListener={open}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                }}
+                // selected={pathname.split("/")[2] === "kanban"}
+                onClick={() =>
+                  (window.location.href =
+                    "https://qualtia-kanban.azurewebsites.net/kanban")
+                }
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: 3,
+                  }}
+                >
+                  <Icon fontSize="small" sx={{ height: "30px", width: "30px" }}>
+                    timeline
+                  </Icon>
+                </ListItemIcon>
+                <ListItemText primary="Kanban" />
+              </ListItemButton>
+            </Tooltip>
+          </ListItem>
           {indicadores.map((item, index) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <Tooltip title={item.name} disableHoverListener={open}>

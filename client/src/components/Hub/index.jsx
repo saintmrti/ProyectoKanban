@@ -40,7 +40,10 @@ export default function Hub() {
                 backgroundColor: "#eeeeee",
               },
             }}
-            onClick={(f) => f}
+            onClick={() =>
+              (window.location.href =
+                "https://qualtia-kanban.azurewebsites.net/kanban")
+            }
           >
             <CardContent
               style={{

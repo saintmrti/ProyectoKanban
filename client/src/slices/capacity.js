@@ -7,6 +7,10 @@ const Slice = createSlice({
     data: {},
     isFetching: false,
     didError: false,
+    isFetchingInsert: false,
+    didErrorInsert: false,
+    isFetchingUpdate: false,
+    didErrorUpdate: false,
   },
   reducers: {
     fetchCapacityRequest: (state) => {
@@ -22,6 +26,32 @@ const Slice = createSlice({
       state.isFetching = false;
       state.didError = true;
     },
+    insertCapacityRequest: (state) => {
+      state.isFetchingInsert = true;
+      state.didErrorInsert = false;
+    },
+    insertCapacitySuccess: (state, action) => {
+      const { data } = action.payload;
+      state.data[data.id] = data;
+      state.isFetchingInsert = false;
+    },
+    insertCapacityError: (state) => {
+      state.isFetchingInsert = false;
+      state.didErrorInsert = true;
+    },
+    updateCapacityRequest: (state) => {
+      state.isFetchingUpdate = true;
+      state.didErrorUpdate = false;
+    },
+    updateCapacitySuccess: (state, action) => {
+      const { data } = action.payload;
+      state.data[data.id] = data;
+      state.isFetchingUpdate = false;
+    },
+    updateCapacityError: (state) => {
+      state.isFetchingUpdate = false;
+      state.didErrorUpdate = true;
+    },
   },
 });
 
@@ -29,5 +59,11 @@ export const {
   fetchCapacityRequest,
   fetchCapacitySuccess,
   fetchCapacityError,
+  insertCapacityRequest,
+  insertCapacitySuccess,
+  insertCapacityError,
+  updateCapacityRequest,
+  updateCapacitySuccess,
+  updateCapacityError,
 } = Slice.actions;
 export default Slice.reducer;

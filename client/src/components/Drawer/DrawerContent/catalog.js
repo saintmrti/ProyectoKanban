@@ -1,10 +1,10 @@
 const indicadores = [
-  {
-    name: "Kanban",
-    link: "/",
-    path: "kanban",
-    icon: "timeline",
-  },
+  // {
+  //   name: "Kanban",
+  //   link: "/",
+  //   path: "kanban",
+  //   icon: "timeline",
+  // },
   {
     name: "FMDS",
     link: "/",

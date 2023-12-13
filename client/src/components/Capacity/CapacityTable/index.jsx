@@ -125,18 +125,6 @@ const CapacityTable = ({
                     <StyledTableCell align="center">
                       <b># Rack</b>
                     </StyledTableCell>
-                    {/* <StyledTableCell align="center">
-                      <b>Peso de Barra</b>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <b>No. de Barras</b>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <b>Alineación Formulación</b>
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <b>Alineación Emulsión</b>
-                    </StyledTableCell> */}
                     <StyledTableCell align="center">
                       <b>Tipo Emulsión</b>
                     </StyledTableCell>
@@ -153,11 +141,30 @@ const CapacityTable = ({
                   return (
                     <StyledTableRow key={row.id}>
                       <StyledTableCell>{row.sku}</StyledTableCell>
-                      {_.map(dataTimings, (timing, index) => (
-                        <StyledTableCell key={index} align="center">
-                          -
-                        </StyledTableCell>
-                      ))}
+                      <StyledTableCell align="center">
+                        {row?.mezclado}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.embutido}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.cocimiento}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.enfriamiento}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.desmolde}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.atemperado}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.rebanado}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row?.entrega}
+                      </StyledTableCell>
                       <StyledTableCell align="right">
                         <div className="flex items-center justify-end">
                           <IconButton
@@ -196,18 +203,6 @@ const CapacityTable = ({
                       <StyledTableCell align="center">
                         {row.no_rack}
                       </StyledTableCell>
-                      {/* <StyledTableCell align="center">
-                        {row.kg_barra}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.no_barras}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.formulacion}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row.emulsion}
-                      </StyledTableCell> */}
                       <StyledTableCell align="center">
                         {row.tipo_emulsion}
                       </StyledTableCell>

@@ -1,3 +1,7 @@
 export { fetchRequirementApi } from "./requirement";
 export { insertSlicedApi } from "./sliced";
-export { fetchCapacityApi } from "./capacity";
+export {
+  fetchCapacityApi,
+  insertCapacityApi,
+  updateCapacityApi,
+} from "./capacity";
