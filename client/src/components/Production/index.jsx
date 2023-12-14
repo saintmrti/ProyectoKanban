@@ -10,12 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import RackTable from "./RackTable";
 
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
 import { fetchCapacityRequest } from "../../slices/capacity";
+import { insertProductionRequest } from "../../slices/production";
 
 const style = {
   position: "absolute",
@@ -29,60 +31,7 @@ const style = {
   p: 4,
 };
 
-const data = [
-  // {
-  //   id: 1,
-  //   sec: 1,
-  //   destino: "MVC10",
-  //   producto: "X050B",
-  //   rack: "11 x 16",
-  //   kg_lote: 3000,
-  //   no_racks: 3.0,
-  //   tipo_emulsion: "MOL",
-  //   procesos: [
-  //     {
-  //       nombre: "Mezclado",
-  //       inicio: "04:00",
-  //       fin: "05:40",
-  //     },
-  //     {
-  //       nombre: "Embutido",
-  //       inicio: "06:00",
-  //       fin: "07:31",
-  //     },
-  //     {
-  //       nombre: "Cocimiento",
-  //       inicio: "07:50",
-  //       fin: "12:20",
-  //     },
-  //     {
-  //       nombre: "Enfriamiento",
-  //       inicio: "12:20",
-  //       fin: "16:30",
-  //     },
-  //     {
-  //       nombre: "Desmolde",
-  //       inicio: "16:30",
-  //       fin: "16:55",
-  //     },
-  //     {
-  //       nombre: "Atemperado",
-  //       inicio: "16:55",
-  //       fin: "20:55",
-  //     },
-  //     {
-  //       nombre: "Rebanado",
-  //       inicio: "20:55",
-  //       fin: "22:55",
-  //     },
-  //     {
-  //       nombre: "Entrega",
-  //       inicio: "22:55",
-  //       fin: "23:10",
-  //     },
-  //   ],
-  // },
-];
+const data = [];
 
 const Production = () => {
   const dispatch = useDispatch();
@@ -90,6 +39,10 @@ const Production = () => {
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
   const [procesoIndex, setProcesoIndex] = useState(0);
+
+  const handleOnSaveProd = () => {
+    dispatch(insertProductionRequest({ planProd: data }));
+  };
 
   const handleOnCloseProd = () => {
     setOpenProd(false);
@@ -133,6 +86,7 @@ const Production = () => {
           <RackTable />
         </>
       )}
+      {console.log(data)}
       <Card sx={{ minWidth: 275 }}>
         <CardContent>
           <div className="flex items-center">
@@ -143,6 +97,13 @@ const Production = () => {
               <AddIcon />
             </IconButton>
             <div className="ml-auto">
+              <Button
+                sx={{ mr: 1 }}
+                variant="outlined"
+                onClick={handleOnSaveProd}
+              >
+                Guardar
+              </Button>
               <IconButton size="small" onClick={handleBack}>
                 <ArrowBackIcon />
               </IconButton>

@@ -6,8 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Input from '@mui/material/Input';
-import Typography from '@mui/material/Typography';
+import Input from "@mui/material/Input";
+import Typography from "@mui/material/Typography";
 // import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
@@ -109,7 +109,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 12,
     padding: "10px",
-  
   },
 }));
 const StyledTableCell_1 = styled(TableCell)(({ theme }) => ({
@@ -147,7 +146,9 @@ function Cell({ value, setRealPlan, row }) {
     if (setRealPlan) {
       setRealPlan((prevPlan) => {
         const updatedArrayPlan = prevPlan.map((item) =>
-          item.idProducto === row.idProducto ? { ...item, pedido: editableValue } : item
+          item.idProducto === row.idProducto
+            ? { ...item, pedido: editableValue }
+            : item
         );
         return updatedArrayPlan;
       });
@@ -155,13 +156,13 @@ function Cell({ value, setRealPlan, row }) {
   };
 
   return setRealPlan ? (
-    <StyledTableCell align="center" sx={{width:'10%'}}>
+    <StyledTableCell align="center" sx={{ width: "10%" }}>
       <Input
         type="number"
         value={editableValue}
         onChange={handleChange}
         onBlur={handleFoco}
-        style={{ fontSize: 'inherit' }}
+        style={{ fontSize: "inherit" }}
       />
     </StyledTableCell>
   ) : (
@@ -192,10 +193,9 @@ function obtenerLeadTime(skuBuscado) {
 export default function TablaProgramador({
   dataInicial,
   setDatosParaTablaRes,
-  setRealPlan
+  setRealPlan,
 }) {
   const [data, setData] = useState(dataInicial);
-  console.log(data, 'data');
 
   useEffect(() => {
     //let anterior = [];
@@ -216,7 +216,7 @@ export default function TablaProgramador({
         .add(tiempoDeCambio)
         .add(tiemSTDdeProduccion);
       let barras = 10;
-        /*
+      /*
       let leadTime = obtenerLeadTime(obj["sku"]);
       let hraRebadoInicio =
         index === 0
@@ -236,7 +236,7 @@ export default function TablaProgramador({
         .add(24, "hours");
       */
       sumaMinUtilizados += minUtilizados.asMinutes();
-  
+
       return {
         ...obj,
         //"Hora Rebanado inicio": hraRebadoInicio.format("HH:mm"),
@@ -247,7 +247,7 @@ export default function TablaProgramador({
         "Tiempos STD de producción": tiemSTDdeProduccion.asMinutes(),
         "Tiempo de cambio": tiempoDeCambio.asMinutes(),
         "MIN UTILIZADOS": minUtilizados.asMinutes().toFixed(1),
-        "barras": barras
+        barras: barras,
         //"Lead Time": leadTime,
         //"Hra de Formulación": hraFormulacion.format("HH:mm"),
       };
@@ -255,7 +255,6 @@ export default function TablaProgramador({
     setData(newData);
     setDatosParaTablaRes(sumaMinUtilizados);
   }, []);
-  console.log(dataInicial, 'cambian?')
   return (
     <TableContainer
       component={Paper}
@@ -345,9 +344,8 @@ export default function TablaProgramador({
               <div>Cambio</div>
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
-            <div>Minutos</div>
+              <div>Minutos</div>
               <div>Utilizados</div>
-             
             </StyledTableCell>
           </TableRow>
         </TableHead>

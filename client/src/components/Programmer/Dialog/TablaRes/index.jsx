@@ -15,7 +15,6 @@ export default function TablaRes({ total, minutosPorDia }) {
       { name: "Tiempo disponible:", tiempo: minutosPorDia - total },
     ]);
   }, [total, minutosPorDia]);
-  //console.log(total, "tablaRes");
   return (
     <TableContainer
       component={Paper}

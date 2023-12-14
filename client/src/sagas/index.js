@@ -4,4 +4,6 @@ export {
   fetchCapacitySaga,
   insertCapacitySaga,
   updateCapacitySaga,
+  deleteCapacitySaga,
 } from "./capacity";
+export { fetchProductionSaga, insertProductionSaga } from "./production";

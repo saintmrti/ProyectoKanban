@@ -9,6 +9,7 @@ import { fetchCapacityRequest } from "../../slices/capacity";
 // import { getCapacity } from "../../selectors/capacity";
 import CapacityTable from "./CapacityTable";
 import CapacityForm from "./CapacityForm";
+import Alert from "./Alert";
 
 const style = {
   position: "absolute",
@@ -25,7 +26,9 @@ const style = {
 const Capacity = () => {
   const dispatch = useDispatch();
   const [openForm, setOpenForm] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
+  const [deleteProduct, setDeleteProduct] = useState(null);
   const [selectedArr, setSelectedArr] = useState();
 
   // const data = useSelector(getCapacity);
@@ -42,6 +45,8 @@ const Capacity = () => {
     <>
       <CapacityTable
         setEditProduct={setEditProduct}
+        setDeleteProduct={setDeleteProduct}
+        setOpenAlert={setOpenAlert}
         setOpenForm={setOpenForm}
         selectedArr={selectedArr}
         setSelectedArr={setSelectedArr}
@@ -68,6 +73,12 @@ const Capacity = () => {
           />
         </Box>
       </Modal>
+      <Alert
+        open={openAlert}
+        onClose={() => setOpenAlert(false)}
+        deleteProduct={deleteProduct}
+        setDeleteProduct={setDeleteProduct}
+      />
     </>
   );
 };

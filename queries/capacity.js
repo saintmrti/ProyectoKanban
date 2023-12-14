@@ -131,12 +131,12 @@ module.exports.updateCapacity = async (
 
 module.exports.deleteCapacity = async (conn, { idSku }) => {
   await conn.query(`
-      DELETE FROM Qualtia_Capacidad_cat_sku
-      WHERE id = ${idSku};
-    `);
-  await conn.query(`
       DELETE FROM Qualtia_Capacidad_tiempos_sku
       WHERE idSku = ${idSku};
+    `);
+  await conn.query(`
+      DELETE FROM Qualtia_Capacidad_cat_sku
+      WHERE id = ${idSku};
     `);
   return idSku;
 };

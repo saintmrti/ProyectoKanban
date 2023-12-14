@@ -95,7 +95,6 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
     const arrayPlan = [];
     _.map(plan, (row) => {
       if (row.ajuste_carga > 0) {
-        //console.log(row, 'row Programmer Table')
         arrayPlan.push({
           idProducto: row.idProducto,
           sku: row.producto,
@@ -148,6 +147,7 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
             <GroupFilter setFilteredPlan={setFilteredPlan} plan={plan} />
             <Button
               variant="outlined"
+              sx={{ ml: 2 }}
               onClick={handleClickProgramer}
               disabled={!plan.some((obj) => obj.ajuste_carga !== 0)}
             >

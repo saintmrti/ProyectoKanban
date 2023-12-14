@@ -46,7 +46,7 @@ const GroupFilter = ({ setSelectedArr }) => {
     if (lines.length > 0) {
       setSelectedGroup(lines[0]?.idLinea);
     }
-  }, [lines]);
+  }, []);
 
   useEffect(() => {
     if (selectedGroup) {
@@ -54,7 +54,7 @@ const GroupFilter = ({ setSelectedArr }) => {
       setSelectedSubGroup(values[0][0].idMaquina);
       setSubGroupOptions(values);
     }
-  }, [selectedGroup, data]);
+  }, [selectedGroup]);
 
   useEffect(() => {
     if (selectedSubGroup) {

@@ -71,6 +71,30 @@ export const getListSku = createSelector(
       return {
         ...item,
         label: item.sku,
+        mezclado: item?.mezclado
+          ? moment.utc(item.mezclado).format("HH:mm")
+          : null,
+        embutido: item?.embutido
+          ? moment.utc(item.embutido).format("HH:mm")
+          : null,
+        cocimiento: item?.cocimiento
+          ? moment.utc(item.cocimiento).format("HH:mm")
+          : null,
+        enfriamiento: item?.enfriamiento
+          ? moment.utc(item.enfriamiento).format("HH:mm")
+          : null,
+        desmolde: item?.desmolde
+          ? moment.utc(item.desmolde).format("HH:mm")
+          : null,
+        atemperado: item?.atemperado
+          ? moment.utc(item.atemperado).format("HH:mm")
+          : null,
+        rebanado: item?.rebanado
+          ? moment.utc(item.rebanado).format("HH:mm")
+          : null,
+        entrega: item?.entrega
+          ? moment.utc(item.entrega).format("HH:mm")
+          : null,
       };
     });
     const filterList = _.filter(list, (item) => {
@@ -78,5 +102,13 @@ export const getListSku = createSelector(
     });
 
     return filterList;
+  }
+);
+
+export const getSku = createSelector(
+  ({ capacity }, idSku) => capacity.data[idSku],
+  (product) => {
+    if (!product) return {};
+    return product;
   }
 );

@@ -46,15 +46,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const CapacityTable = ({
   setEditProduct,
+  setOpenAlert,
   setOpenForm,
   selectedArr,
+  setDeleteProduct,
   setSelectedArr,
 }) => {
   //   const theme = useTheme();
 
   const [timings, setTimings] = useState(false);
+
+  const handleAddClick = () => {
+    setOpenForm(true);
+    setEditProduct(null);
+  };
+
   const handleEditClick = (index) => {
     setEditProduct(index);
+    setOpenForm(true);
+  };
+
+  const handleDeleteClick = (index) => {
+    setDeleteProduct(index);
+    setOpenAlert(true);
   };
 
   return (
@@ -75,11 +89,7 @@ const CapacityTable = ({
               </IconButton>
             </Tooltip>
             <Tooltip title="Agregar sku">
-              <IconButton
-                onClick={() => {
-                  setOpenForm(true), setEditProduct(null);
-                }}
-              >
+              <IconButton onClick={handleAddClick}>
                 <AddIcon />
               </IconButton>
             </Tooltip>
@@ -169,17 +179,13 @@ const CapacityTable = ({
                         <div className="flex items-center justify-end">
                           <IconButton
                             size="small"
-                            onClick={() => {
-                              handleEditClick(row.id), setOpenForm(true);
-                            }}
+                            onClick={() => handleEditClick(row.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           <IconButton
                             size="small"
-                            onClick={() => {
-                              // handleEditClick(index);
-                            }}
+                            onClick={() => handleDeleteClick(row.id)}
                           >
                             <DeleteIcon />
                           </IconButton>
@@ -210,17 +216,13 @@ const CapacityTable = ({
                         <div className="flex items-center justify-end">
                           <IconButton
                             size="small"
-                            onClick={() => {
-                              handleEditClick(row.id), setOpenForm(true);
-                            }}
+                            onClick={() => handleEditClick(row.id)}
                           >
                             <EditIcon />
                           </IconButton>
                           <IconButton
                             size="small"
-                            onClick={() => {
-                              // handleEditClick(index);
-                            }}
+                            onClick={() => handleDeleteClick(row.id)}
                           >
                             <DeleteIcon />
                           </IconButton>

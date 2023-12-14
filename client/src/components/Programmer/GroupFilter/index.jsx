@@ -99,7 +99,7 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
           <MenuItem value="familyN">Negativos</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ width: "15rem", mr: 5 }} size="small">
+      <FormControl sx={{ width: "15rem" }} size="small">
         <InputLabel id="list-selector-label">Grupo</InputLabel>
         <Select
           labelId="list-selector-label"

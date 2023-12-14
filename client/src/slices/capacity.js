@@ -11,6 +11,8 @@ const Slice = createSlice({
     didErrorInsert: false,
     isFetchingUpdate: false,
     didErrorUpdate: false,
+    isFetchingDelete: false,
+    didErrorDelete: false,
   },
   reducers: {
     fetchCapacityRequest: (state) => {
@@ -52,6 +54,19 @@ const Slice = createSlice({
       state.isFetchingUpdate = false;
       state.didErrorUpdate = true;
     },
+    deleteCapacityRequest: (state) => {
+      state.isFetchingDelete = true;
+      state.didErrorDelete = false;
+    },
+    deleteCapacitySuccess: (state, action) => {
+      const { idSku } = action.payload;
+      delete state.data[idSku];
+      state.isFetchingDelete = false;
+    },
+    deleteCapacityError: (state) => {
+      state.isFetchingDelete = false;
+      state.didErrorDelete = true;
+    },
   },
 });
 
@@ -65,5 +80,8 @@ export const {
   updateCapacityRequest,
   updateCapacitySuccess,
   updateCapacityError,
+  deleteCapacityRequest,
+  deleteCapacitySuccess,
+  deleteCapacityError,
 } = Slice.actions;
 export default Slice.reducer;

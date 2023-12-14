@@ -20,17 +20,16 @@ export default function ProductionForm({ data, setProduct, product }) {
     },
   });
 
-  // const [selectedMachine, setSelectedMachine] = useState(null);
-  // const [skuOptions, setSkuOptions] = useState([]);
-  const list = useSelector(getListSku);
-  // const groupByMachine = _.groupBy(list, "idMaquina");
-  // const machines = _.uniqBy(list, "idMaquina");
+  const listSku = useSelector(getListSku);
+  const mezclado = _.find(listSku, { sku: product })?.mezclado;
+  const idProducto = _.find(listSku, { sku: product })?.id;
   const process = data[data.length - 1]?.procesos;
-  const skuOptions = _.map(list, "sku");
+  const skuOptions = _.map(listSku, "sku");
 
   const onSubmit = (values) => {
     const newProduct = {
       id: process ? data[data.length - 1].id + 1 : 1,
+      idProducto,
       sec: process ? data[data.length - 1].sec + 1 : 1,
       destino: values.destino,
       producto: values.producto,
@@ -85,27 +84,19 @@ export default function ProductionForm({ data, setProduct, product }) {
     data.push(newProduct);
     setProduct(null);
     reset();
-    // !process && setOpen(false);
   };
 
-  const handleTimingChangeMez = (value) => {
-    const mezclado_min = 120;
-    const mezclado_inicio = value;
+  const calculateTiming = (mezcladoInicio, embutidoFin) => {
+    const mezclado_min = mezclado ? moment.duration(mezclado).asMinutes() : 120;
+    const embutidoFin_hrs = embutidoFin || "06:00";
+    const mezclado_inicio = mezcladoInicio || "04:00";
     const mezclado_fin = calculateEndTime(mezclado_inicio, mezclado_min);
     const embutido_inicio =
-      mezclado_fin > "06:00"
+      mezclado_fin > embutidoFin_hrs
         ? calculateEndTime(mezclado_fin, 1)
-        : calculateEndTime("06:00", 1);
+        : calculateEndTime(embutidoFin_hrs, 1);
     const embutido_fin = calculateEndTime(embutido_inicio, 90);
-
-    setValue("mezclado_inicio", mezclado_inicio);
-    setValue("mezclado_fin", mezclado_fin);
-    setValue("embutido_inicio", embutido_inicio);
-    setValue("embutido_fin", embutido_fin);
-  };
-
-  const handleTimingChangeCo = (value) => {
-    const cocimiento_inicio = value;
+    const cocimiento_inicio = embutido_fin;
     const cocimiento_fin = calculateEndTime(cocimiento_inicio, 270);
     const enfriamiento_inicio = cocimiento_fin;
     const enfriamiento_fin = calculateEndTime(enfriamiento_inicio, 250);
@@ -118,6 +109,10 @@ export default function ProductionForm({ data, setProduct, product }) {
     const entrega_inicio = rebanado_fin;
     const entrega_fin = calculateEndTime(entrega_inicio, 15);
 
+    setValue("mezclado_inicio", mezclado_inicio);
+    setValue("mezclado_fin", mezclado_fin);
+    setValue("embutido_inicio", embutido_inicio);
+    setValue("embutido_fin", embutido_fin);
     setValue("cocimiento_inicio", cocimiento_inicio);
     setValue("cocimiento_fin", cocimiento_fin);
     setValue("enfriamiento_inicio", enfriamiento_inicio);
@@ -136,83 +131,16 @@ export default function ProductionForm({ data, setProduct, product }) {
     return moment(startTime, "HH:mm").add(min, "minutes").format("HH:mm");
   };
 
-  // useEffect(() => {
-  //   if (selectedMachine) {
-  //     const listSku = groupByMachine[selectedMachine];
-  //     const options = _.map(listSku, "sku");
-  //     setSkuOptions(options);
-  //   }
-  // }, [selectedMachine]);
-
   useEffect(() => {
     if (process && process.length > 0 && product) {
-      const mezclado_min = 120;
-      let mezclado_inicio = process[0].fin;
-      let mezclado_fin = calculateEndTime(process[0].fin, mezclado_min);
-      let embutido_inicio =
-        mezclado_fin > process[1].fin
-          ? calculateEndTime(mezclado_fin, 1)
-          : calculateEndTime(process[1].fin, 1);
-      let embutido_fin = calculateEndTime(embutido_inicio, 90);
-      let cocimiento_inicio = embutido_fin;
-      let cocimiento_fin = calculateEndTime(cocimiento_inicio, 270);
-      let enfriamiento_inicio = cocimiento_fin;
-      let enfriamiento_fin = calculateEndTime(enfriamiento_inicio, 250);
-      let desmolde_inicio = enfriamiento_fin;
-      let desmolde_fin = calculateEndTime(desmolde_inicio, 25);
-      let atemperado_inicio = desmolde_fin;
-      let atemperado_fin = calculateEndTime(atemperado_inicio, 240);
-      let rebanado_inicio = atemperado_fin;
-      let rebanado_fin = calculateEndTime(rebanado_inicio, 120);
-      let entrega_inicio = rebanado_fin;
-      let entrega_fin = calculateEndTime(entrega_inicio, 15);
-
-      const newTiming = {
-        mezclado: {
-          inicio: mezclado_inicio,
-          fin: mezclado_fin,
-        },
-        embutido: {
-          inicio: embutido_inicio,
-          fin: embutido_fin,
-        },
-        cocimiento: {
-          inicio: cocimiento_inicio,
-          fin: cocimiento_fin,
-        },
-        enfriamiento: {
-          inicio: enfriamiento_inicio,
-          fin: enfriamiento_fin,
-        },
-        desmolde: {
-          inicio: desmolde_inicio,
-          fin: desmolde_fin,
-        },
-        atemperado: {
-          inicio: atemperado_inicio,
-          fin: atemperado_fin,
-        },
-        rebanado: {
-          inicio: rebanado_inicio,
-          fin: rebanado_fin,
-        },
-        entrega: {
-          inicio: entrega_inicio,
-          fin: entrega_fin,
-        },
-      };
-      Object.keys(newTiming).forEach((processName) => {
-        setValue(`${processName}_inicio`, newTiming[processName].inicio);
-        setValue(`${processName}_fin`, newTiming[processName].fin);
-      });
+      calculateTiming(process[0].fin, process[1].fin);
     } else {
-      handleTimingChangeMez("06:00");
-      handleTimingChangeCo("09:50");
+      calculateTiming();
     }
-    setValue("rack", _.find(list, { sku: product })?.rack);
-    setValue("kg_lote", _.find(list, { sku: product })?.kg_lote);
-    setValue("no_rack", _.find(list, { sku: product })?.no_rack);
-    setValue("tipo_emulsion", _.find(list, { sku: product })?.tipo_emulsion);
+    setValue("rack", _.find(listSku, { sku: product })?.rack);
+    setValue("kg_lote", _.find(listSku, { sku: product })?.kg_lote);
+    setValue("no_rack", _.find(listSku, { sku: product })?.no_rack);
+    setValue("tipo_emulsion", _.find(listSku, { sku: product })?.tipo_emulsion);
   }, [product, process, setValue]);
 
   return (
@@ -221,25 +149,7 @@ export default function ProductionForm({ data, setProduct, product }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-2xl mb-5 w-full text-center">Seleccionar SKU</h1>
-      {console.log(product)}
       <div className="flex flex-col">
-        {/* <FormControl sx={{ width: "15rem", mb: 2 }} size="small">
-          <InputLabel id="maquina">Maquina</InputLabel>
-          <Select
-            labelId="maquina"
-            id="select-maquina"
-            label="Maquina"
-            autoComplete="off"
-            defaultValue={machines[0]?.idMaquina || ""}
-            onChange={(e) => setSelectedMachine(e.target.value)}
-          >
-            {_.map(machines, (machine) => (
-              <MenuItem key={machine.idMaquina} value={machine.idMaquina}>
-                {machine.maquina}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
         <Controller
           name="producto"
           control={control}
@@ -282,7 +192,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="Rack"
           type="text"
           size="small"
-          value={product ? _.find(list, { sku: product })?.rack : ""}
+          value={product ? _.find(listSku, { sku: product })?.rack : ""}
           {...register("rack", { required: true })}
         />
         <TextField
@@ -290,7 +200,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="Kg Lote"
           type="number"
           size="small"
-          value={product ? _.find(list, { sku: product })?.kg_lote : ""}
+          value={product ? _.find(listSku, { sku: product })?.kg_lote : ""}
           {...register("kg_lote", { required: true })}
         />
         <TextField
@@ -298,7 +208,7 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="No Racks"
           type="number"
           size="small"
-          value={product ? _.find(list, { sku: product })?.no_rack : ""}
+          value={product ? _.find(listSku, { sku: product })?.no_rack : ""}
           {...register("no_rack", { required: true })}
         />
         <TextField
@@ -306,224 +216,13 @@ export default function ProductionForm({ data, setProduct, product }) {
           label="Tipo"
           type="text"
           size="small"
-          value={product ? _.find(list, { sku: product })?.tipo_emulsion : ""}
+          value={
+            product ? _.find(listSku, { sku: product })?.tipo_emulsion : ""
+          }
           {...register("tipo_emulsion", { required: true })}
         />
         <div></div>
         <div></div>
-        {/* <h1 className="col-span-4 text-2xl text-center">
-          Tiempos Precalculados
-        </h1> */}
-        {/* {!process && product && (
-          <Fragment>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Mezclado
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.mezclado?.inicio || ""}
-                  {...register("mezclado_inicio", {
-                    required: true,
-                    onChange: (e) => handleTimingChangeMez(e.target.value),
-                  })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  {...register("mezclado_fin", {
-                    required: true,
-                    // onChange: (e) => handleEndTimingChange(e, "Mezclado"),
-                  })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Embutido
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  {...register("embutido_inicio", { required: false })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  {...register("embutido_fin", { required: false })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Cocimiento
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.cocimiento?.inicio || ""}
-                  {...register("cocimiento_inicio", {
-                    required: false,
-                    onChange: (e) => handleTimingChangeCo(e.target.value),
-                  })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.cocimiento?.fin || ""}
-                  {...register("cocimiento_fin", { required: false })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Enfriamiento
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.enfriamiento?.inicio || ""}
-                  {...register("enfriamiento_inicio", { required: false })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.enfriamiento?.fin || ""}
-                  {...register("enfriamiento_fin", { required: false })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Desmolde
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.desmolde?.inicio || ""}
-                  {...register("desmolde_inicio", { required: false })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.desmolde?.fin || ""}
-                  {...register("desmolde_fin", { required: false })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Atemperado
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.atemperado?.inicio || ""}
-                  {...register("atemperado_inicio", { required: false })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.atemperado?.fin || ""}
-                  {...register("atemperado_fin", { required: false })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Rebanado
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.rebanado?.inicio || ""}
-                  {...register("rebanado_inicio", { required: false })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.rebanado?.fin || ""}
-                  {...register("rebanado_fin", { required: false })}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <Typography variant="h6" component="div" sx={{ mb: 2 }}>
-                Entrega
-              </Typography>
-              <div className="grid grid-cols-2 gap-5">
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Inicio"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.entrega?.inicio || ""}
-                  {...register("entrega_inicio", { required: false })}
-                />
-                <TextField
-                  sx={{ width: "15rem" }}
-                  label="Final"
-                  type="time"
-                  size="small"
-                  defaultValue="00:00"
-                  // value={timing?.entrega?.fin || ""}
-                  {...register("entrega_fin", { required: false })}
-                />
-              </div>
-            </div>
-          </Fragment>
-        )} */}
       </div>
       <div className="w-full flex justify-center">
         <Button variant="contained" type="submit">

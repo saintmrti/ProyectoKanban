@@ -1,6 +1,11 @@
 import { takeLatest, call, put, cancelled } from "redux-saga/effects";
 
-import { fetchCapacityApi, insertCapacityApi, updateCapacityApi } from "../api";
+import {
+  fetchCapacityApi,
+  insertCapacityApi,
+  updateCapacityApi,
+  deleteCapacityApi,
+} from "../api";
 import {
   fetchCapacityRequest,
   fetchCapacitySuccess,
@@ -11,6 +16,9 @@ import {
   updateCapacityRequest,
   updateCapacitySuccess,
   updateCapacityError,
+  deleteCapacityRequest,
+  deleteCapacitySuccess,
+  deleteCapacityError,
 } from "../slices/capacity";
 
 function* fetchCapacity() {
@@ -65,4 +73,22 @@ function* updateCapacity({ payload }) {
 
 export function* updateCapacitySaga() {
   yield takeLatest(updateCapacityRequest.toString(), updateCapacity);
+}
+
+function* deleteCapacity({ payload: { idSku } }) {
+  try {
+    const { data, isError } = yield call(deleteCapacityApi.run, idSku);
+    if (isError) throw new Error();
+    yield put(deleteCapacitySuccess({ idSku: data }));
+  } catch (e) {
+    yield put(deleteCapacityError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(deleteCapacityApi.cancel);
+    }
+  }
+}
+
+export function* deleteCapacitySaga() {
+  yield takeLatest(deleteCapacityRequest.toString(), deleteCapacity);
 }

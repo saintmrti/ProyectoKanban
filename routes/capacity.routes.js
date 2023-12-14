@@ -5,6 +5,7 @@ const {
   getSummary,
   insertCapacity,
   updateCapacity,
+  deleteCapacity,
 } = require("../queries/capacity");
 
 const router = Router();
@@ -56,8 +57,12 @@ router.put("/", (req, res) => {
   response(res, false, updateCapacity, sku);
 });
 
-// router.delete("/", (req, res) => {
-//     response(res, false, getSummary);
-// });
+router.delete("/", (req, res) => {
+  const { idSku } = req.query;
+  const sku = {
+    idSku: parseInt(idSku),
+  };
+  response(res, false, deleteCapacity, sku);
+});
 
 module.exports = router;

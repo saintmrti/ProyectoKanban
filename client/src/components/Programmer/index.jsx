@@ -24,7 +24,6 @@ const Programmer = () => {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
-  console.log(realPlan, "realPlan");
   const handleOnClick = () => {
     setOpen(!open);
   };

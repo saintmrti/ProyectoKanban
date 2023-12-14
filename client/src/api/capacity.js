@@ -29,3 +29,14 @@ export const updateCapacityApi = {
       })
       .then(({ data }) => data),
 };
+
+export const deleteCapacityApi = {
+  cancel: null,
+  run: (idSku) =>
+    axios
+      .delete("/api/capacidad", {
+        params: { idSku },
+        cancelToken: new CancelToken((c) => (deleteCapacityApi.cancel = c)),
+      })
+      .then(({ data }) => data),
+};
