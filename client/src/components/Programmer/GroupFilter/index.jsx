@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
 import { fetchRequirementRequest } from "../../../slices/requirement";
+import { fetchSlicedRequest } from "../../../slices/sliced";
 
 const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
     const { value } = event.target;
     setDate(value);
     dispatch(fetchRequirementRequest({ date: value }));
+    dispatch(fetchSlicedRequest({ date: value }));
   };
 
   const handleSearchChange = (event) => {

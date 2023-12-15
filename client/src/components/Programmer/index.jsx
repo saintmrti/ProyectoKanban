@@ -5,19 +5,12 @@ import SpeedDial from "@mui/material/SpeedDial";
 import AddIcon from "@mui/icons-material/Add";
 
 import { fetchRequirementRequest } from "../../slices/requirement";
+import { fetchSlicedRequest } from "../../slices/sliced";
 import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
 import AlertDialog from "./Dialog/AlertDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import WeeklyInventory from "./WeeklyInventory";
-
-// const dataInicial = [
-//   { SKU: "11060", "KG PLAN": 3000, "Break MIN": 2600, "Comida MIN": 0 },
-//   { SKU: "X050B", "KG PLAN": 5400, "Break MIN": 30, "Comida MIN": 30 },
-//   { SKU: "X210", "KG PLAN": 5000, "Break MIN": 0, "Comida MIN": 0 },
-//   { SKU: "10155", "KG PLAN": 5580, "Break MIN": 30, "Comida MIN": 0 },
-//   { SKU: "X450", "KG PLAN": 870, "Break MIN": 0, "Comida MIN": 30 },
-// ];
 
 const Programmer = () => {
   const dispatch = useDispatch();
@@ -31,9 +24,11 @@ const Programmer = () => {
   };
 
   const requirements = useSelector(getRequirement);
+  const { data: sliced } = useSelector((state) => state.sliced);
 
   useEffect(() => {
     dispatch(fetchRequirementRequest({ date }));
+    dispatch(fetchSlicedRequest({ date }));
   }, [dispatch]);
 
   return (
@@ -57,6 +52,7 @@ const Programmer = () => {
         </>
       )}
       <AlertDialog
+        date={date}
         openDialog={openDialog}
         setOpen={setOpenDialog}
         open={openDialog}
@@ -64,6 +60,7 @@ const Programmer = () => {
         setRealPlan={setRealPlan}
       />
       <ProgrammerTable
+        sliced={sliced}
         date={date}
         setDate={setDate}
         list={requirements}

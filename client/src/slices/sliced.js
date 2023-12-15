@@ -5,18 +5,30 @@ const Slice = createSlice({
   name: "sliced",
   initialState: {
     data: {},
+    isFetching: false,
+    didError: false,
     isFetchingInsert: false,
     didErrorInsert: false,
   },
   reducers: {
+    fetchSlicedRequest: (state) => {
+      state.isFetching = true;
+      state.didError = false;
+    },
+    fetchSlicedSuccess: (state, { payload: { data } }) => {
+      state.data = _.keyBy(data, "id");
+      state.isFetching = false;
+    },
+    fetchSlicedError: (state) => {
+      state.isFetching = false;
+      state.didError = true;
+    },
     insertSlicedRequest: (state) => {
       state.isFetchingInsert = true;
       state.didErrorInsert = false;
     },
     insertSlicedSuccess: (state, { payload: { data } }) => {
-      _.forEach(data, (item) => {
-        state.data[item.id] = item;
-      });
+      state.data = _.keyBy(data, "id");
       state.isFetchingInsert = false;
     },
     insertSlicedError: (state) => {
@@ -26,6 +38,12 @@ const Slice = createSlice({
   },
 });
 
-export const { insertSlicedRequest, insertSlicedSuccess, insertSlicedError } =
-  Slice.actions;
+export const {
+  insertSlicedRequest,
+  insertSlicedSuccess,
+  insertSlicedError,
+  fetchSlicedRequest,
+  fetchSlicedSuccess,
+  fetchSlicedError,
+} = Slice.actions;
 export default Slice.reducer;

@@ -1,14 +1,15 @@
 import axios, { CancelToken } from "axios";
 
-// export const fetchRequirementApi = {
-//   cancel: null,
-//   run: () =>
-//     axios
-//       .get("/api/requerimiento", {
-//         cancelToken: new CancelToken((c) => (fetchRequirementApi.cancel = c)),
-//       })
-//       .then(({ data }) => data),
-// };
+export const fetchSlicedApi = {
+  cancel: null,
+  run: (date) =>
+    axios
+      .get("/api/rebanado", {
+        cancelToken: new CancelToken((c) => (fetchSlicedApi.cancel = c)),
+        params: { date },
+      })
+      .then(({ data }) => data),
+};
 
 export const insertSlicedApi = {
   cancel: null,

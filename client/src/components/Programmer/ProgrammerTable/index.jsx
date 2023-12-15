@@ -50,6 +50,7 @@ const ProgrammerTable = ({
   setRealPlan,
   date,
   setDate,
+  sliced,
 }) => {
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
@@ -127,21 +128,31 @@ const ProgrammerTable = ({
   };
 
   useEffect(() => {
-    const planData = _.map(list, (row) => ({
-      ...row,
-      ajuste_carga: 0,
-      pedido: 0,
-      inv_final_3: calculateInvFinal3(row?.inv_final_1, row?.prox_salida, 0),
-      dif_inv_final: calculateDifInvFinal(
-        row?.inv_final_1,
-        row?.prox_salida,
-        row?.tiendita,
-        0
-      ),
-    }));
+    const planData = _.map(list, (row) => {
+      const pedido_actual =
+        _.find(sliced, { idProducto: row?.idProducto })?.pedido || 0;
+      const ajuste_actual =
+        _.find(sliced, { idProducto: row?.idProducto })?.ajuste_carga || 0;
+      return {
+        ...row,
+        ajuste_carga: ajuste_actual,
+        pedido: pedido_actual,
+        inv_final_3: calculateInvFinal3(
+          row?.inv_final_1,
+          row?.prox_salida,
+          pedido_actual
+        ),
+        dif_inv_final: calculateDifInvFinal(
+          row?.inv_final_1,
+          row?.prox_salida,
+          row?.tiendita,
+          pedido_actual
+        ),
+      };
+    });
     setPlan(planData);
     setFilteredPlan(planData);
-  }, [list]);
+  }, [list, sliced]);
 
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>

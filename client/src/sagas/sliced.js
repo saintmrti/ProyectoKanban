@@ -1,11 +1,32 @@
 import { takeLatest, call, put, cancelled } from "redux-saga/effects";
 
-import { insertSlicedApi } from "../api";
+import { fetchSlicedApi, insertSlicedApi } from "../api";
 import {
+  fetchSlicedRequest,
+  fetchSlicedSuccess,
+  fetchSlicedError,
   insertSlicedRequest,
   insertSlicedSuccess,
   insertSlicedError,
 } from "../slices/sliced";
+
+function* fetchSliced({ payload }) {
+  try {
+    const { data, isError } = yield call(fetchSlicedApi.run, payload);
+    if (isError) throw new Error();
+    yield put(fetchSlicedSuccess({ data }));
+  } catch (e) {
+    yield put(fetchSlicedError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(fetchSlicedApi.cancel);
+    }
+  }
+}
+
+export function* fetchSlicedSaga() {
+  yield takeLatest(fetchSlicedRequest.toString(), fetchSliced);
+}
 
 function* insertSliced({ payload }) {
   try {

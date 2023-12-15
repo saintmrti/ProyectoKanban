@@ -1,5 +1,5 @@
 export { fetchRequirementSaga } from "./requirement";
-export { insertSlicedSaga } from "./sliced";
+export { fetchSlicedSaga, insertSlicedSaga } from "./sliced";
 export {
   fetchCapacitySaga,
   insertCapacitySaga,

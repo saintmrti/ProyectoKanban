@@ -12,13 +12,20 @@ import TablaTiempoSTD from "../TablaTiempoSTD";
 import TablaRes from "../TablaRes";
 import { insertSlicedRequest } from "../../../../slices/sliced";
 
-export default function AlertDialog({ open, setOpen, realPlan,setRealPlan }) {
+export default function AlertDialog({
+  open,
+  setOpen,
+  realPlan,
+  setRealPlan,
+  date,
+}) {
   const dispatch = useDispatch();
   const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
 
   const handleOnClick = () => {
     setOpen(!open);
-    dispatch(insertSlicedRequest({ products: realPlan }));
+    dispatch(insertSlicedRequest({ products: realPlan, date }));
+    setRealPlan(null);
   };
 
   return (
