@@ -24,6 +24,8 @@ const Programmer = () => {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
+  const [date, setDate] = useState("2023-12-01");
+
   const handleOnClick = () => {
     setOpen(!open);
   };
@@ -31,7 +33,7 @@ const Programmer = () => {
   const requirements = useSelector(getRequirement);
 
   useEffect(() => {
-    dispatch(fetchRequirementRequest());
+    dispatch(fetchRequirementRequest({ date }));
   }, [dispatch]);
 
   return (
@@ -62,6 +64,8 @@ const Programmer = () => {
         setRealPlan={setRealPlan}
       />
       <ProgrammerTable
+        date={date}
+        setDate={setDate}
         list={requirements}
         setRealPlan={setRealPlan}
         setOpenDialog={setOpenDialog}

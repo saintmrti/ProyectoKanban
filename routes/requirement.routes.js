@@ -6,7 +6,8 @@ const { getSummary } = require("../queries/requirement");
 const router = Router();
 
 router.get("/", (req, res) => {
-  response(res, false, getSummary);
+  const { date } = req.query;
+  response(res, false, getSummary, date);
 });
 
 module.exports = router;

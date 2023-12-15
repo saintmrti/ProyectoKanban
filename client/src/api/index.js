@@ -6,4 +6,8 @@ export {
   updateCapacityApi,
   deleteCapacityApi,
 } from "./capacity";
-export { fetchProductionApi, insertProductionApi } from "./production";
+export {
+  fetchProductionApi,
+  insertProductionApi,
+  deleteProductionApi,
+} from "./production";

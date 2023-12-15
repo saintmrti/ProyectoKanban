@@ -2,10 +2,11 @@ import axios, { CancelToken } from "axios";
 
 export const fetchRequirementApi = {
   cancel: null,
-  run: () =>
+  run: (date) =>
     axios
       .get("/api/requerimiento", {
         cancelToken: new CancelToken((c) => (fetchRequirementApi.cancel = c)),
+        params: { date },
       })
       .then(({ data }) => data),
 };

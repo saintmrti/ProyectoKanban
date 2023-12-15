@@ -1,6 +1,6 @@
 const _ = require("lodash");
 
-module.exports.prodTime = ({ planProd }) => {
+module.exports.prodTime = (planProd) => {
   const data = _.map(planProd, (prod) => {
     const processes = prod.procesos.map(({ nombre, inicio, fin }) => ({
       [nombre]: { inicio, fin },

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -16,8 +18,14 @@ import RackTable from "./RackTable";
 
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
+import { Spinner } from "../Spinner";
 import { fetchCapacityRequest } from "../../slices/capacity";
-import { insertProductionRequest } from "../../slices/production";
+import {
+  insertProductionRequest,
+  fetchProductionRequest,
+  deleteProductionRequest,
+} from "../../slices/production";
+import { getProduction } from "../../selectors/produccion";
 
 const style = {
   position: "absolute",
@@ -31,17 +39,35 @@ const style = {
   p: 4,
 };
 
-const data = [];
-
 const Production = () => {
   const dispatch = useDispatch();
   const [openProd, setOpenProd] = useState(false);
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
   const [procesoIndex, setProcesoIndex] = useState(0);
+  const [planProd, setPlanProd] = useState([]);
+  const [originalPlanProd, setOriginalPlanProd] = useState([]);
+
+  const production = useSelector(getProduction);
+  const { isFetching, didError } = useSelector((state) => state.production);
 
   const handleOnSaveProd = () => {
-    dispatch(insertProductionRequest({ planProd: data }));
+    dispatch(insertProductionRequest({ planProd: planProd, date }));
+    setOriginalPlanProd(planProd);
+    setPlanProd([]);
+  };
+
+  const handleDeleteProd = () => {
+    if (
+      planProd[planProd.length - 1]?.sec !==
+      originalPlanProd[originalPlanProd.length - 1]?.sec
+    ) {
+      setPlanProd([]);
+      setOriginalPlanProd([]);
+    } else {
+      dispatch(deleteProductionRequest({ date }));
+    }
   };
 
   const handleOnCloseProd = () => {
@@ -50,7 +76,7 @@ const Production = () => {
   };
 
   const handleNext = () => {
-    if (procesoIndex < data[0].procesos.length - 4) {
+    if (procesoIndex < planProd[0].procesos.length - 4) {
       setProcesoIndex(procesoIndex + 1);
     }
   };
@@ -61,82 +87,131 @@ const Production = () => {
     }
   };
 
+  const handleChangeDate = (event) => {
+    const { value } = event.target;
+    setDate(value);
+    dispatch(fetchProductionRequest({ date: value }));
+  };
+
+  useEffect(() => {
+    if (production) {
+      setPlanProd(production);
+      setOriginalPlanProd(production);
+    }
+  }, [production]);
+
   useEffect(() => {
     dispatch(fetchCapacityRequest());
+    dispatch(fetchProductionRequest({ date }));
   }, [dispatch]);
 
   return (
     <>
-      {!openSpeedDial ? (
-        <Box sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}>
-          {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
-          <SpeedDial
-            ariaLabel="SpeedDial basic example"
-            sx={{ position: "absolute", bottom: 1, right: 3 }}
-            icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
-          ></SpeedDial>
-        </Box>
+      {isFetching ? (
+        <Spinner />
+      ) : didError ? (
+        <div>Error</div>
       ) : (
         <>
-          <CloseIcon
-            sx={{ position: "absolute", top: 84, right: 20 }}
-            fontSize="medium"
-            onClick={() => setOpenSpeedDial(!openSpeedDial)}
-          />
-          <RackTable />
+          {!openSpeedDial ? (
+            <Box
+              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
+            >
+              {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
+              <SpeedDial
+                ariaLabel="SpeedDial basic example"
+                sx={{ position: "absolute", bottom: 1, right: 3 }}
+                icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
+              ></SpeedDial>
+            </Box>
+          ) : (
+            <>
+              <CloseIcon
+                sx={{ position: "absolute", top: 84, right: 20 }}
+                fontSize="medium"
+                onClick={() => setOpenSpeedDial(!openSpeedDial)}
+              />
+              <RackTable />
+            </>
+          )}
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent>
+              <div className="flex items-center mb-2">
+                <Typography variant="h6" component="span">
+                  Plan Producción
+                </Typography>
+                <IconButton size="small" onClick={() => setOpenProd(true)}>
+                  <AddIcon />
+                </IconButton>
+                <div className="ml-auto flex items-center">
+                  <TextField
+                    id="date"
+                    label="Fecha"
+                    type="date"
+                    size="small"
+                    value={date}
+                    onChange={(event) => handleChangeDate(event)}
+                    sx={{ mr: 2, width: "15rem" }}
+                  />
+                  <Button
+                    variant="outlined"
+                    onClick={handleDeleteProd}
+                    disabled={planProd.length === 0}
+                    sx={{ mr: 1 }}
+                  >
+                    Eliminar
+                  </Button>
+                  <Button
+                    sx={{ mr: 1 }}
+                    variant="outlined"
+                    onClick={handleOnSaveProd}
+                    disabled={
+                      planProd.length === 0 ||
+                      planProd[planProd.length - 1]?.sec ===
+                        originalPlanProd[originalPlanProd.length - 1]?.sec
+                    }
+                  >
+                    Guardar
+                  </Button>
+                  <IconButton size="small" onClick={handleBack}>
+                    <ArrowBackIcon />
+                  </IconButton>
+                  <IconButton size="small" onClick={handleNext}>
+                    <ArrowForwardIcon />
+                  </IconButton>
+                </div>
+              </div>
+              <ProductionTable
+                planProd={planProd}
+                procesoIndex={procesoIndex}
+              />
+            </CardContent>
+          </Card>
+          <Modal open={openProd} onClose={handleOnCloseProd}>
+            <Box sx={style}>
+              <IconButton
+                aria-label="close"
+                size="small"
+                onClick={handleOnCloseProd}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <ProductionForm
+                planProd={planProd}
+                setOpen={setOpenProd}
+                setProduct={setProduct}
+                setOriginalPlanProd={setOriginalPlanProd}
+                product={product}
+              />
+            </Box>
+          </Modal>
         </>
       )}
-      {console.log(data)}
-      <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-          <div className="flex items-center">
-            <Typography variant="h6" component="span">
-              Plan Producción
-            </Typography>
-            <IconButton size="small" onClick={() => setOpenProd(true)}>
-              <AddIcon />
-            </IconButton>
-            <div className="ml-auto">
-              <Button
-                sx={{ mr: 1 }}
-                variant="outlined"
-                onClick={handleOnSaveProd}
-              >
-                Guardar
-              </Button>
-              <IconButton size="small" onClick={handleBack}>
-                <ArrowBackIcon />
-              </IconButton>
-              <IconButton size="small" onClick={handleNext}>
-                <ArrowForwardIcon />
-              </IconButton>
-            </div>
-          </div>
-          <ProductionTable data={data} procesoIndex={procesoIndex} />
-        </CardContent>
-      </Card>
-      <Modal open={openProd} onClose={handleOnCloseProd}>
-        <Box sx={style}>
-          <IconButton
-            aria-label="close"
-            size="small"
-            onClick={handleOnCloseProd}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <ProductionForm
-            data={data}
-            setOpen={setOpenProd}
-            setProduct={setProduct}
-            product={product}
-          />
-        </Box>
-      </Modal>
     </>
   );
 };

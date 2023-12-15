@@ -1,12 +1,16 @@
 import _ from "lodash";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-const GroupFilter = ({ setFilteredPlan, plan }) => {
+import { fetchRequirementRequest } from "../../../slices/requirement";
+
+const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
+  const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
 
   const handleListChange = (event) => {
@@ -43,6 +47,12 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
         setFilteredPlan(plan);
         break;
     }
+  };
+
+  const handleDateChange = (event) => {
+    const { value } = event.target;
+    setDate(value);
+    dispatch(fetchRequirementRequest({ date: value }));
   };
 
   const handleSearchChange = (event) => {
@@ -83,7 +93,8 @@ const GroupFilter = ({ setFilteredPlan, plan }) => {
         label="Fecha"
         type="date"
         size="small"
-        defaultValue="2023-12-01"
+        value={date}
+        onChange={handleDateChange}
         sx={{ mr: 2, width: "15rem" }}
       />
       <FormControl sx={{ width: "15rem", mr: 2 }} size="small">

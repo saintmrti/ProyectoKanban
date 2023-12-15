@@ -7,9 +7,9 @@ import {
   fetchRequirementError,
 } from "../slices/requirement";
 
-function* fetchRequirement() {
+function* fetchRequirement({ payload: { date } }) {
   try {
-    const { data, isError } = yield call(fetchRequirementApi.run);
+    const { data, isError } = yield call(fetchRequirementApi.run, date);
     if (isError) throw new Error();
     yield put(fetchRequirementSuccess({ data }));
   } catch (e) {

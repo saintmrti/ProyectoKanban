@@ -29,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // },
 }));
 
-export default function ProductionTable({ data, procesoIndex }) {
+export default function ProductionTable({ planProd, procesoIndex }) {
   return (
     <TableContainer
       component={Paper}
@@ -42,7 +42,7 @@ export default function ProductionTable({ data, procesoIndex }) {
               Celda 2
             </StyledTableCell>
             {_.map(
-              _.slice(data[0]?.procesos, procesoIndex, procesoIndex + 4),
+              _.slice(planProd[0]?.procesos, procesoIndex, procesoIndex + 4),
               (proceso) => (
                 <StyledTableCell
                   key={proceso.nombre}
@@ -76,7 +76,7 @@ export default function ProductionTable({ data, procesoIndex }) {
             <StyledTableCell align="center">
               <b>Tipo</b>
             </StyledTableCell>
-            {_.map(_.take(data[0]?.procesos, 4), (proceso) => (
+            {_.map(_.take(planProd[0]?.procesos, 4), (proceso) => (
               <Fragment key={proceso.nombre}>
                 <StyledTableCell align="center">
                   <b>Inicio</b>
@@ -89,8 +89,8 @@ export default function ProductionTable({ data, procesoIndex }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {_.map(data, (row) => (
-            <StyledTableRow key={row.id}>
+          {_.map(planProd, (row) => (
+            <StyledTableRow key={row.sec}>
               <StyledTableCell component="th" scope="row">
                 {row.sec}
               </StyledTableCell>

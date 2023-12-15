@@ -43,7 +43,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const today = moment().format("DD MMM");
 const tomorrow = moment().add(1, "days").format("DD MMM");
 
-const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
+const ProgrammerTable = ({
+  list,
+  setOpenDialog,
+  openDialog,
+  setRealPlan,
+  date,
+  setDate,
+}) => {
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
   const [load, setLoad] = useState(null);
@@ -144,7 +151,12 @@ const ProgrammerTable = ({ list, setOpenDialog, openDialog, setRealPlan }) => {
             Programador
           </Typography>
           <div className="ml-auto flex items-center">
-            <GroupFilter setFilteredPlan={setFilteredPlan} plan={plan} />
+            <GroupFilter
+              setFilteredPlan={setFilteredPlan}
+              plan={plan}
+              date={date}
+              setDate={setDate}
+            />
             <Button
               variant="outlined"
               sx={{ ml: 2 }}

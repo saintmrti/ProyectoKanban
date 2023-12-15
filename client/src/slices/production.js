@@ -9,6 +9,8 @@ const Slice = createSlice({
     didError: false,
     isFetchingInsert: false,
     didErrorInsert: false,
+    isFetchingDelete: false,
+    didErrorDelete: false,
   },
   reducers: {
     fetchProductionRequest: (state) => {
@@ -33,6 +35,23 @@ const Slice = createSlice({
       state.data = data;
       state.isFetchingInsert = false;
     },
+    insertProductionError: (state) => {
+      state.isFetchingInsert = false;
+      state.didErrorInsert = true;
+    },
+    deleteProductionRequest: (state) => {
+      state.isFetchingDelete = true;
+      state.didErrorDelete = false;
+    },
+    deleteProductionSuccess: (state, action) => {
+      const { data } = action.payload;
+      state.data = data;
+      state.isFetchingDelete = false;
+    },
+    deleteProductionError: (state) => {
+      state.isFetchingDelete = false;
+      state.didErrorDelete = true;
+    },
   },
 });
 
@@ -43,5 +62,8 @@ export const {
   insertProductionRequest,
   insertProductionSuccess,
   insertProductionError,
+  deleteProductionRequest,
+  deleteProductionSuccess,
+  deleteProductionError,
 } = Slice.actions;
 export default Slice.reducer;

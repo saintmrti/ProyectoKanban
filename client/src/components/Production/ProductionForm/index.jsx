@@ -13,7 +13,12 @@ import Autocomplete from "@mui/material/Autocomplete";
 
 import { getListSku } from "../../../selectors/capacity";
 
-export default function ProductionForm({ data, setProduct, product }) {
+export default function ProductionForm({
+  planProd,
+  setProduct,
+  setOriginalPlanProd,
+  product,
+}) {
   const { register, handleSubmit, reset, setValue, control } = useForm({
     defaultValues: {
       producto: null,
@@ -23,14 +28,13 @@ export default function ProductionForm({ data, setProduct, product }) {
   const listSku = useSelector(getListSku);
   const mezclado = _.find(listSku, { sku: product })?.mezclado;
   const idProducto = _.find(listSku, { sku: product })?.id;
-  const process = data[data.length - 1]?.procesos;
+  const process = planProd[planProd.length - 1]?.procesos;
   const skuOptions = _.map(listSku, "sku");
 
   const onSubmit = (values) => {
     const newProduct = {
-      id: process ? data[data.length - 1].id + 1 : 1,
       idProducto,
-      sec: process ? data[data.length - 1].sec + 1 : 1,
+      sec: process ? planProd[planProd.length - 1].sec + 1 : 1,
       destino: values.destino,
       producto: values.producto,
       rack: values.rack,
@@ -80,8 +84,8 @@ export default function ProductionForm({ data, setProduct, product }) {
         },
       ],
     };
-
-    data.push(newProduct);
+    planProd.push(newProduct);
+    setOriginalPlanProd([]);
     setProduct(null);
     reset();
   };

@@ -1,6 +1,10 @@
 import { takeLatest, call, put, cancelled } from "redux-saga/effects";
 
-import { fetchProductionApi, insertProductionApi } from "../api";
+import {
+  fetchProductionApi,
+  insertProductionApi,
+  deleteProductionApi,
+} from "../api";
 import {
   fetchProductionRequest,
   fetchProductionSuccess,
@@ -8,11 +12,14 @@ import {
   insertProductionRequest,
   insertProductionSuccess,
   insertProductionError,
+  deleteProductionRequest,
+  deleteProductionSuccess,
+  deleteProductionError,
 } from "../slices/production";
 
-function* fetchProduction() {
+function* fetchProduction({ payload: { date } }) {
   try {
-    const { data, isError } = yield call(fetchProductionApi.run);
+    const { data, isError } = yield call(fetchProductionApi.run, date);
     if (isError) throw new Error();
     yield put(fetchProductionSuccess({ data }));
   } catch (e) {
@@ -44,4 +51,22 @@ function* insertProduction({ payload }) {
 
 export function* insertProductionSaga() {
   yield takeLatest(insertProductionRequest.toString(), insertProduction);
+}
+
+function* deleteProduction({ payload: { date } }) {
+  try {
+    const { data, isError } = yield call(deleteProductionApi.run, date);
+    if (isError) throw new Error();
+    yield put(deleteProductionSuccess({ data }));
+  } catch (e) {
+    yield put(deleteProductionError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(deleteProductionApi.cancel);
+    }
+  }
+}
+
+export function* deleteProductionSaga() {
+  yield takeLatest(deleteProductionRequest.toString(), deleteProduction);
 }
