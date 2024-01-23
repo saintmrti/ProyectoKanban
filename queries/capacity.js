@@ -4,7 +4,7 @@ const today = moment().format("YYYY-MM-DD HH:mm:ss");
 module.exports.getSummary = async (conn) => {
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
-      c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, m.idLinea, l.nombre as linea,
+      c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, c.tinas_emulsion, c.tinas_fresco, c.tinas_congelado, m.idLinea, l.nombre as linea,
       t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
       t.rebanado, t.entrega
       FROM Qualtia_Capacidad_cat_sku as c
@@ -28,6 +28,9 @@ module.exports.insertCapacity = async (
     rack,
     no_rack,
     tipo_emulsion,
+    tinas_emulsion,
+    tinas_fresco,
+    tinas_congelado,
     mezclado,
     embutido,
     cocimiento,
@@ -41,18 +44,18 @@ module.exports.insertCapacity = async (
   const {
     info: { insertId },
   } = await conn.query(`
-      INSERT INTO Qualtia_Capacidad_cat_sku (idMaquina, sku, descripcion, kg_lote, rack, no_rack, tipo_emulsion)
-      VALUES (${idMaquina}, '${sku}', '${descripcion}', ${kg_lote}, '${rack}', ${no_rack}, '${tipo_emulsion}');
+      INSERT INTO Qualtia_Capacidad_cat_sku (idMaquina, sku, descripcion, kg_lote, rack, no_rack, tipo_emulsion, tinas_emulsion, tinas_fresco, tinas_congelado)
+      VALUES (${idMaquina}, '${sku}', '${descripcion}', ${kg_lote}, '${rack}', ${no_rack}, '${tipo_emulsion}', ${tinas_emulsion}, ${tinas_fresco}, ${tinas_congelado});
     `);
 
   await conn.query(`
       INSERT INTO Qualtia_Capacidad_tiempos_sku (idSku, fecha, mezclado, embutido, cocimiento, enfriamiento, desmolde, atemperado, rebanado, entrega)
-      VALUES (${insertId}, '${today}', '${mezclado}', '${embutido}', '${cocimiento}', '${enfriamiento}', '${desmolde}', '${atemperado}', '${rebanado}', '${entrega}');
+      VALUES (${insertId}, '${today}', ${mezclado}, ${embutido}, ${cocimiento}, ${enfriamiento}, ${desmolde}, ${atemperado}, ${rebanado}, ${entrega});
     `);
 
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
-      c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, m.idLinea, l.nombre as linea,
+      c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, c.tinas_emulsion, c.tinas_fresco, c.tinas_congelado, m.idLinea, l.nombre as linea,
       t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
       t.rebanado, t.entrega
       FROM Qualtia_Capacidad_cat_sku as c
@@ -77,6 +80,9 @@ module.exports.updateCapacity = async (
     rack,
     no_rack,
     tipo_emulsion,
+    tinas_emulsion,
+    tinas_fresco,
+    tinas_congelado,
     mezclado,
     embutido,
     cocimiento,
@@ -94,27 +100,30 @@ module.exports.updateCapacity = async (
       kg_lote = ${kg_lote},
       rack = '${rack}',
       no_rack = ${no_rack},
-      tipo_emulsion = '${tipo_emulsion}'
+      tipo_emulsion = '${tipo_emulsion}',
+      tinas_emulsion = ${tinas_emulsion},
+      tinas_fresco = ${tinas_fresco},
+      tinas_congelado = ${tinas_congelado}
       WHERE id = ${idSku};
     `);
 
   await conn.query(`
       UPDATE Qualtia_Capacidad_tiempos_sku
       SET fecha = '${today}',
-      mezclado = '${mezclado}',
-      embutido = '${embutido}',
-      cocimiento = '${cocimiento}',
-      enfriamiento = '${enfriamiento}',
-      desmolde = '${desmolde}',
-      atemperado = '${atemperado}',
-      rebanado = '${rebanado}',
-      entrega = '${entrega}'
+      mezclado = ${mezclado},
+      embutido = ${embutido},
+      cocimiento = ${cocimiento},
+      enfriamiento = ${enfriamiento},
+      desmolde = ${desmolde},
+      atemperado = ${atemperado},
+      rebanado = ${rebanado},
+      entrega = ${entrega}
       WHERE idSku = ${idSku};
     `);
 
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
-      c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, m.idLinea, l.nombre as linea,
+      c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, c.tinas_emulsion, c.tinas_fresco, c.tinas_congelado, m.idLinea, l.nombre as linea,
       t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
       t.rebanado, t.entrega
       FROM Qualtia_Capacidad_cat_sku as c

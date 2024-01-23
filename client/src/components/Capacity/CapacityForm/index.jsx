@@ -22,6 +22,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
 
   const [selectedLinea, setSelectedLinea] = useState();
   const [machines, setMachines] = useState([]);
+  // const [times, setTimes] = useState(false);
   const linesList = useSelector(getLines);
   const machinesList = useSelector(getMachines);
 
@@ -33,7 +34,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       ...values,
     };
     editProduct
-      ? dispatch(updateCapacityRequest({ sku }))
+      ? dispatch(updateCapacityRequest(sku))
       : dispatch(insertCapacityRequest(sku));
     reset();
     setOpenForm(false);
@@ -54,6 +55,9 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       setValue("rack", product.rack);
       setValue("no_rack", product.no_rack);
       setValue("tipo_emulsion", product.tipo_emulsion);
+      setValue("tinas_emulsion", product.tinas_emulsion);
+      setValue("tinas_fresco", product.tinas_fresco);
+      setValue("tinas_congelado", product.tinas_congelado);
       product.mezclado && setValue("mezclado", product.mezclado);
       product.embutido && setValue("embutido", product.embutido);
       product.cocimiento && setValue("cocimiento", product.cocimiento);
@@ -70,184 +74,356 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       className="flex justify-center items-center flex-wrap"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-2xl mb-5 w-full text-center">
-        {editProduct ? "Editar SKU" : "Agregar SKU"}
-      </h1>
-      <div className="grid grid-cols-2 gap-5 mb-10">
-        {!editProduct && (
-          <Fragment>
-            <FormControl sx={{ width: "15rem" }} size="small">
-              <InputLabel id="linea">Linea</InputLabel>
-              <Select
-                labelId="linea"
-                id="select-linea"
-                label="Linea"
-                defaultValue=""
-                onChange={(e) => setSelectedLinea(e.target.value)}
-              >
-                {_.map(linesList, (item) => (
-                  <MenuItem key={item.id} value={item.idLinea}>
-                    {item.linea}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ width: "15rem" }} size="small">
-              <InputLabel id="machine">Maquina</InputLabel>
-              <Select
-                labelId="machine"
-                id="select-machine"
-                label="Maquina"
-                defaultValue=""
-                {...register("idMaquina", {
-                  required: true,
-                })}
-              >
-                {_.map(machines, (item) => (
-                  <MenuItem key={item.id} value={item.idMaquina}>
-                    {item.maquina}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Fragment>
-        )}
-        <TextField
-          sx={{ width: "15rem" }}
-          label="SKU"
-          type="text"
-          size="small"
-          {...register("sku", { required: true })}
-        />
-        <FormControl sx={{ width: "15rem" }} size="small">
-          <InputLabel id="family">Familia</InputLabel>
-          <Select
-            labelId="family"
-            id="select-family"
-            label="Familia"
-            defaultValue={product?.descripcion || ""}
-            {...register("descripcion", {
+      <div>
+        <h1 className="text-2xl mb-5 w-full text-center">
+          {editProduct ? "Editar SKU" : "Agregar SKU"}
+        </h1>
+        <div className="grid grid-cols-4 gap-5 mb-10">
+          {!editProduct && (
+            <Fragment>
+              <FormControl sx={{ width: "15rem" }} size="small">
+                <InputLabel id="linea">Linea</InputLabel>
+                <Select
+                  labelId="linea"
+                  id="select-linea"
+                  label="Linea"
+                  defaultValue=""
+                  onChange={(e) => setSelectedLinea(e.target.value)}
+                >
+                  {_.map(linesList, (item) => (
+                    <MenuItem key={item.id} value={item.idLinea}>
+                      {item.linea}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ width: "15rem" }} size="small">
+                <InputLabel id="machine">Maquina</InputLabel>
+                <Select
+                  labelId="machine"
+                  id="select-machine"
+                  label="Maquina"
+                  defaultValue=""
+                  {...register("idMaquina", {
+                    required: true,
+                  })}
+                >
+                  {_.map(machines, (item) => (
+                    <MenuItem key={item.id} value={item.idMaquina}>
+                      {item.maquina}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Fragment>
+          )}
+          <TextField
+            sx={{ width: "15rem" }}
+            label="SKU"
+            type="text"
+            autoComplete="off"
+            size="small"
+            {...register("sku", { required: true })}
+          />
+          <FormControl sx={{ width: "15rem" }} size="small">
+            <InputLabel id="family">Familia</InputLabel>
+            <Select
+              labelId="family"
+              id="select-family"
+              label="Familia"
+              defaultValue={product?.descripcion || ""}
+              {...register("descripcion", {
+                required: true,
+              })}
+            >
+              {dataFamily.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            sx={{ width: "15rem" }}
+            label="Lote"
+            type="number"
+            inputProps={{
+              min: 0,
+            }}
+            size="small"
+            autoComplete="off"
+            {...register("kg_lote", { required: true })}
+          />
+          <TextField
+            sx={{ width: "15rem" }}
+            label="Rack"
+            type="text"
+            size="small"
+            autoComplete="off"
+            {...register("rack", { required: true })}
+          />
+          <TextField
+            sx={{ width: "15rem" }}
+            label="No. Rack"
+            type="number"
+            autoComplete="off"
+            inputProps={{
+              step: "0.01",
+            }}
+            size="small"
+            {...register("no_rack", {
               required: true,
+              pattern: /^[0-9]+([.][0-9]+)?$/,
             })}
-          >
-            {dataFamily.map((item) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Lote"
-          type="number"
-          inputProps={{
-            min: 0,
-          }}
-          size="small"
-          autoComplete="off"
-          {...register("kg_lote", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Rack"
-          type="text"
-          size="small"
-          autoComplete="off"
-          {...register("rack", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="No. Rack"
-          type="text"
-          inputProps={{
-            pattern: "^[0-9]+([.][0-9]+)?$",
-          }}
-          size="small"
-          {...register("no_rack", {
-            required: true,
-            pattern: /^[0-9]+([.][0-9]+)?$/,
-          })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Tipo Emulsión"
-          type="text"
-          size="small"
-          {...register("tipo_emulsion", { required: true })}
-        />
-      </div>
-      <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
-      <div className="grid grid-cols-2 gap-5 mb-10">
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Mezclado"
-          type="time"
-          defaultValue={product?.mezclado || "00:00"}
-          size="small"
-          {...register("mezclado", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Embutido"
-          type="time"
-          defaultValue={product?.embutido || "00:00"}
-          size="small"
-          {...register("embutido", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Cocimiento"
-          type="time"
-          defaultValue={product?.cocimiento || "00:00"}
-          size="small"
-          {...register("cocimiento", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Enfriamiento"
-          type="time"
-          defaultValue={product?.enfriamiento || "00:00"}
-          size="small"
-          {...register("enfriamiento", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Desmolde"
-          type="time"
-          defaultValue={product?.desmolde || "00:00"}
-          size="small"
-          {...register("desmolde", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Atemperado"
-          type="time"
-          defaultValue={product?.atemperado || "00:00"}
-          size="small"
-          {...register("atemperado", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Rebanado"
-          type="time"
-          defaultValue={product?.rebanado || "00:00"}
-          size="small"
-          {...register("rebanado", { required: true })}
-        />
-        <TextField
-          sx={{ width: "15rem" }}
-          label="Entrega"
-          type="time"
-          defaultValue={product?.entrega || "00:00"}
-          size="small"
-          {...register("entrega", { required: true })}
-        />
-      </div>
-      <div className="w-full flex justify-center">
-        <Button variant="contained" type="submit">
-          {editProduct ? "Actualizar" : "Agregar"}
-        </Button>
+          />
+          <TextField
+            sx={{ width: "15rem" }}
+            label="Tipo Emulsión"
+            autoComplete="off"
+            type="text"
+            size="small"
+            {...register("tipo_emulsion", { required: true })}
+          />
+          <TextField
+            sx={{ width: "15rem" }}
+            label="Tinas Emulsión"
+            autoComplete="off"
+            type="number"
+            size="small"
+            {...register("tinas_emulsion", { required: false })}
+          />
+          <TextField
+            sx={{ width: "15rem" }}
+            label="Tinas Fresco"
+            autoComplete="off"
+            type="number"
+            size="small"
+            {...register("tinas_fresco", { required: false })}
+          />
+          <TextField
+            sx={{ width: "15rem" }}
+            label="Tinas Congelado"
+            autoComplete="off"
+            type="number"
+            size="small"
+            {...register("tinas_congelado", { required: false })}
+          />
+        </div>
+        <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
+        <div className="grid grid-cols-7 gap-5 mb-10">
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Ing secos"
+            type="time"
+            defaultValue={product?.ingredientes_secos}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("ingredientes_secos", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_ingredientes_secos", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Salmuerizador"
+            type="time"
+            defaultValue={product?.salmuerizador}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("salmuerizador", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_salmuerizador", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Emulsiones"
+            type="time"
+            defaultValue={product?.emulsiones}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("emulsiones", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            defaultValue={product?.te_emulsiones}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_emulsiones", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Corte y Deshuese"
+            type="time"
+            defaultValue={product?.corte_deshuese}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("corte_deshuese", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            defaultValue={product?.te_corte_deshuese}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_corte_deshuese", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Mezclado"
+            type="time"
+            defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("mezclado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_mezclado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Embutido"
+            type="time"
+            defaultValue={product?.embutido}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("embutido", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_embutido", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Cocimiento"
+            type="time"
+            defaultValue={product?.cocimiento}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("cocimiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_cocimiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Enfriamiento"
+            type="time"
+            defaultValue={product?.enfriamiento}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("enfriamiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_enfriamiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Desmolde"
+            type="time"
+            defaultValue={product?.desmolde}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("desmolde", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_desmolde", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Atemperado"
+            type="time"
+            defaultValue={product?.atemperado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("atemperado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_atemperado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Rebanado"
+            type="time"
+            defaultValue={product?.rebanado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("rebanado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="T.E."
+            type="time"
+            // defaultValue={product?.mezclado}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("te_rebanado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "7rem" }}
+            label="Entrega"
+            type="time"
+            defaultValue={product?.entrega}
+            InputLabelProps={{ shrink: true }}
+            size="small"
+            {...register("entrega", { required: false })}
+          />
+        </div>
+        <div className="w-full flex justify-center">
+          <Button variant="contained" type="submit">
+            {editProduct ? "Actualizar" : "Agregar"}
+          </Button>
+        </div>
       </div>
     </form>
   );

@@ -83,6 +83,7 @@ const CapacityTable = ({
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
             />
+            {console.log(selectedArr)}
             <Tooltip title="Mostrar tiempos">
               <IconButton sx={{ ml: 1 }} onClick={() => setTimings(!timings)}>
                 <AccessTimeIcon />
@@ -133,10 +134,19 @@ const CapacityTable = ({
                       <b>Rack</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <b># Rack</b>
+                      <b>No. Rack</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       <b>Tipo Emulsión</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Tina Emulsión</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Tina Fresco</b>
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <b>Tina Congelado</b>
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       <b>Acciones</b>
@@ -211,6 +221,15 @@ const CapacityTable = ({
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.tipo_emulsion}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.tinas_emulsion}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.tinas_fresco}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.tinas_congelado}
                       </StyledTableCell>
                       <StyledTableCell>
                         <div className="flex items-center justify-end">

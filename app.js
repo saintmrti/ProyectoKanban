@@ -5,8 +5,8 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
-const es = require("moment/locale/es");
 const moment = require("moment");
+const es = require("moment/locale/es");
 const momentTz = require("moment-timezone");
 
 const inventoryRoutes = require("./routes/inventory.routes");
