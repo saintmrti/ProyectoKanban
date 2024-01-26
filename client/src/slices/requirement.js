@@ -7,6 +7,8 @@ const Slice = createSlice({
     data: {},
     isFetching: false,
     didError: false,
+    isFetchingInsert: false,
+    didErrorInsert: false,
   },
   reducers: {
     fetchRequirementRequest: (state) => {
@@ -22,6 +24,19 @@ const Slice = createSlice({
       state.isFetching = false;
       state.didError = true;
     },
+    insertRequirementRequest: (state) => {
+      state.isFetchingInsert = true;
+      state.didErrorInsert = false;
+    },
+    insertRequirementSuccess: (state, action) => {
+      const { data } = action.payload;
+      state.data = data;
+      state.isFetchingInsert = false;
+    },
+    insertRequirementError: (state) => {
+      state.isFetchingInsert = false;
+      state.didErrorInsert = true;
+    },
   },
 });
 
@@ -29,5 +44,8 @@ export const {
   fetchRequirementRequest,
   fetchRequirementSuccess,
   fetchRequirementError,
+  insertRequirementRequest,
+  insertRequirementSuccess,
+  insertRequirementError,
 } = Slice.actions;
 export default Slice.reducer;

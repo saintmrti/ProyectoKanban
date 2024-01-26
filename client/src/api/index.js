@@ -1,4 +1,4 @@
-export { fetchRequirementApi } from "./requirement";
+export { fetchRequirementApi, insertRequirementApi } from "./requirement";
 export { fetchSlicedApi, insertSlicedApi } from "./sliced";
 export {
   fetchCapacityApi,

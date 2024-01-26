@@ -60,7 +60,6 @@ const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
   const handleSearchChange = (event) => {
     const { value } = event.target;
     setSearchText(value);
-
     if (value) {
       setFilteredPlan(
         plan.filter((item) =>
@@ -89,15 +88,6 @@ const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
         value={searchText}
         onChange={handleSearchChange}
         sx={{ width: "15rem", mr: 2 }}
-      />
-      <TextField
-        id="date"
-        label="Fecha"
-        type="date"
-        size="small"
-        value={date}
-        onChange={handleDateChange}
-        sx={{ mr: 2, width: "15rem" }}
       />
       <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
         <InputLabel id="filtro-negativos">Ajustar</InputLabel>
@@ -129,6 +119,15 @@ const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
           <MenuItem value="family5">Grupo 5</MenuItem>
         </Select>
       </FormControl>
+      <TextField
+        id="date"
+        label="Fecha"
+        type="date"
+        size="small"
+        value={date}
+        onChange={handleDateChange}
+        sx={{ ml: 2, width: "15rem" }}
+      />
     </>
   );
 };

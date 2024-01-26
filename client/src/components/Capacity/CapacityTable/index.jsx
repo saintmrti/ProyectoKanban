@@ -83,7 +83,6 @@ const CapacityTable = ({
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
             />
-            {console.log(selectedArr)}
             <Tooltip title="Mostrar tiempos">
               <IconButton sx={{ ml: 1 }} onClick={() => setTimings(!timings)}>
                 <AccessTimeIcon />

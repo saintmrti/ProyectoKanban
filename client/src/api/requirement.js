@@ -11,12 +11,13 @@ export const fetchRequirementApi = {
       .then(({ data }) => data),
 };
 
-// export const insertRequirementApi = {
-//   cancel: null,
-//   run: (req) =>
-//     axios
-//       .post("/api/requerimiento", req, {
-//         cancelToken: new CancelToken((c) => (insertRequirementApi.cancel = c)),
-//       })
-//       .then(({ data }) => data),
-// };
+export const insertRequirementApi = {
+  cancel: null,
+  run: (req) =>
+    axios
+      .post("/api/requerimiento", req, {
+        headers: { "Content-Type": "multipart/form-data" },
+        cancelToken: new CancelToken((c) => (insertRequirementApi.cancel = c)),
+      })
+      .then(({ data }) => data),
+};
