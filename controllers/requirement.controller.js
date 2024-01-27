@@ -131,7 +131,9 @@ module.exports.insertRequirement = async (cn, data) => {
             item["CEDVER"]
           }, ${item["CEDMEX"]}, ${item["CEDTEP"]}, ${item["QyQ"]}, ${
             item["CARNEMART"]
-          }, ${item["TOTAL"]}, '${moment().format("YYYY-MM-DD HH:mm:ss")}')`
+          }, ${item["TOTAL"]}, '${moment()
+            .subtract(1, "days")
+            .format("YYYY-MM-DD HH:mm:ss")}')`
       )
       .join(",");
 

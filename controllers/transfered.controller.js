@@ -7,7 +7,7 @@ const { getSummary, insertInventory } = require("../queries/inventory");
 module.exports.transfered = async (req, res) => {
   try {
     const cn = new Connection(false);
-    const { productos, inv_nacional, requerimiento, wip_programa, tn } =
+    const { productos, inv_nacional, req_ayer, req_hoy, wip_programa, tn } =
       await getSummary(cn);
 
     const newRegisters = _.map(productos, (producto) => {
@@ -24,7 +24,7 @@ module.exports.transfered = async (req, res) => {
           i.cedis.toUpperCase() === `CEDMTY${producto.producto}`.toUpperCase()
       );
       const req = _.find(
-        requerimiento,
+        req_ayer,
         (i) =>
           i.producto &&
           i.producto.toUpperCase() === producto.producto.toUpperCase()
@@ -35,7 +35,6 @@ module.exports.transfered = async (req, res) => {
           i.producto &&
           i.producto.toUpperCase() === producto.producto.toUpperCase()
       );
-
       const tienda = _.find(
         tn,
         (i) =>
@@ -65,11 +64,11 @@ module.exports.transfered = async (req, res) => {
       };
     });
     cn.close();
-    // res.status(200).json({
-    //   success: true,
-    //   data: newRegisters,
-    // });
-    response(res, false, insertInventory, newRegisters);
+    res.status(200).json({
+      success: true,
+      data: req_ayer,
+    });
+    // response(res, false, insertInventory, newRegisters);
   } catch (error) {
     console.error(error);
     if (cn) cn.close();

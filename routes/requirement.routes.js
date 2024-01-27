@@ -12,6 +12,7 @@ const {
   parseRequirement,
   insertRequirement,
 } = require("../controllers/requirement.controller");
+const { parseOrder, insertOrder } = require("../controllers/order.controller");
 
 const router = Router();
 
@@ -29,11 +30,13 @@ router.post("/", async (req, res) => {
       (file) => file.name === "inv_nacional.csv"
     );
     const req_celda = _.find(files, (file) => file.name === "req_celda.xlsx");
-    const data_inv = await parseInventory(inv_nacional.data);
-    const data_req = parseRequirement(req_celda.data);
-
+    const wip_jam = _.find(files, (file) => file.name === "pedido.xlsx");
+    // const data_inv = await parseInventory(inv_nacional.data);
+    // const data_req = parseRequirement(req_celda.data);
+    const data_order = parseOrder(wip_jam.data);
     // await insertInventory(cn, data_inv);
-    await insertRequirement(cn, data_req);
+    // await insertRequirement(cn, data_req);
+    await insertOrder(cn, data_order);
     res.status(200).json({
       isError: false,
       status: "SUCCESS",

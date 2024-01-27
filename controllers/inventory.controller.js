@@ -29,7 +29,6 @@ module.exports.insertInventory = async (cn, data) => {
     const cleanData = data.filter(
       (obj) => !Object.values(obj).every((val) => val === undefined)
     );
-
     const transformData = _.map(cleanData, (item) => {
       return {
         bpt:

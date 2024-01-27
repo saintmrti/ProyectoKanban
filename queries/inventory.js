@@ -3,23 +3,28 @@ const today = moment().format("YYYY-MM-DD");
 
 module.exports.getSummary = async (conn) => {
   const { data: productos } = await conn.query(`
-      SELECT * FROM Qualtia_Prod_producto_cat;
-    `);
+    SELECT * FROM Qualtia_Prod_producto_cat;
+  `);
 
   const { data: inv_nacional } = await conn.query(`
-      SELECT * FROM Qualtia_Prod_inv_nacional
-      WHERE fecha = '2023-12-01';
-    `);
+    SELECT * FROM Qualtia_Prod_inv_nacional
+    WHERE fecha = '2024-01-25';
+  `);
 
-  const { data: requerimiento } = await conn.query(`
-      SELECT * FROM Qualtia_Prod_requerimiento
-      WHERE fecha = '2023-12-01';
-    `);
+  const { data: req_ayer } = await conn.query(`
+    SELECT * FROM Qualtia_Prod_requerimiento
+    WHERE CONVERT(date, fecha) = '2024-01-24';
+  `);
+
+  const { data: req_hoy } = await conn.query(`
+    SELECT * FROM Qualtia_Prod_requerimiento
+    WHERE CONVERT(date, fecha) = '2024-01-25';
+  `);
 
   const { data: wip_programa } = await conn.query(`
-      SELECT * FROM Qualtia_Prod_wip
-      WHERE fecha = '2023-12-01';
-    `);
+    SELECT * FROM Qualtia_Plan_pedido
+    WHERE fecha = '2024-01-25';
+  `);
 
   const { data: tn } = await conn.query(`
     SELECT * FROM Qualtia_Prod_tienda
@@ -29,7 +34,8 @@ module.exports.getSummary = async (conn) => {
   return {
     productos,
     inv_nacional,
-    requerimiento,
+    req_ayer,
+    req_hoy,
     wip_programa,
     tn,
   };
