@@ -54,7 +54,7 @@ module.exports.parseRequirement = (fileContent) => {
   return datosAgrupados;
 };
 
-module.exports.insertRequirement = async (cn, data) => {
+module.exports.uploadRequirement = async (cn, data, date) => {
   try {
     const cleanData = data.filter(
       (obj) => !Object.values(obj).every((val) => val === undefined)
@@ -121,19 +121,7 @@ module.exports.insertRequirement = async (cn, data) => {
     const values = cleanData
       .map(
         (item) =>
-          `('${item["SKU"]}', '${item["Descripción"]}', '${item["Linea"]}', '${
-            item["Origen"]
-          }', ${item["BPTMY Maximo"]}, ${item["BPTMTY Minimo"]}, ${
-            item["CEDMTY"]
-          }, ${item["CEDCHIH"]}, ${item["CEDLAN"]}, ${item["CEDGDL"]}, ${
-            item["CEDCUL"]
-          }, ${item["CEDTIJ"]}, ${item["CEDMER"]}, ${item["CEDLEON"]},${
-            item["CEDVER"]
-          }, ${item["CEDMEX"]}, ${item["CEDTEP"]}, ${item["QyQ"]}, ${
-            item["CARNEMART"]
-          }, ${item["TOTAL"]}, '${moment()
-            .subtract(1, "days")
-            .format("YYYY-MM-DD HH:mm:ss")}')`
+          `('${item["SKU"]}', '${item["Descripción"]}', '${item["Linea"]}', '${item["Origen"]}', ${item["BPTMY Maximo"]}, ${item["BPTMTY Minimo"]}, ${item["CEDMTY"]}, ${item["CEDCHIH"]}, ${item["CEDLAN"]}, ${item["CEDGDL"]}, ${item["CEDCUL"]}, ${item["CEDTIJ"]}, ${item["CEDMER"]}, ${item["CEDLEON"]},${item["CEDVER"]}, ${item["CEDMEX"]}, ${item["CEDTEP"]}, ${item["QyQ"]}, ${item["CARNEMART"]}, ${item["TOTAL"]}, '${date}')`
       )
       .join(",");
 
@@ -142,9 +130,6 @@ module.exports.insertRequirement = async (cn, data) => {
       (producto, descripcion, linea, origen, bptmy_maximo, bptmy_minimo, cedmty, cedchih, cedlan, cedgdl, cedcul, cedtij, cedmer, cedleon, cedver, cedmex, cedtep, QyQ, carnemart, total, fecha)
       VALUES ${values}
   `);
-
-    console.log(cleanData);
-
     cn.close();
   } catch (error) {
     console.log(error);

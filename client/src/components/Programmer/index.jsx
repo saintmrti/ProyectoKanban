@@ -43,6 +43,7 @@ const Programmer = () => {
     for (let i = 0; i < selectedFiles.length; i++) {
       f.append("files", selectedFiles[i]);
     }
+    f.append("fecha", date);
     dispatch(insertRequirementRequest(f));
     setSelectedFiles([]);
   };

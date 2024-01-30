@@ -24,7 +24,7 @@ module.exports.parseInventory = (fileContent) => {
   });
 };
 
-module.exports.insertInventory = async (cn, data) => {
+module.exports.uploadInventory = async (cn, data, date) => {
   try {
     const cleanData = data.filter(
       (obj) => !Object.values(obj).every((val) => val === undefined)
@@ -53,7 +53,7 @@ module.exports.insertInventory = async (cn, data) => {
         inv_disp: parseInt(item["Inv Disp"]) || 0,
         trans_real: parseInt(item["Transito Real (Emb-Rec)"]) || 0,
         punto_reorden: parseFloat(item["Punto de Reorden"]) || 0,
-        fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
+        fecha: date,
       };
     });
 

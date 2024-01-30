@@ -3,16 +3,17 @@ const _ = require("lodash");
 
 const Connection = require("../connection/db");
 const response = require("../helpers/response");
-const { getSummary } = require("../queries/requirement");
+const { getSummary, insertRequirement } = require("../queries/requirement");
+const { transfered } = require("../controllers/transfered.controller");
 const {
   parseInventory,
-  insertInventory,
+  uploadInventory,
 } = require("../controllers/inventory.controller");
 const {
   parseRequirement,
-  insertRequirement,
+  uploadRequirement,
 } = require("../controllers/requirement.controller");
-const { parseOrder, insertOrder } = require("../controllers/order.controller");
+const { parseOrder, uploadOrder } = require("../controllers/order.controller");
 
 const router = Router();
 
@@ -24,23 +25,29 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const cn = new Connection(false);
+    const date = req.body.fecha;
     const files = req.files.files;
-    const inv_nacional = _.find(
-      files,
-      (file) => file.name === "inv_nacional.csv"
-    );
-    const req_celda = _.find(files, (file) => file.name === "req_celda.xlsx");
-    const wip_jam = _.find(files, (file) => file.name === "pedido.xlsx");
-    // const data_inv = await parseInventory(inv_nacional.data);
-    // const data_req = parseRequirement(req_celda.data);
-    const data_order = parseOrder(wip_jam.data);
-    // await insertInventory(cn, data_inv);
-    // await insertRequirement(cn, data_req);
-    await insertOrder(cn, data_order);
+    // const inv_nacional = _.find(
+    //   files,
+    //   (file) => file.name === "inv_nacional.csv"
+    // );
+    // const req_celda = _.find(files, (file) => file.name === "req_celda.xlsx");
+    // const wip_jam = _.find(files, (file) => file.name === "pedido.xlsx");
+    // const data_inv = await parseInventory(inv_nacional.data, date);
+    // const data_req = parseRequirement(req_celda.data, date);
+    // const data_order = parseOrder(wip_jam.data);
+    // await uploadInventory(cn, data_inv, date);
+    // await uploadRequirement(cn, data_req, date);
+    // await uploadOrder(cn, data_order, date);
+    const data = await transfered(cn, date);
+    cn.close();
     res.status(200).json({
       isError: false,
+      isEmpty: _.isEmpty(data),
+      data,
       status: "SUCCESS",
     });
+    // response(res, true, insertRequirement, data);
   } catch (error) {
     console.log(error);
   }

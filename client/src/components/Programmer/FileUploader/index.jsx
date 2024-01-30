@@ -16,7 +16,6 @@ import { Button } from "@mui/material";
 
 export function FileUploader({ onUpload, selectedFiles, setSelectedFiles }) {
   const onDrop = (acceptedFiles) => {
-    console.log(acceptedFiles);
     const promises = acceptedFiles.map((file) => {
       return new Promise((resolve) => {
         const reader = new FileReader();

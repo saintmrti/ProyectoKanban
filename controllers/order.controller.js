@@ -23,6 +23,7 @@ module.exports.parseOrder = (fileContent) => {
     });
     return datosExtraidos;
   }
+
   function agruparDatos(datosExtraidos) {
     const filasAgrupadas = [];
     const encabezados = datosExtraidos[0];
@@ -50,7 +51,7 @@ module.exports.parseOrder = (fileContent) => {
   return datosAgrupados;
 };
 
-module.exports.insertOrder = async (cn, data) => {
+module.exports.uploadOrder = async (cn, data, date) => {
   try {
     const cleanData = data.filter(
       (obj) => !Object.values(obj).every((val) => val === undefined)
@@ -72,7 +73,7 @@ module.exports.insertOrder = async (cn, data) => {
       canastillas: parseFloat(item.Canastillas) || 0,
       tarimas: parseFloat(item.Tarimas) || 0,
       total_Kilos: parseFloat(item["Total kilos"]) || 0,
-      fecha: moment().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss"),
+      fecha: date,
     }));
 
     const values = transformData

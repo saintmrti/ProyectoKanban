@@ -30,7 +30,6 @@ export function* fetchRequirementSaga() {
 
 function* insertRequirement({ payload }) {
   try {
-    console.log(payload);
     const { data, isError } = yield call(insertRequirementApi.run, payload);
     if (isError) throw new Error();
     yield put(insertRequirementSuccess({ data }));
