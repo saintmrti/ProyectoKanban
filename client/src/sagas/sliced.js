@@ -10,9 +10,9 @@ import {
   insertSlicedError,
 } from "../slices/sliced";
 
-function* fetchSliced({ payload }) {
+function* fetchSliced({ payload: { date } }) {
   try {
-    const { data, isError } = yield call(fetchSlicedApi.run, payload);
+    const { data, isError } = yield call(fetchSlicedApi.run, date);
     if (isError) throw new Error();
     yield put(fetchSlicedSuccess({ data }));
   } catch (e) {

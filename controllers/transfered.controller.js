@@ -151,7 +151,7 @@ const plan_embutido = [
 module.exports.transfered = async (cn, date) => {
   try {
     const { productos, inv_nacional, requirement, wip_programa, pr, tn } =
-      await getSummary(cn);
+      await getSummary(cn, date);
 
     const newReq = _.map(requirement, (req) => ({
       ...req,

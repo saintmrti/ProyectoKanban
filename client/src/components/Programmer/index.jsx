@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import SpeedDial from "@mui/material/SpeedDial";
-import AddIcon from "@mui/icons-material/Add";
+// import SpeedDial from "@mui/material/SpeedDial";
+// import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import moment from "moment-timezone";
@@ -34,9 +34,9 @@ const Programmer = () => {
   const { data: sliced } = useSelector((state) => state.sliced);
   const { isFetching, didError } = useSelector((state) => state.requirement);
 
-  const handleOnClick = () => {
-    setOpen(!open);
-  };
+  // const handleOnClick = () => {
+  //   setOpen(!open);
+  // };
 
   const handleUpload = () => {
     const f = new FormData();
@@ -69,15 +69,16 @@ const Programmer = () => {
       ) : (
         <>
           {!open ? (
-            <Box
-              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
-            >
-              <SpeedDial
-                ariaLabel="SpeedDial basic example"
-                sx={{ position: "absolute", bottom: 3, right: 3 }}
-                icon={<AddIcon onClick={handleOnClick} />}
-              ></SpeedDial>
-            </Box>
+            // <Box
+            //   sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
+            // >
+            //   <SpeedDial
+            //     ariaLabel="SpeedDial basic example"
+            //     sx={{ position: "absolute", bottom: 3, right: 3 }}
+            //     icon={<AddIcon onClick={handleOnClick} />}
+            //   ></SpeedDial>
+            // </Box>
+            <div></div>
           ) : (
             <>
               <CloseIcon

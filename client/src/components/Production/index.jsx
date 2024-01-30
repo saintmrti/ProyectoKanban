@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import SpeedDial from "@mui/material/SpeedDial";
+// import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
@@ -114,16 +114,16 @@ const Production = () => {
       ) : (
         <>
           {!openSpeedDial ? (
-            <Box
-              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
-            >
-              {/*<Typography sx={{ position: "absolute", bottom: 15, right: 70,  }}>Semanas</Typography>*/}
-              <SpeedDial
-                ariaLabel="SpeedDial basic example"
-                sx={{ position: "absolute", bottom: 1, right: 3 }}
-                icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
-              ></SpeedDial>
-            </Box>
+            // <Box
+            //   sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
+            // >
+            //   <SpeedDial
+            //     ariaLabel="SpeedDial basic example"
+            //     sx={{ position: "absolute", bottom: 1, right: 3 }}
+            //     icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
+            //   ></SpeedDial>
+            // </Box>
+            <div></div>
           ) : (
             <>
               <CloseIcon

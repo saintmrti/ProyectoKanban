@@ -1,7 +1,7 @@
 const moment = require("moment-timezone");
 const time = moment().format("HH:mm:ss");
 
-module.exports.getRequirements = async (conn, { date }) => {
+module.exports.getRequirements = async (conn, date) => {
   const { data } = await conn.query(`
     SELECT * FROM Qualtia_Prod_plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
   `);

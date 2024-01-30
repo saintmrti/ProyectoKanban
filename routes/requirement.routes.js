@@ -39,15 +39,15 @@ router.post("/", async (req, res) => {
     // await uploadInventory(cn, data_inv, date);
     // await uploadRequirement(cn, data_req, date);
     // await uploadOrder(cn, data_order, date);
-    const data = await transfered(cn, date);
+    const invNacional = await transfered(cn, date);
     cn.close();
-    res.status(200).json({
-      isError: false,
-      isEmpty: _.isEmpty(data),
-      data,
-      status: "SUCCESS",
-    });
-    // response(res, true, insertRequirement, data);
+    // res.status(200).json({
+    //   isError: false,
+    //   isEmpty: _.isEmpty(data),
+    //   data,
+    //   status: "SUCCESS",
+    // });
+    response(res, true, insertRequirement, { invNacional, date });
   } catch (error) {
     console.log(error);
   }

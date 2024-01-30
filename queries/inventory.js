@@ -1,34 +1,38 @@
 const moment = require("moment-timezone");
 const today = moment().format("YYYY-MM-DD");
 
-module.exports.getSummary = async (conn) => {
+module.exports.getSummary = async (conn, date) => {
   const { data: productos } = await conn.query(`
     SELECT * FROM Qualtia_Prod_producto_cat;
   `);
 
   const { data: inv_nacional } = await conn.query(`
     SELECT * FROM Qualtia_Prod_inv_nacional
-    WHERE CONVERT(date, fecha) = '2024-01-25';
+    WHERE CONVERT(date, fecha) = '${date}';
   `);
 
   const { data: requirement } = await conn.query(`
     SELECT * FROM Qualtia_Prod_requerimiento
-    WHERE CONVERT(date, fecha) BETWEEN '2024-01-24' AND '2024-01-25';
+    WHERE CONVERT(date, fecha) BETWEEN '${moment(date)
+      .subtract(1, "days")
+      .format("YYYY-MM-DD")}' AND '${date}';
   `);
 
   const { data: wip_programa } = await conn.query(`
     SELECT * FROM Qualtia_Plan_pedido
-    WHERE CONVERT(date, fecha) = '2024-01-25';
+    WHERE CONVERT(date, fecha) = '${date}';
   `);
 
   const { data: pr } = await conn.query(`
     SELECT * FROM Qualtia_Prod_plan_rebanado
-    WHERE CONVERT(date, fecha) =  '2024-01-25';
+    WHERE CONVERT(date, fecha) =  '${moment(date)
+      .subtract(1, "days")
+      .format("YYYY-MM-DD")}';
   `);
 
   const { data: tn } = await conn.query(`
     SELECT * FROM Qualtia_Prod_tiendita
-    WHERE CONVERT(date, fecha) = '2024-01-25';
+    WHERE CONVERT(date, fecha) = '${date}';
   `);
 
   return {

@@ -13,7 +13,7 @@ module.exports.getSummary = async (conn, date) => {
   return data;
 };
 
-module.exports.insertRequirement = async (conn, invNacional) => {
+module.exports.insertRequirement = async (conn, { invNacional, date }) => {
   if (invNacional.length > 0) {
     await conn.query(`
         INSERT INTO Qualtia_Prod_inv_req (fecha, idProducto, inv_bpt, inv_cedis, bpt_cedis, tiendita, prox_salida, min_kg_carga, salida_hoy, wip_programa_hoy) VALUES
@@ -30,7 +30,7 @@ module.exports.insertRequirement = async (conn, invNacional) => {
               salida_hoy,
               wip_programa_hoy,
             }) =>
-              `('2024-01-25', ${id}, ${inv_bpt}, ${inv_cedis}, ${bpt_cedis}, ${tiendita}, ${prox_salida}, ${min_kg_carga}, ${salida_hoy}, ${wip_programa_hoy})`
+              `('${date}', ${id}, ${inv_bpt}, ${inv_cedis}, ${bpt_cedis}, ${tiendita}, ${prox_salida}, ${min_kg_carga}, ${salida_hoy}, ${wip_programa_hoy})`
           )
           .join(",")}
       `);
@@ -40,7 +40,7 @@ module.exports.insertRequirement = async (conn, invNacional) => {
       FROM Qualtia_Prod_inv_req AS r
       INNER JOIN Qualtia_Prod_producto_cat AS p
       ON r.idProducto = p.id
-      WHERE CAST(fecha AS DATE)= '2024-01-25';
+      WHERE CAST(fecha AS DATE)= '${date}';
     `);
     return data;
   }
