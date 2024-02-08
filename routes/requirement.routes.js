@@ -27,24 +27,25 @@ router.post("/", async (req, res) => {
     const cn = new Connection(false);
     const date = req.body.fecha;
     const files = req.files.files;
-    // const inv_nacional = _.find(
-    //   files,
-    //   (file) => file.name === "inv_nacional.csv"
-    // );
-    // const req_celda = _.find(files, (file) => file.name === "req_celda.xlsx");
-    // const wip_jam = _.find(files, (file) => file.name === "pedido.xlsx");
-    // const data_inv = await parseInventory(inv_nacional.data, date);
-    // const data_req = parseRequirement(req_celda.data, date);
-    // const data_order = parseOrder(wip_jam.data);
-    // await uploadInventory(cn, data_inv, date);
-    // await uploadRequirement(cn, data_req, date);
-    // await uploadOrder(cn, data_order, date);
+    const inv_nacional = _.find(
+      files,
+      (file) => file.name === "inv_nacional.csv"
+    );
+    const req_celda = _.find(files, (file) => file.name === "req_celda.xlsx");
+    const wip_jam = _.find(files, (file) => file.name === "pedido.xlsx");
+    const data_inv = await parseInventory(inv_nacional.data, date);
+    const data_req = parseRequirement(req_celda.data, date);
+    const data_order = parseOrder(wip_jam.data);
+    await Promise.all([
+      uploadInventory(cn, data_inv, date),
+      uploadRequirement(cn, data_req, date),
+      uploadOrder(cn, data_order, date),
+    ]);
     const invNacional = await transfered(cn, date);
-    cn.close();
     // res.status(200).json({
     //   isError: false,
-    //   isEmpty: _.isEmpty(data),
-    //   data,
+    //   isEmpty: _.isEmpty(invNacional),
+    //   invNacional,
     //   status: "SUCCESS",
     // });
     response(res, true, insertRequirement, { invNacional, date });

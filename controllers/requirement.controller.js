@@ -130,9 +130,7 @@ module.exports.uploadRequirement = async (cn, data, date) => {
       (producto, descripcion, linea, origen, bptmy_maximo, bptmy_minimo, cedmty, cedchih, cedlan, cedgdl, cedcul, cedtij, cedmer, cedleon, cedver, cedmex, cedtep, QyQ, carnemart, total, fecha)
       VALUES ${values}
   `);
-    cn.close();
   } catch (error) {
     console.log(error);
-    cn.close();
   }
 };

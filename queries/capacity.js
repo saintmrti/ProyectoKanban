@@ -13,7 +13,7 @@ module.exports.getSummary = async (conn) => {
       INNER JOIN Qualtia_Capacidad_lineas as l
       ON m.idLinea = l.id
       LEFT JOIN Qualtia_Capacidad_tiempos_sku as t
-      ON c.id = t.idSku;
+      ON c.id = t.idProducto;
     `);
   return data;
 };
@@ -49,7 +49,7 @@ module.exports.insertCapacity = async (
     `);
 
   await conn.query(`
-      INSERT INTO Qualtia_Capacidad_tiempos_sku (idSku, fecha, mezclado, embutido, cocimiento, enfriamiento, desmolde, atemperado, rebanado, entrega)
+      INSERT INTO Qualtia_Capacidad_tiempos_sku (idProducto, fecha, mezclado, embutido, cocimiento, enfriamiento, desmolde, atemperado, rebanado, entrega)
       VALUES (${insertId}, '${today}', ${mezclado}, ${embutido}, ${cocimiento}, ${enfriamiento}, ${desmolde}, ${atemperado}, ${rebanado}, ${entrega});
     `);
 
@@ -64,7 +64,7 @@ module.exports.insertCapacity = async (
       INNER JOIN Qualtia_Capacidad_lineas as l
       ON m.idLinea = l.id
       LEFT JOIN Qualtia_Capacidad_tiempos_sku as t
-      ON c.id = t.idSku
+      ON c.id = t.idProducto
       WHERE c.id = ${insertId};
   `);
   return data[0];
@@ -118,7 +118,7 @@ module.exports.updateCapacity = async (
       atemperado = ${atemperado},
       rebanado = ${rebanado},
       entrega = ${entrega}
-      WHERE idSku = ${idSku};
+      WHERE idProducto = ${idSku};
     `);
 
   const { data } = await conn.query(`
@@ -132,7 +132,7 @@ module.exports.updateCapacity = async (
       INNER JOIN Qualtia_Capacidad_lineas as l
       ON m.idLinea = l.id
       LEFT JOIN Qualtia_Capacidad_tiempos_sku as t
-      ON c.id = t.idSku
+      ON c.id = t.idProducto
       WHERE c.id = ${idSku};
     `);
   return data[0];
@@ -141,7 +141,7 @@ module.exports.updateCapacity = async (
 module.exports.deleteCapacity = async (conn, { idSku }) => {
   await conn.query(`
       DELETE FROM Qualtia_Capacidad_tiempos_sku
-      WHERE idSku = ${idSku};
+      WHERE idProducto = ${idSku};
     `);
   await conn.query(`
       DELETE FROM Qualtia_Capacidad_cat_sku

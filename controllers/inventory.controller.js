@@ -89,10 +89,8 @@ module.exports.uploadInventory = async (cn, data, date) => {
         inv_disp, transito_real, punto_reorden, fecha)
       `);
     }
-    cn.close();
   } catch (error) {
     console.log(error);
-    cn.close();
   }
 };
 

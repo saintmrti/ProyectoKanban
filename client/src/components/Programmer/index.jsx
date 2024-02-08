@@ -32,7 +32,9 @@ const Programmer = () => {
 
   const requirements = useSelector(getRequirement);
   const { data: sliced } = useSelector((state) => state.sliced);
-  const { isFetching, didError } = useSelector((state) => state.requirement);
+  const { isFetching, didError, isFetchingInsert } = useSelector(
+    (state) => state.requirement
+  );
 
   // const handleOnClick = () => {
   //   setOpen(!open);
@@ -62,7 +64,7 @@ const Programmer = () => {
 
   return (
     <>
-      {isFetching ? (
+      {isFetching || isFetchingInsert ? (
         <Spinner />
       ) : didError ? (
         <h1>Error</h1>

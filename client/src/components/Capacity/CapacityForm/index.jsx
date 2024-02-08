@@ -235,7 +235,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_salmuerizador", { required: false })}
+              {...register("te_ingred_salmuera", { required: false })}
             />
           </Card>
           <Card
@@ -316,7 +316,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.te_corte_deshuese}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_emulsiones", { required: false })}
+              {...register("te_cyd_emulsiones", { required: false })}
             />
             <TextField
               sx={{ width: "6.6rem" }}
@@ -352,7 +352,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_embutido", { required: false })}
+              {...register("te_mezclado_embutido", { required: false })}
             />
           </Card>
           <Card
@@ -379,7 +379,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_cocimiento", { required: false })}
+              {...register("te_embutido_cocimiento", { required: false })}
             />
           </Card>
           <Card
@@ -406,7 +406,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_enfriamiento", { required: false })}
+              {...register("te_cocimiento_enfriamiento", { required: false })}
             />
           </Card>
           <Card
@@ -433,7 +433,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_desmolde", { required: false })}
+              {...register("te_enfriamiento_desmolde", { required: false })}
             />
           </Card>
           <Card
@@ -460,7 +460,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_atemperado", { required: false })}
+              {...register("te_desmolde_atemperado", { required: false })}
             />
           </Card>
           <Card
@@ -487,7 +487,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_rebanado", { required: false })}
+              {...register("te_atemperado_rebanado", { required: false })}
             />
           </Card>
           <Card
@@ -514,7 +514,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_entrega", { required: false })}
+              {...register("te_rebanado_entrega", { required: false })}
             />
           </Card>
           <Card

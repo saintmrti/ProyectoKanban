@@ -91,7 +91,6 @@ module.exports.uploadOrder = async (cn, data, date) => {
         (peso_promedio, producto, descripcion, cocer_embutido, cocimiento, enfriamiento, madurado, camaras, empaque, incompletas, repetidas, total_piezas, canastillas, tarimas, total_Kilos, fecha)
         VALUES ${values}
     `);
-    cn.close();
   } catch (error) {
     console.log(error);
   }
