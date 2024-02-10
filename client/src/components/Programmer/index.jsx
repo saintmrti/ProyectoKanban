@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-// import SpeedDial from "@mui/material/SpeedDial";
-// import AddIcon from "@mui/icons-material/Add";
+import SpeedDial from "@mui/material/SpeedDial";
+import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import moment from "moment-timezone";
@@ -36,9 +36,9 @@ const Programmer = () => {
     (state) => state.requirement
   );
 
-  // const handleOnClick = () => {
-  //   setOpen(!open);
-  // };
+  const handleOnClick = () => {
+    setOpen(!open);
+  };
 
   const handleUpload = () => {
     const f = new FormData();
@@ -70,17 +70,17 @@ const Programmer = () => {
         <h1>Error</h1>
       ) : (
         <>
-          {!open ? (
-            // <Box
-            //   sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
-            // >
-            //   <SpeedDial
-            //     ariaLabel="SpeedDial basic example"
-            //     sx={{ position: "absolute", bottom: 3, right: 3 }}
-            //     icon={<AddIcon onClick={handleOnClick} />}
-            //   ></SpeedDial>
-            // </Box>
-            <div></div>
+          {/* {!open ? (
+            <Box
+              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
+            >
+              <SpeedDial
+                ariaLabel="SpeedDial basic example"
+                sx={{ position: "absolute", bottom: 3, right: 3 }}
+                icon={<AddIcon onClick={handleOnClick} />}
+              ></SpeedDial>
+            </Box>
+            // <div></div>
           ) : (
             <>
               <CloseIcon
@@ -90,7 +90,7 @@ const Programmer = () => {
               />
               <WeeklyInventory />
             </>
-          )}
+          )} */}
           {Object.keys(requirements).length > 0 ? (
             <ProgrammerTable
               sliced={sliced}

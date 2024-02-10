@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import RackTable from "./RackTable";
 
@@ -21,7 +21,6 @@ import ProductionTable from "./ProductionTable";
 import { Spinner } from "../Spinner";
 import { fetchCapacityRequest } from "../../slices/capacity";
 import {
-  insertProductionRequest,
   fetchProductionRequest,
   deleteProductionRequest,
 } from "../../slices/production";
@@ -52,22 +51,14 @@ const Production = () => {
   const production = useSelector(getProduction);
   const { isFetching, didError } = useSelector((state) => state.production);
 
-  const handleOnSaveProd = () => {
-    dispatch(insertProductionRequest({ planProd: planProd, date }));
-    setOriginalPlanProd(planProd);
-    setPlanProd([]);
-  };
+  // const handleOnSaveProd = () => {
+  //   dispatch(insertProductionRequest({ planProd: planProd, date }));
+  //   setOriginalPlanProd(planProd);
+  //   setPlanProd([]);
+  // };
 
-  const handleDeleteProd = () => {
-    if (
-      planProd[planProd.length - 1]?.sec !==
-      originalPlanProd[originalPlanProd.length - 1]?.sec
-    ) {
-      setPlanProd([]);
-      setOriginalPlanProd([]);
-    } else {
-      dispatch(deleteProductionRequest({ date }));
-    }
+  const handleDeleteProd = (idProd) => {
+    dispatch(deleteProductionRequest({ idProd }));
   };
 
   const handleOnCloseProd = () => {
@@ -138,7 +129,7 @@ const Production = () => {
             <CardContent>
               <div className="flex items-center mb-2">
                 <Typography variant="h6" component="span">
-                  Plan Producción
+                  Agregar SKU
                 </Typography>
                 <IconButton size="small" onClick={() => setOpenProd(true)}>
                   <AddIcon />
@@ -153,7 +144,7 @@ const Production = () => {
                     onChange={(event) => handleChangeDate(event)}
                     sx={{ mr: 2, width: "15rem" }}
                   />
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     onClick={handleDeleteProd}
                     disabled={planProd.length === 0}
@@ -172,7 +163,7 @@ const Production = () => {
                     }
                   >
                     Guardar
-                  </Button>
+                  </Button> */}
                   <IconButton size="small" onClick={handleBack}>
                     <ArrowBackIcon />
                   </IconButton>
@@ -184,6 +175,7 @@ const Production = () => {
               <ProductionTable
                 planProd={planProd}
                 procesoIndex={procesoIndex}
+                handleDeleteProd={handleDeleteProd}
               />
             </CardContent>
           </Card>
@@ -202,6 +194,7 @@ const Production = () => {
                 <CloseIcon />
               </IconButton>
               <ProductionForm
+                date={date}
                 planProd={planProd}
                 setOpen={setOpenProd}
                 setProduct={setProduct}

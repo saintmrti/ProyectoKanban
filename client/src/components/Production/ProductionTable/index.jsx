@@ -7,7 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
 import _ from "lodash";
+import { IconButton } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -29,7 +31,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // },
 }));
 
-export default function ProductionTable({ planProd, procesoIndex }) {
+export default function ProductionTable({
+  planProd,
+  procesoIndex,
+  handleDeleteProd,
+}) {
   return (
     <TableContainer
       component={Paper}
@@ -56,13 +62,13 @@ export default function ProductionTable({ planProd, procesoIndex }) {
           </TableRow>
           <TableRow>
             <StyledTableCell sx={{ width: "2rem" }}>
-              <b>Sec</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>Destino</b>
+              <b>Acciones</b>
             </StyledTableCell>
             <StyledTableCell align="center">
               <b>SKU</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>Destino</b>
             </StyledTableCell>
             <StyledTableCell align="center">
               <b>Lote (kg)</b>
@@ -90,12 +96,17 @@ export default function ProductionTable({ planProd, procesoIndex }) {
         </TableHead>
         <TableBody>
           {_.map(planProd, (row) => (
-            <StyledTableRow key={row.sec}>
-              <StyledTableCell component="th" scope="row">
-                {row.sec}
+            <StyledTableRow key={row.id}>
+              <StyledTableCell align="center" component="th" scope="row">
+                <IconButton
+                  size="small"
+                  onClick={() => handleDeleteProd(row.id)}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
               </StyledTableCell>
-              <StyledTableCell align="center">{row.destino}</StyledTableCell>
               <StyledTableCell align="center">{row.producto}</StyledTableCell>
+              <StyledTableCell align="center">{row.destino}</StyledTableCell>
               <StyledTableCell align="center">{row.kg_lote}</StyledTableCell>
               <StyledTableCell align="center">{row.rack}</StyledTableCell>
               <StyledTableCell align="center">{row.no_rack}</StyledTableCell>

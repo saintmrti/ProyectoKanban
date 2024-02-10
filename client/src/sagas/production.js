@@ -53,9 +53,9 @@ export function* insertProductionSaga() {
   yield takeLatest(insertProductionRequest.toString(), insertProduction);
 }
 
-function* deleteProduction({ payload: { date } }) {
+function* deleteProduction({ payload: { idProd } }) {
   try {
-    const { data, isError } = yield call(deleteProductionApi.run, date);
+    const { data, isError } = yield call(deleteProductionApi.run, idProd);
     if (isError) throw new Error();
     yield put(deleteProductionSuccess({ data }));
   } catch (e) {

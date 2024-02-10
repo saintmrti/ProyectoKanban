@@ -6,9 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useTheme } from "@mui/material/styles";
 
 export default function TablaRes({ total, minutosPorDia }) {
   const [data, setData] = useState([]);
+  const theme = useTheme();
   useEffect(() => {
     setData([
       { name: "Total Min Utilizados:", tiempo: total },
@@ -31,7 +33,10 @@ export default function TablaRes({ total, minutosPorDia }) {
             <TableCell
               align="center"
               sx={{
-                background: data[1]?.tiempo < 0 ? "#FF4D5D" : "#51F069",
+                background:
+                  data[1]?.tiempo < 0
+                    ? theme.palette.status.error
+                    : theme.palette.status.success,
                 fontWeight: 600,
               }}
               colSpan={2}

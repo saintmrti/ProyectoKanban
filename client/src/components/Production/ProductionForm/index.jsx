@@ -2,6 +2,7 @@ import _ from "lodash";
 import moment from "moment";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,11 +13,13 @@ import InputLabel from "@mui/material/InputLabel";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { getListSku } from "../../../selectors/capacity";
+import { insertProductionRequest } from "../../../slices/production";
 
 export default function ProductionForm({
   planProd,
   setProduct,
-  setOriginalPlanProd,
+  date,
+  setOpen,
   product,
 }) {
   const { register, handleSubmit, reset, setValue, control } = useForm({
@@ -25,68 +28,24 @@ export default function ProductionForm({
     },
   });
 
+  const dispatch = useDispatch();
+
   const listSku = useSelector(getListSku);
   const mezclado = _.find(listSku, { sku: product })?.mezclado;
-  const idProducto = _.find(listSku, { sku: product })?.id;
+  // const idProducto = _.find(listSku, { sku: product })?.id;
   const process = planProd[planProd.length - 1]?.procesos;
   const skuOptions = _.map(listSku, "sku");
 
   const onSubmit = (values) => {
-    const newProduct = {
-      idProducto,
-      sec: process ? planProd[planProd.length - 1].sec + 1 : 1,
+    const production_order = {
+      idSku: values.producto,
+      idMaquina: 6,
+      fecha_mezclado: `${date} 06:00:00`,
       destino: values.destino,
-      producto: values.producto,
-      rack: values.rack,
-      kg_lote: values.kg_lote,
-      no_rack: values.no_rack,
-      tipo_emulsion: values.tipo_emulsion,
-      procesos: [
-        {
-          nombre: "Mezclado",
-          inicio: values.mezclado_inicio,
-          fin: values.mezclado_fin,
-        },
-        {
-          nombre: "Embutido",
-          inicio: values.embutido_inicio,
-          fin: values.embutido_fin,
-        },
-        {
-          nombre: "Cocimiento",
-          inicio: values.cocimiento_inicio,
-          fin: values.cocimiento_fin,
-        },
-        {
-          nombre: "Enfriamiento",
-          inicio: values.enfriamiento_inicio,
-          fin: values.enfriamiento_fin,
-        },
-        {
-          nombre: "Desmolde",
-          inicio: values.desmolde_inicio,
-          fin: values.desmolde_fin,
-        },
-        {
-          nombre: "Atemperado",
-          inicio: values.atemperado_inicio,
-          fin: values.atemperado_fin,
-        },
-        {
-          nombre: "Rebanado",
-          inicio: values.rebanado_inicio,
-          fin: values.rebanado_fin,
-        },
-        {
-          nombre: "Entrega",
-          inicio: values.entrega_inicio,
-          fin: values.entrega_fin,
-        },
-      ],
     };
-    planProd.push(newProduct);
-    setOriginalPlanProd([]);
+    dispatch(insertProductionRequest({ production_order }));
     setProduct(null);
+    setOpen(false);
     reset();
   };
 
@@ -181,7 +140,7 @@ export default function ProductionForm({
             id="select-destino"
             label="Destino"
             autoComplete="off"
-            defaultValue=""
+            defaultValue="MVC10"
             {...register("destino", {
               required: true,
             })}
@@ -197,7 +156,7 @@ export default function ProductionForm({
           type="text"
           size="small"
           value={product ? _.find(listSku, { sku: product })?.rack : ""}
-          {...register("rack", { required: true })}
+          // {...register("rack", { required: true })}
         />
         <TextField
           sx={{ width: "15rem", mb: 2 }}
@@ -205,7 +164,7 @@ export default function ProductionForm({
           type="number"
           size="small"
           value={product ? _.find(listSku, { sku: product })?.kg_lote : ""}
-          {...register("kg_lote", { required: true })}
+          // {...register("kg_lote", { required: true })}
         />
         <TextField
           sx={{ width: "15rem", mb: 2 }}
@@ -213,7 +172,7 @@ export default function ProductionForm({
           type="number"
           size="small"
           value={product ? _.find(listSku, { sku: product })?.no_rack : ""}
-          {...register("no_rack", { required: true })}
+          // {...register("no_rack", { required: true })}
         />
         <TextField
           sx={{ width: "15rem", mb: 2 }}
@@ -223,7 +182,7 @@ export default function ProductionForm({
           value={
             product ? _.find(listSku, { sku: product })?.tipo_emulsion : ""
           }
-          {...register("tipo_emulsion", { required: true })}
+          // {...register("tipo_emulsion", { required: true })}
         />
         <div></div>
         <div></div>

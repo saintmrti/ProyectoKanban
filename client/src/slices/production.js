@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import _ from "lodash";
+import _ from "lodash";
 
 const Slice = createSlice({
   name: "production",
@@ -19,7 +19,7 @@ const Slice = createSlice({
     },
     fetchProductionSuccess: (state, action) => {
       const { data } = action.payload;
-      state.data = data;
+      state.data = _.keyBy(data, "idOrdenProduccion");
       state.isFetching = false;
     },
     fetchProductionError: (state) => {
@@ -32,7 +32,7 @@ const Slice = createSlice({
     },
     insertProductionSuccess: (state, action) => {
       const { data } = action.payload;
-      state.data = data;
+      state.data[data.idOrdenProduccion] = data;
       state.isFetchingInsert = false;
     },
     insertProductionError: (state) => {
@@ -45,7 +45,7 @@ const Slice = createSlice({
     },
     deleteProductionSuccess: (state, action) => {
       const { data } = action.payload;
-      state.data = data;
+      delete state.data[parseInt(data)];
       state.isFetchingDelete = false;
     },
     deleteProductionError: (state) => {

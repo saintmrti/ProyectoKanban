@@ -28,7 +28,7 @@ const NavProduction = () => {
             mr: 1,
           }}
         >
-          Produccion
+          Programa Celda
         </Button>
         <Button
           variant="contained"

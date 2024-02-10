@@ -60,64 +60,6 @@ module.exports.uploadRequirement = async (cn, data, date) => {
       (obj) => !Object.values(obj).every((val) => val === undefined)
     );
 
-    // const transformData = _.map(cleanData, (item) => ({
-    //   sku: item?.SKU?.replace(/'/g, "''") || null,
-    //   descripcion: item["Descripción"]?.replace(/'/g, "''") || null,
-    //   linea: item?.Linea || null,
-    //   origen: item?.Origen?.replace(/'/g, "''") || null,
-    //   bptmy_maximo: parseInt(item["BPTMY Maximo"]) || 0,
-    //   bptmy_minimo: parseInt(item["BPTMY Minimo"]) || 0,
-    //   cedmty: item["CEDMTY"] || 0,
-    //   cedchih: item["CEDCHIH"] || 0,
-    //   cedlan: item["CEDLAN"] || 0,
-    //   cedgdl: item["CEDGDL"] || 0,
-    //   cedcul: item["CEDCUL"] || 0,
-    //   cedtij: item["CEDTIJ"] || 0,
-    //   cedmer: item["CEDMER"] || 0,
-    //   cedleon: item["CEDLEON"] || 0,
-    //   cedver: item["CEDVER"] || 0,
-    //   cedmex: item["CEDMEX"] || 0,
-    //   cedtep: item["CEDTEP"] || 0,
-    //   qyq: item["QyQ"] || 0,
-    //   carnemart: item["CARNEMART"] || 0,
-    //   total: item["TOTAL"] || 0,
-    //   fecha: moment().format("YYYY-MM-DD HH:mm:ss"),
-    // }));
-
-    // const tempTableValues = transformData
-    //   .map(
-    //     (item) => `(
-    //     '${item.sku}',
-    //     '${item.descripcion}',
-    //     '${item.linea}',
-    //     '${item.origen}',
-    //     ${item.bptmy_maximo},
-    //     ${item.bptmy_minimo},
-    //     ${item.cedmty},
-    //     ${item.cedchih},
-    //     ${item.cedlan},
-    //     ${item.cedgdl},
-    //     ${item.cedcul},
-    //     ${item.cedtij},
-    //     ${item.cedmer},
-    //     ${item.cedleon},
-    //     ${item.cedver},
-    //     ${item.cedmex},
-    //     ${item.cedtep},
-    //     ${item.qyq},
-    //     ${item.carnemart},
-    //     ${item.total},
-    //     ${item.fecha}
-    //   )`
-    //   )
-    //   .join(",");
-
-    // await cn.query(`
-    //   INSERT INTO Qualtia_Prod_requerimiento
-    //   (producto, descripcion, linea, origen, bptmy_maximo, bptmy_minimo, cedmty, cedchih, cedlan, cedgdl, cedcul, cedtij, cedmer, cedleon, cedver, cedmex, cedtep, QyQ, carnemart, total, fecha)
-    //   VALUES ${tempTableValues}
-    // `);
-
     const values = cleanData
       .map(
         (item) =>

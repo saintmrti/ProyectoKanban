@@ -322,7 +322,11 @@ export default function TablaProgramador({
             <StyledTableCell align="left" colSpan={1}>
               SKU
             </StyledTableCell>
-            <StyledTableCell align="left" colSpan={1}>
+            <StyledTableCell
+              align="left"
+              colSpan={1}
+              style={{ minWidth: "6rem" }}
+            >
               KG Plan
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>

@@ -6,74 +6,135 @@ export const getProduction = createSelector(
   ({ production }) => production.data,
   (production) => {
     if (_.isEmpty(production)) return [];
-    const groupByidProduccion = _.groupBy(production, "idProduccion");
-
-    const orderByAsset = _.mapValues(groupByidProduccion, (value) => {
-      return _.orderBy(value, ["activo_inicio"], ["desc"]);
-    });
-
-    const list = _.reduce(
-      orderByAsset,
-      (result, value) => {
-        result.push({
-          id: value[0].idProduccion,
-          idProducto: value[0].idProducto,
-          sec: value[0].secuencia,
-          destino: value[0].destino,
-          producto: value[0].producto,
-          rack: value[0].rack,
-          kg_lote: value[0].kg_lote,
-          no_rack: value[0].no_rack,
-          tipo_emulsion: value[0].tipo_emulsion,
-          procesos: [
-            {
-              nombre: "Mezclado",
-              inicio: moment.utc(value[0].mezclado).format("HH:mm"),
-              fin: moment.utc(value[1].mezclado).format("HH:mm"),
-            },
-            {
-              nombre: "Embutido",
-              inicio: moment.utc(value[0].embutido).format("HH:mm"),
-              fin: moment.utc(value[1].embutido).format("HH:mm"),
-            },
-            {
-              nombre: "Cocimiento",
-              inicio: moment.utc(value[0].cocimiento).format("HH:mm"),
-              fin: moment.utc(value[1].cocimiento).format("HH:mm"),
-            },
-            {
-              nombre: "Enfriamiento",
-              inicio: moment.utc(value[0].enfriamiento).format("HH:mm"),
-              fin: moment.utc(value[1].enfriamiento).format("HH:mm"),
-            },
-            {
-              nombre: "Desmolde",
-              inicio: moment.utc(value[0].desmolde).format("HH:mm"),
-              fin: moment.utc(value[1].desmolde).format("HH:mm"),
-            },
-            {
-              nombre: "Atemperado",
-              inicio: moment.utc(value[0].atemperado).format("HH:mm"),
-              fin: moment.utc(value[1].atemperado).format("HH:mm"),
-            },
-            {
-              nombre: "Rebanado",
-              inicio: moment.utc(value[0].rebanado).format("HH:mm"),
-              fin: moment.utc(value[1].rebanado).format("HH:mm"),
-            },
-            {
-              nombre: "Entrega",
-              inicio: moment.utc(value[0].entrega).format("HH:mm"),
-              fin: moment.utc(value[1].entrega).format("HH:mm"),
-            },
-          ],
-        });
-        return result;
-      },
-      []
-    );
-
-    const orderBySec = _.orderBy(list, ["sec"], ["asc"]);
-    return orderBySec;
+    console.log(production);
+    const data = _.map(production, (prod) => ({
+      id: prod.idOrdenProduccion,
+      producto: prod.idSku,
+      destino: prod.destino,
+      rack: prod.rack,
+      kg_lote: prod.kg_lote,
+      no_rack: prod.no_rack,
+      tipo_emulsion: prod.tipo_emulsion,
+      procesos: [
+        {
+          nombre: "Ingredientes_secos",
+          inicio: prod.f_inicio_ingredientes_secos
+            ? moment(prod.f_inicio_ingredientes_secos).format("HH:mm")
+            : null,
+          fin: prod.f_fin_ingredientes_secos
+            ? moment(prod.f_fin_ingredientes_secos).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Salmuerizador",
+          inicio: prod.f_inicio_salmueras
+            ? moment(prod.f_inicio_salmueras).format("HH:mm")
+            : null,
+          fin: prod.f_fin_salmueras
+            ? moment(prod.f_fin_salmueras).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Emulsiones",
+          inicio: prod.f_inicio_emulsiones
+            ? moment(prod.f_inicio_emulsiones).format("HH:mm")
+            : null,
+          fin: prod.f_fin_emulsiones
+            ? moment(prod.f_fin_emulsiones).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "CyD Frescos",
+          inicio: prod.f_inicio_corte_deshuese_frescos
+            ? moment(prod.f_inicio_corte_deshuese_frescos).format("HH:mm")
+            : null,
+          fin: prod.f_fin_corte_deshuese_frescos
+            ? moment(prod.f_fin_corte_deshuese_frescos).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "CyD Congelados",
+          inicio: prod.f_inicio_corte_deshuese_congelados
+            ? moment(prod.f_inicio_corte_deshuese_congelados).format("HH:mm")
+            : null,
+          fin: prod.f_fin_corte_deshuese_congelados
+            ? moment(prod.f_fin_corte_deshuese_congelados).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Mezclado",
+          inicio: prod.f_inicio_mezcladora
+            ? moment(prod.f_inicio_mezcladora).format("HH:mm")
+            : null,
+          fin: prod.f_fin_mezcladora
+            ? moment(prod.f_fin_mezcladora).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Embutido",
+          inicio: prod.f_inicio_embutidos
+            ? moment(prod.f_inicio_embutidos).format("HH:mm")
+            : null,
+          fin: prod.f_fin_embutidos
+            ? moment(prod.f_fin_embutidos).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Cocimiento",
+          inicio: prod.f_inicio_cocimiento
+            ? moment(prod.f_inicio_cocimiento).format("HH:mm")
+            : null,
+          fin: prod.f_fin_cocimiento
+            ? moment(prod.f_fin_cocimiento).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Enfriamiento",
+          inicio: prod.f_inicio_enfriamiento
+            ? moment(prod.f_inicio_enfriamiento).format("HH:mm")
+            : null,
+          fin: prod.f_fin_enfriamiento
+            ? moment(prod.f_fin_enfriamiento).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Desmolde",
+          inicio: prod.f_inicio_desmolde
+            ? moment(prod.f_inicio_desmolde).format("HH:mm")
+            : null,
+          fin: prod.f_fin_desmolde
+            ? moment(prod.f_fin_desmolde).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Atemperado",
+          inicio: prod.f_inicio_atemperado
+            ? moment(prod.f_inicio_atemperado).format("HH:mm")
+            : null,
+          fin: prod.f_fin_atemperado
+            ? moment(prod.f_fin_atemperado).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Rebanado",
+          inicio: prod.f_inicio_rebanado
+            ? moment(prod.f_inicio_rebanado).format("HH:mm")
+            : null,
+          fin: prod.f_fin_rebanado
+            ? moment(prod.f_fin_rebanado).format("HH:mm")
+            : null,
+        },
+        {
+          nombre: "Almacen",
+          inicio: prod.f_inicio_almacen
+            ? moment(prod.f_inicio_almacen).format("HH:mm")
+            : null,
+          fin: prod.f_fin_almacen
+            ? moment(prod.f_fin_almacen).format("HH:mm")
+            : null,
+        },
+      ],
+    }));
+    return data;
   }
 );

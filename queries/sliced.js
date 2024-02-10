@@ -3,7 +3,11 @@ const time = moment().format("HH:mm:ss");
 
 module.exports.getRequirements = async (conn, date) => {
   const { data } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
+    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Plan_rebanado AS p
+    INNER JOIN Qualtia_Prod_producto_cat AS c
+    ON c.id = p.idProducto WHERE CAST(fecha AS DATE) BETWEEN '${moment()
+      .subtract(5, "days")
+      .format("YYYY-MM-DD")}' AND '${date}';
   `);
   return data;
 };
@@ -14,11 +18,11 @@ module.exports.insertRequirement = async (conn, { products, date }) => {
   );
 
   await conn.query(`
-    DELETE FROM Qualtia_Prod_plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
+    DELETE FROM Qualtia_Plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
   `);
 
   await conn.query(`
-    INSERT INTO Qualtia_Prod_plan_rebanado (fecha, idProducto, ajuste_carga, pedido) VALUES
+    INSERT INTO Qualtia_Plan_rebanado (fecha, idProducto, ajuste_carga, pedido) VALUES
     ${products
       .map(
         (product) =>
@@ -28,7 +32,7 @@ module.exports.insertRequirement = async (conn, { products, date }) => {
   `);
 
   const { data } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
+    SELECT * FROM Qualtia_Plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
   `);
   return data;
 };

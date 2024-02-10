@@ -40,9 +40,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // },
 }));
 
-const today = moment().format("DD MMM");
-const tomorrow = moment().add(1, "days").format("DD MMM");
-
 const ProgrammerTable = ({
   list,
   setOpenDialog,
@@ -60,6 +57,9 @@ const ProgrammerTable = ({
   const handleEditClick = (index) => {
     setProduct(index);
   };
+
+  const today = moment(date).format("DD MMM");
+  const tomorrow = moment(date).add(1, "days").format("DD MMM");
 
   const handleSaveClick = () => {
     if (
@@ -191,6 +191,9 @@ const ProgrammerTable = ({
                   <b>SKU</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
+                  <b>Plan Ajustado</b>
+                </StyledTableCell>
+                <StyledTableCell align="center">
                   <b>Minimo Kgs/Carga</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
@@ -236,6 +239,9 @@ const ProgrammerTable = ({
                 <StyledTableRow key={row.id}>
                   <StyledTableCell align="center">
                     {row.producto}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.plan_ajustado}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.min_kg_carga}

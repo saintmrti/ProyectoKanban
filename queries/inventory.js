@@ -23,8 +23,8 @@ module.exports.getSummary = async (conn, date) => {
     WHERE CONVERT(date, fecha) = '${date}';
   `);
 
-  const { data: pr } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_plan_rebanado
+  const { data: pe } = await conn.query(`
+    SELECT * FROM Qualtia_Plan_rebanado
     WHERE CONVERT(date, fecha) =  '${date}';
   `);
 
@@ -33,13 +33,19 @@ module.exports.getSummary = async (conn, date) => {
     WHERE CONVERT(date, fecha) = '2024-01-25';
   `);
 
+  const { data: sem } = await conn.query(`
+    SELECT * FROM Qualtia_Plan_ajustado
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
   return {
     productos,
     inv_nacional,
     requirement,
     wip_programa,
-    pr,
+    pe,
     KgCarga,
+    sem,
   };
 };
 

@@ -150,12 +150,19 @@ const { getSummary } = require("../queries/inventory");
 
 module.exports.transfered = async (cn, date) => {
   try {
-    const { productos, inv_nacional, requirement, wip_programa, pr, KgCarga } =
-      await getSummary(cn, date);
+    const {
+      productos,
+      inv_nacional,
+      requirement,
+      wip_programa,
+      pe,
+      KgCarga,
+      sem,
+    } = await getSummary(cn, date);
 
     const newReq = _.map(requirement, (req) => ({
       ...req,
-      real_date: moment(req.fecha).format("YYYY-MM-DD"),
+      real_date: moment(req.fecha).utc().format("YYYY-MM-DD"),
     }));
 
     const gropedReq = _.groupBy(newReq, "real_date");
@@ -190,8 +197,8 @@ module.exports.transfered = async (cn, date) => {
           i.producto &&
           i.producto.toUpperCase() === producto.producto.toUpperCase()
       );
-      const plan_rebanado = _.find(
-        pr,
+      const plan_embutido = _.find(
+        pe,
         (i) => i.idProducto && i.idProducto === producto.id
       );
       const kg_carga = _.find(
@@ -201,14 +208,22 @@ module.exports.transfered = async (cn, date) => {
           i.producto.toUpperCase() === producto.producto.toUpperCase()
       );
 
+      const weeks = _.find(
+        sem,
+        (i) =>
+          i.producto &&
+          i.producto.toUpperCase() === producto.producto.toUpperCase()
+      );
+
       const inv_bpt = bpt ? bpt?.inv_net_trans : 0;
       const inv_cedis = cedis ? cedis?.inv_net_trans : 0;
       const tiendita = req_today ? req_today?.bptmy_maximo : 0;
-      const programa_hoy = plan_rebanado ? plan_rebanado?.pedido : 0;
+      const programa_hoy = plan_embutido ? plan_embutido?.pedido : 0;
       const prox_salida = Math.round(req_today ? req_today?.total : 0);
       const salida_hoy = Math.round(req_yesterday ? req_yesterday?.total : 0);
       const wip_hoy = wip ? parseInt(wip?.total_Kilos) : 0;
       const min_kg_carga = kg_carga ? kg_carga?.min_kg_carga : 0;
+      const plan_ajustado = weeks ? weeks?.plan_ajustado : 0;
 
       return {
         ...producto,
@@ -222,6 +237,7 @@ module.exports.transfered = async (cn, date) => {
         wip_hoy,
         programa_hoy,
         wip_programa_hoy: wip_hoy + programa_hoy,
+        plan_ajustado,
       };
     });
     // const data = _.map(newRegisters, (reg) => {
