@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import { fetchRequirementRequest } from "../../../slices/requirement";
 import { fetchSlicedRequest } from "../../../slices/sliced";
 
-const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
+const GroupFilter = ({ setFilteredPlan, plan, date, handleChangeDate }) => {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
 
@@ -52,7 +52,7 @@ const GroupFilter = ({ setFilteredPlan, plan, date, setDate }) => {
 
   const handleDateChange = (event) => {
     const { value } = event.target;
-    setDate(value);
+    handleChangeDate(value);
     dispatch(fetchRequirementRequest({ date: value }));
     dispatch(fetchSlicedRequest({ date: value }));
   };

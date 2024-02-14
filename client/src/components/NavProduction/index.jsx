@@ -21,24 +21,24 @@ const NavProduction = () => {
         </Button>
         <Button
           variant="contained"
-          onClick={() => navigate("/planeacion/produccion")}
-          sx={{
-            background:
-              location.pathname != "/planeacion/produccion" && "#74A1CD",
-            mr: 1,
-          }}
-        >
-          Programa Celda
-        </Button>
-        <Button
-          variant="contained"
           onClick={() => navigate("/planeacion/historico")}
           sx={{
             background:
               location.pathname != "/planeacion/historico" && "#74A1CD",
+            mr: 1,
           }}
         >
-          Historico
+          Acumulado Rebanados
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/planeacion/produccion")}
+          sx={{
+            background:
+              location.pathname != "/planeacion/produccion" && "#74A1CD",
+          }}
+        >
+          Programa Celda
         </Button>
       </div>
       <Outlet />

@@ -46,7 +46,7 @@ const ProgrammerTable = ({
   openDialog,
   setRealPlan,
   date,
-  setDate,
+  handleChangeDate,
   sliced,
 }) => {
   const theme = useTheme();
@@ -130,9 +130,9 @@ const ProgrammerTable = ({
   useEffect(() => {
     const planData = _.map(list, (row) => {
       const pedido_actual =
-        _.find(sliced, { idProducto: row?.idProducto })?.pedido || 0;
+        _.find(sliced, { id: row?.idProducto })?.pedido || 0;
       const ajuste_actual =
-        _.find(sliced, { idProducto: row?.idProducto })?.ajuste_carga || 0;
+        _.find(sliced, { id: row?.idProducto })?.ajuste_carga || 0;
       return {
         ...row,
         ajuste_carga: ajuste_actual,
@@ -166,7 +166,7 @@ const ProgrammerTable = ({
               setFilteredPlan={setFilteredPlan}
               plan={plan}
               date={date}
-              setDate={setDate}
+              handleChangeDate={handleChangeDate}
             />
             <Button
               variant="outlined"

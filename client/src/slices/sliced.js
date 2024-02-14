@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import _ from "lodash";
+// import _ from "lodash";
 
 const Slice = createSlice({
   name: "sliced",
@@ -16,7 +16,7 @@ const Slice = createSlice({
       state.didError = false;
     },
     fetchSlicedSuccess: (state, { payload: { data } }) => {
-      state.data = _.keyBy(data, "id");
+      state.data = data;
       state.isFetching = false;
     },
     fetchSlicedError: (state) => {
@@ -28,7 +28,7 @@ const Slice = createSlice({
       state.didErrorInsert = false;
     },
     insertSlicedSuccess: (state, { payload: { data } }) => {
-      state.data = _.keyBy(data, "id");
+      state.data = data;
       state.isFetchingInsert = false;
     },
     insertSlicedError: (state) => {

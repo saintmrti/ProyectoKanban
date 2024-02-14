@@ -28,7 +28,9 @@ export default function SlicedPlanTable({ pedido }) {
               }}
             >
               <div className="flex">
-                <span className="font-bold">{pedido[0].fecha}</span>
+                <span className="font-bold">
+                  {moment(pedido[0].fecha).format("dddd")}
+                </span>
                 <span className="ml-auto">{pedido[0].fecha}</span>
               </div>
             </TableCell>

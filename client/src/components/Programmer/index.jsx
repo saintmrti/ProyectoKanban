@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import SpeedDial from "@mui/material/SpeedDial";
-import AddIcon from "@mui/icons-material/Add";
+// import SpeedDial from "@mui/material/SpeedDial";
+// import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import moment from "moment-timezone";
 
 import {
   fetchRequirementRequest,
@@ -16,28 +15,29 @@ import { fetchSlicedRequest } from "../../slices/sliced";
 import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
 import AlertDialog from "./Dialog/AlertDialog";
-import CloseIcon from "@mui/icons-material/Close";
-import WeeklyInventory from "./WeeklyInventory";
+// import CloseIcon from "@mui/icons-material/Close";
+// import WeeklyInventory from "./WeeklyInventory";
 import { FileUploader } from "./FileUploader";
+import { changeDate } from "../../slices/date";
 import { Spinner } from "../Spinner";
 // import _ from "lodash";
 
 const Programmer = () => {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
 
   const requirements = useSelector(getRequirement);
   const { data: sliced } = useSelector((state) => state.sliced);
+  const { date } = useSelector((state) => state.date);
   const { isFetching, didError, isFetchingInsert } = useSelector(
     (state) => state.requirement
   );
 
-  const handleOnClick = () => {
-    setOpen(!open);
+  const handleChangeDate = (newDate) => {
+    dispatch(changeDate(newDate));
   };
 
   const handleUpload = () => {
@@ -52,7 +52,7 @@ const Programmer = () => {
 
   const handleDateChange = (event) => {
     const { value } = event.target;
-    setDate(value);
+    handleChangeDate(value);
     dispatch(fetchRequirementRequest({ date: value }));
     dispatch(fetchSlicedRequest({ date: value }));
   };
@@ -93,10 +93,10 @@ const Programmer = () => {
           )} */}
           {Object.keys(requirements).length > 0 ? (
             <ProgrammerTable
-              sliced={sliced}
+              sliced={sliced?.pedido}
               date={date}
               setRealPlan={setRealPlan}
-              setDate={setDate}
+              handleChangeDate={handleChangeDate}
               list={requirements}
               openDialog={openDialog}
               setOpenDialog={setOpenDialog}
@@ -110,17 +110,15 @@ const Programmer = () => {
                   <Typography variant="h6" sx={{ mb: 2 }}>
                     Programador
                   </Typography>
-                  <div className="ml-auto flex items-center">
-                    <TextField
-                      id="date"
-                      label="Fecha"
-                      type="date"
-                      size="small"
-                      value={date}
-                      onChange={handleDateChange}
-                      sx={{ width: "15rem" }}
-                    />
-                  </div>
+                  <TextField
+                    id="date"
+                    label="Fecha"
+                    type="date"
+                    size="small"
+                    value={date}
+                    onChange={handleDateChange}
+                    sx={{ width: "15rem", ml: "auto" }}
+                  />
                 </div>
                 <div className="flex items-center justify-center w-full h-4/5">
                   <FileUploader

@@ -23,7 +23,7 @@ module.exports.getSummary = async (conn, date) => {
     WHERE CONVERT(date, fecha) = '${date}';
   `);
 
-  const { data: pe } = await conn.query(`
+  const { data: pr } = await conn.query(`
     SELECT * FROM Qualtia_Plan_rebanado
     WHERE CONVERT(date, fecha) =  '${date}';
   `);
@@ -43,7 +43,7 @@ module.exports.getSummary = async (conn, date) => {
     inv_nacional,
     requirement,
     wip_programa,
-    pe,
+    pr,
     KgCarga,
     sem,
   };

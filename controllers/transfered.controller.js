@@ -155,7 +155,7 @@ module.exports.transfered = async (cn, date) => {
       inv_nacional,
       requirement,
       wip_programa,
-      pe,
+      pr,
       KgCarga,
       sem,
     } = await getSummary(cn, date);
@@ -197,8 +197,8 @@ module.exports.transfered = async (cn, date) => {
           i.producto &&
           i.producto.toUpperCase() === producto.producto.toUpperCase()
       );
-      const plan_embutido = _.find(
-        pe,
+      const plan_rebanado = _.find(
+        pr,
         (i) => i.idProducto && i.idProducto === producto.id
       );
       const kg_carga = _.find(
@@ -218,7 +218,7 @@ module.exports.transfered = async (cn, date) => {
       const inv_bpt = bpt ? bpt?.inv_net_trans : 0;
       const inv_cedis = cedis ? cedis?.inv_net_trans : 0;
       const tiendita = req_today ? req_today?.bptmy_maximo : 0;
-      const programa_hoy = plan_embutido ? plan_embutido?.pedido : 0;
+      const programa_hoy = plan_rebanado ? plan_rebanado?.pedido : 0;
       const prox_salida = Math.round(req_today ? req_today?.total : 0);
       const salida_hoy = Math.round(req_yesterday ? req_yesterday?.total : 0);
       const wip_hoy = wip ? parseInt(wip?.total_Kilos) : 0;

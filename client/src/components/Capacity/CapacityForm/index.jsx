@@ -37,8 +37,8 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
     editProduct
       ? dispatch(updateCapacityRequest(sku))
       : dispatch(insertCapacityRequest(sku));
-    reset();
-    setOpenForm(false);
+    // reset();
+    // setOpenForm(false);
   };
 
   useEffect(() => {
@@ -59,14 +59,14 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       setValue("tinas_emulsion", product.tinas_emulsion);
       setValue("tinas_fresco", product.tinas_fresco);
       setValue("tinas_congelado", product.tinas_congelado);
-      product.mezclado && setValue("mezclado", product.mezclado);
-      product.embutido && setValue("embutido", product.embutido);
-      product.cocimiento && setValue("cocimiento", product.cocimiento);
-      product.enfriamiento && setValue("enfriamiento", product.enfriamiento);
-      product.desmolde && setValue("desmolde", product.desmolde);
-      product.atemperado && setValue("atemperado", product.atemperado);
-      product.rebanado && setValue("rebanado", product.rebanado);
-      product.entrega && setValue("entrega", product.entrega);
+      setValue("mezclado", product.mezclado);
+      setValue("embutido", product.embutido);
+      setValue("cocimiento", product.cocimiento);
+      setValue("enfriamiento", product.enfriamiento);
+      setValue("desmolde", product.desmolde);
+      setValue("atemperado", product.atemperado);
+      setValue("rebanado", product.rebanado);
+      setValue("entrega", product.entrega);
     }
   }, [product, setValue]);
 
@@ -191,7 +191,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
             autoComplete="off"
             type="number"
             size="small"
-            {...register("tinas_emulsion", { required: false })}
+            {...register("tinas_emulsion", { required: true })}
           />
           <TextField
             sx={{ width: "17rem" }}
@@ -199,7 +199,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
             autoComplete="off"
             type="number"
             size="small"
-            {...register("tinas_fresco", { required: false })}
+            {...register("tinas_fresco", { required: true })}
           />
           <TextField
             sx={{ width: "17rem" }}
@@ -207,7 +207,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
             autoComplete="off"
             type="number"
             size="small"
-            {...register("tinas_congelado", { required: false })}
+            {...register("tinas_congelado", { required: true })}
           />
         </div>
         <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
@@ -226,7 +226,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.ingredientes_secos}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("ingredientes_secos", { required: false })}
+              {...register("ingredientes_secos", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -235,7 +235,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_ingred_salmuera", { required: false })}
+              {...register("te_ingredientes_salmuera", { required: true })}
             />
           </Card>
           <Card
@@ -253,7 +253,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.salmuerizador}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("salmuerizador", { required: false })}
+              {...register("salmuerizador", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -262,7 +262,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_salmuera_mezclado", { required: false })}
+              {...register("te_salmuera_mezclado", { required: true })}
             />
           </Card>
           <Card
@@ -280,7 +280,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.emulsiones}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("emulsiones", { required: false })}
+              {...register("emulsiones", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -289,7 +289,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.te_celda}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_emul_mezclado", { required: false })}
+              {...register("te_emulsiones_mezclado", { required: true })}
             />
           </Card>
           <Card
@@ -304,10 +304,10 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               sx={{ width: "6.6rem" }}
               label="Corte y Deshuese"
               type="time"
-              defaultValue={product?.corte_deshuese}
+              defaultValue={product?.corte_deshuese_fresco}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("corte_deshuese", { required: false })}
+              {...register("corte_deshuese_fresco", { required: true })}
             />
             <TextField
               sx={{ width: "6.6rem" }}
@@ -316,7 +316,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.te_corte_deshuese}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_cyd_emulsiones", { required: false })}
+              {...register("te_cyd_emulsiones", { required: true })}
             />
             <TextField
               sx={{ width: "6.6rem" }}
@@ -325,7 +325,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.te_corte_deshuese}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_cyd_mezclado", { required: false })}
+              {...register("te_cyd_mezclado", { required: true })}
             />
           </Card>
           <Card
@@ -343,7 +343,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("mezclado", { required: false })}
+              {...register("mezclado", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -352,7 +352,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_mezclado_embutido", { required: false })}
+              {...register("te_mezclado_embutido", { required: true })}
             />
           </Card>
           <Card
@@ -370,7 +370,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.embutido}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("embutido", { required: false })}
+              {...register("embutido", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -379,7 +379,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_embutido_cocimiento", { required: false })}
+              {...register("te_embutido_cocimiento", { required: true })}
             />
           </Card>
           <Card
@@ -397,7 +397,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.cocimiento}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("cocimiento", { required: false })}
+              {...register("cocimiento", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -406,7 +406,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_cocimiento_enfriamiento", { required: false })}
+              {...register("te_cocimiento_enfriamiento", { required: true })}
             />
           </Card>
           <Card
@@ -424,7 +424,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.enfriamiento}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("enfriamiento", { required: false })}
+              {...register("enfriamiento", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -433,7 +433,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_enfriamiento_desmolde", { required: false })}
+              {...register("te_enfriamiento_desmolde", { required: true })}
             />
           </Card>
           <Card
@@ -451,7 +451,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.desmolde}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("desmolde", { required: false })}
+              {...register("desmolde", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -460,7 +460,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_desmolde_atemperado", { required: false })}
+              {...register("te_desmolde_atemperado", { required: true })}
             />
           </Card>
           <Card
@@ -478,7 +478,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.atemperado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("atemperado", { required: false })}
+              {...register("atemperado", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -487,7 +487,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_atemperado_rebanado", { required: false })}
+              {...register("te_atemperado_rebanado", { required: true })}
             />
           </Card>
           <Card
@@ -505,7 +505,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.rebanado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("rebanado", { required: false })}
+              {...register("rebanado", { required: true })}
             />
             <TextField
               sx={{ width: "10.3rem" }}
@@ -514,7 +514,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               // defaultValue={product?.mezclado}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("te_rebanado_entrega", { required: false })}
+              {...register("te_rebanado_entrega", { required: true })}
             />
           </Card>
           <Card
@@ -532,7 +532,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
               defaultValue={product?.entrega}
               InputLabelProps={{ shrink: true }}
               size="small"
-              {...register("entrega", { required: false })}
+              {...register("entrega", { required: true })}
             />
           </Card>
         </div>
