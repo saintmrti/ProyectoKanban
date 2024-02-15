@@ -274,14 +274,29 @@ export const dataOptions = {
 };
 
 export const dataTimings = [
-  "Mezclado",
-  "Embutido",
-  "Cocimiento",
-  "Enfriamiento",
-  "Desmolde",
-  "Atemperado",
-  "Rebanado",
-  "Entrega",
+  "ingredientes_secos",
+  "salmuerizador",
+  "corte_deshuese_frescos",
+  "emulsiones",
+  "mezcladora",
+  "embutido",
+  "cocimiento",
+  "enfriamiento",
+  "desmolde",
+  "atemperado",
+  "rebanado",
+  "entrega",
+  "te_ingredientes_salmuera",
+  "te_salmuera_mezclado",
+  "te_emulsiones_mezclado",
+  "te_cyd_emulsiones",
+  "te_cyd_mezclado",
+  "te_mezclado_embutido",
+  "te_embutido_cocimiento",
+  "te_cocimiento_enfriamiento",
+  "te_enfriamiento_desmolde",
+  "te_desmolde_atemperado",
+  "te_atemperado_rebanado",
 ];
 
 export const dataFamily = [

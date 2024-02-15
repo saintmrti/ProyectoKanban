@@ -258,8 +258,7 @@ router.put("/", (req, res) => {
         ? null
         : moment.duration(te_rebanado_entrega).asMinutes(),
   };
-  console.log(newSku);
-  // response(res, false, updateCapacity, newSku);
+  response(res, false, updateCapacity, newSku);
 });
 
 router.delete("/", (req, res) => {

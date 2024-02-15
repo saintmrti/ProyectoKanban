@@ -5,8 +5,8 @@ module.exports.getSummary = async (conn) => {
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
       c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, c.tinas_emulsion, c.tinas_fresco, c.tinas_congelado, m.idLinea, l.nombre as linea,
-      t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
-      t.rebanado, t.entrega, t.corte_deshuese_fresco, t.emulsiones, t.te_ingredientes_salmuera, t.te_salmuera_mezclado, t.te_emulsiones_mezclado,
+      t.ingredientes_secos, t.salmuerizador, t.corte_deshuese_fresco, t.emulsiones, t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
+      t.rebanado, t.entrega, t.te_ingredientes_salmuera, t.te_salmuera_mezclado, t.te_emulsiones_mezclado,
       t.te_cyd_emulsiones, t.te_cyd_mezclado, t.te_mezclado_embutido, t.te_embutido_cocimiento, t.te_cocimiento_enfriamiento, 
       t.te_enfriamiento_desmolde, t.te_desmolde_atemperado, t.te_atemperado_rebanado, t.te_rebanado_entrega
       FROM Qualtia_Capacidad_cat_sku as c
@@ -76,8 +76,8 @@ module.exports.insertCapacity = async (
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
       c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, c.tinas_emulsion, c.tinas_fresco, c.tinas_congelado, m.idLinea, l.nombre as linea,
-      t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
-      t.rebanado, t.entrega, t.corte_deshuese_fresco, t.emulsiones, t.te_ingredientes_salmuera, t.te_salmuera_mezclado, t.te_emulsiones_mezclado,
+      t.ingredientes_secos, t.salmuerizador, t.corte_deshuese_fresco, t.emulsiones, t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
+      t.rebanado, t.entrega, t.te_ingredientes_salmuera, t.te_salmuera_mezclado, t.te_emulsiones_mezclado,
       t.te_cyd_emulsiones, t.te_cyd_mezclado, t.te_mezclado_embutido, t.te_embutido_cocimiento, t.te_cocimiento_enfriamiento, 
       t.te_enfriamiento_desmolde, t.te_desmolde_atemperado, t.te_atemperado_rebanado, t.te_rebanado_entrega
       FROM Qualtia_Capacidad_cat_sku as c
@@ -177,8 +177,8 @@ module.exports.updateCapacity = async (
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
       c.kg_lote, c.rack, c.no_rack, c.tipo_emulsion, c.tinas_emulsion, c.tinas_fresco, c.tinas_congelado, m.idLinea, l.nombre as linea,
-      t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
-      t.rebanado, t.entrega, t.corte_deshuese_fresco, t.emulsiones, t.te_ingredientes_salmuera, t.te_salmuera_mezclado, t.te_emulsiones_mezclado,
+      t.ingredientes_secos, t.salmuerizador, t.corte_deshuese_fresco, t.emulsiones, t.mezclado, t.embutido, t.cocimiento, t.enfriamiento, t.desmolde, t.atemperado,
+      t.rebanado, t.entrega, t.te_ingredientes_salmuera, t.te_salmuera_mezclado, t.te_emulsiones_mezclado,
       t.te_cyd_emulsiones, t.te_cyd_mezclado, t.te_mezclado_embutido, t.te_embutido_cocimiento, t.te_cocimiento_enfriamiento, 
       t.te_enfriamiento_desmolde, t.te_desmolde_atemperado, t.te_atemperado_rebanado, t.te_rebanado_entrega
       FROM Qualtia_Capacidad_cat_sku as c

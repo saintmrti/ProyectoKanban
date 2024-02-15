@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { fetchCapacityRequest } from "../../slices/capacity";
-// import { getCapacity } from "../../selectors/capacity";
+import { Spinner } from "../Spinner";
 import CapacityTable from "./CapacityTable";
 import CapacityForm from "./CapacityForm";
 import Alert from "./Alert";
@@ -31,7 +31,7 @@ const Capacity = () => {
   const [deleteProduct, setDeleteProduct] = useState(null);
   const [selectedArr, setSelectedArr] = useState();
 
-  // const data = useSelector(getCapacity);
+  const { isFetching, didError } = useSelector((state) => state.capacity);
 
   const handleOnCloseForm = () => {
     setOpenForm(false);
@@ -43,42 +43,50 @@ const Capacity = () => {
 
   return (
     <>
-      <CapacityTable
-        setEditProduct={setEditProduct}
-        setDeleteProduct={setDeleteProduct}
-        setOpenAlert={setOpenAlert}
-        setOpenForm={setOpenForm}
-        selectedArr={selectedArr}
-        setSelectedArr={setSelectedArr}
-      />
-      <Modal open={openForm} onClose={handleOnCloseForm}>
-        <Box sx={style}>
-          <IconButton
-            aria-label="close"
-            size="small"
-            onClick={handleOnCloseForm}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <CapacityForm
-            selectedArr={selectedArr}
-            editProduct={editProduct}
+      {isFetching ? (
+        <Spinner />
+      ) : didError ? (
+        <p>Error</p>
+      ) : (
+        <Box>
+          <CapacityTable
             setEditProduct={setEditProduct}
+            setDeleteProduct={setDeleteProduct}
+            setOpenAlert={setOpenAlert}
             setOpenForm={setOpenForm}
+            selectedArr={selectedArr}
+            setSelectedArr={setSelectedArr}
+          />
+          <Modal open={openForm} onClose={handleOnCloseForm}>
+            <Box sx={style}>
+              <IconButton
+                aria-label="close"
+                size="small"
+                onClick={handleOnCloseForm}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <CapacityForm
+                selectedArr={selectedArr}
+                editProduct={editProduct}
+                setEditProduct={setEditProduct}
+                setOpenForm={setOpenForm}
+              />
+            </Box>
+          </Modal>
+          <Alert
+            open={openAlert}
+            onClose={() => setOpenAlert(false)}
+            deleteProduct={deleteProduct}
+            setDeleteProduct={setDeleteProduct}
           />
         </Box>
-      </Modal>
-      <Alert
-        open={openAlert}
-        onClose={() => setOpenAlert(false)}
-        deleteProduct={deleteProduct}
-        setDeleteProduct={setDeleteProduct}
-      />
+      )}
     </>
   );
 };

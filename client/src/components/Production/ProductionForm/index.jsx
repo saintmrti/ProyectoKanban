@@ -133,6 +133,7 @@ export default function ProductionForm({
             />
           )}
         />
+        {console.log(listSku)}
         <FormControl sx={{ width: "15rem", mb: 2 }} size="small">
           <InputLabel id="destino">Destino</InputLabel>
           <Select

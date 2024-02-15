@@ -16,6 +16,7 @@ import {
   updateCapacityRequest,
   insertCapacityRequest,
 } from "../../../slices/capacity";
+import moment from "moment-timezone";
 
 const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -37,9 +38,19 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
     editProduct
       ? dispatch(updateCapacityRequest(sku))
       : dispatch(insertCapacityRequest(sku));
-    // reset();
-    // setOpenForm(false);
+    reset();
+    setOpenForm(false);
   };
+
+  function convertMinutesAsHours(minutos) {
+    const horas = Math.floor(minutos / 60);
+    const minutosRestantes = minutos % 60;
+    const horaFormateada = moment({
+      hour: horas,
+      minute: minutosRestantes,
+    }).format("HH:mm");
+    return horaFormateada;
+  }
 
   useEffect(() => {
     if (selectedLinea) {
@@ -59,14 +70,72 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       setValue("tinas_emulsion", product.tinas_emulsion);
       setValue("tinas_fresco", product.tinas_fresco);
       setValue("tinas_congelado", product.tinas_congelado);
-      setValue("mezclado", product.mezclado);
-      setValue("embutido", product.embutido);
-      setValue("cocimiento", product.cocimiento);
-      setValue("enfriamiento", product.enfriamiento);
-      setValue("desmolde", product.desmolde);
-      setValue("atemperado", product.atemperado);
-      setValue("rebanado", product.rebanado);
-      setValue("entrega", product.entrega);
+      setValue(
+        "ingredientes_secos",
+        convertMinutesAsHours(product.ingredientes_secos)
+      );
+      setValue("salmuerizador", convertMinutesAsHours(product.salmuerizador));
+      setValue(
+        "corte_deshuese_fresco",
+        convertMinutesAsHours(product.corte_deshuese_fresco)
+      );
+      setValue("emulsiones", convertMinutesAsHours(product.emulsiones));
+      setValue("mezclado", convertMinutesAsHours(product.mezclado));
+      setValue("embutido", convertMinutesAsHours(product.embutido));
+      setValue("cocimiento", convertMinutesAsHours(product.cocimiento));
+      setValue("enfriamiento", convertMinutesAsHours(product.enfriamiento));
+      setValue("desmolde", convertMinutesAsHours(product.desmolde));
+      setValue("atemperado", convertMinutesAsHours(product.atemperado));
+      setValue("rebanado", convertMinutesAsHours(product.rebanado));
+      setValue("entrega", convertMinutesAsHours(product.entrega));
+      setValue(
+        "te_ingredientes_salmuera",
+        convertMinutesAsHours(product.te_ingredientes_salmuera)
+      );
+      setValue(
+        "te_salmuera_mezclado",
+        convertMinutesAsHours(product.te_salmuera_mezclado)
+      );
+      setValue(
+        "te_emulsiones_mezclado",
+        convertMinutesAsHours(product.te_emulsiones_mezclado)
+      );
+      setValue(
+        "te_cyd_emulsiones",
+        convertMinutesAsHours(product.te_cyd_emulsiones)
+      );
+      setValue(
+        "te_cyd_mezclado",
+        convertMinutesAsHours(product.te_cyd_mezclado)
+      );
+      setValue(
+        "te_mezclado_embutido",
+        convertMinutesAsHours(product.te_mezclado_embutido)
+      );
+      setValue(
+        "te_embutido_cocimiento",
+        convertMinutesAsHours(product.te_embutido_cocimiento)
+      );
+      setValue(
+        "te_cocimiento_enfriamiento",
+        convertMinutesAsHours(product.te_cocimiento_enfriamiento)
+      );
+      setValue(
+        "te_enfriamiento_desmolde",
+        convertMinutesAsHours(product.te_enfriamiento_desmolde)
+      );
+      setValue(
+        "te_desmolde_atemperado",
+        convertMinutesAsHours(product.te_desmolde_atemperado)
+      );
+      setValue(
+        "te_atemperado_rebanado",
+        convertMinutesAsHours(product.te_atemperado_rebanado)
+      );
+      setValue(
+        "te_rebanado_entrega",
+        convertMinutesAsHours(product.te_rebanado_entrega)
+      );
     }
   }, [product, setValue]);
 
@@ -79,6 +148,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
         <h1 className="text-2xl mb-5 w-full text-center">
           {editProduct ? "Editar SKU" : "Agregar SKU"}
         </h1>
+        {console.log(product)}
         <div className="grid grid-cols-4 gap-5 mb-5">
           {!editProduct && (
             <Fragment>

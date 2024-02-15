@@ -17,7 +17,7 @@ export const getProduction = createSelector(
       tipo_emulsion: prod.tipo_emulsion,
       procesos: [
         {
-          nombre: "Ingredientes_secos",
+          nombre: "Ingredientes Secos",
           inicio: prod.f_inicio_ingredientes_secos
             ? moment(prod.f_inicio_ingredientes_secos).format("HH:mm")
             : null,

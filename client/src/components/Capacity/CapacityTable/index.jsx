@@ -23,7 +23,8 @@ import Tooltip from "@mui/material/Tooltip";
 // import Button from "@mui/material/Button";
 
 import GroupFilter from "../GroupFilter";
-import { dataTimings } from "./dummyData";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -55,6 +56,7 @@ const CapacityTable = ({
   //   const theme = useTheme();
 
   const [timings, setTimings] = useState(false);
+  const [procesoIndex, setProcesoIndex] = useState(0);
 
   const handleAddClick = () => {
     setOpenForm(true);
@@ -71,6 +73,18 @@ const CapacityTable = ({
     setOpenAlert(true);
   };
 
+  const handleNext = () => {
+    if (procesoIndex < selectedArr[0].procesos.length - 8) {
+      setProcesoIndex(procesoIndex + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (procesoIndex > 0) {
+      setProcesoIndex(procesoIndex - 1);
+    }
+  };
+
   return (
     <Box sx={{ height: "calc(100vh - 112px)" }}>
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
@@ -83,6 +97,16 @@ const CapacityTable = ({
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
             />
+            {timings && (
+              <Fragment>
+                <IconButton size="small" onClick={handleBack}>
+                  <ArrowBackIcon />
+                </IconButton>
+                <IconButton size="small" onClick={handleNext}>
+                  <ArrowForwardIcon />
+                </IconButton>
+              </Fragment>
+            )}
             <Tooltip title="Mostrar tiempos">
               <IconButton sx={{ ml: 1 }} onClick={() => setTimings(!timings)}>
                 <AccessTimeIcon />
@@ -109,11 +133,20 @@ const CapacityTable = ({
                     <StyledTableCell>
                       <b>SKU</b>
                     </StyledTableCell>
-                    {_.map(dataTimings, (timing, index) => (
-                      <StyledTableCell key={index} align="center">
-                        <b>{timing}</b>
-                      </StyledTableCell>
-                    ))}
+                    {selectedArr &&
+                      selectedArr[0]?.procesos &&
+                      _.map(
+                        _.slice(
+                          selectedArr[0]?.procesos,
+                          procesoIndex,
+                          procesoIndex + 8
+                        ),
+                        (item) => (
+                          <StyledTableCell key={item.nombre} align="center">
+                            {item.nombre}
+                          </StyledTableCell>
+                        )
+                      )}
                     <StyledTableCell align="right">
                       <b>Acciones</b>
                     </StyledTableCell>
@@ -160,30 +193,14 @@ const CapacityTable = ({
                   return (
                     <StyledTableRow key={row.id}>
                       <StyledTableCell>{row.sku}</StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.mezclado}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.embutido}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.cocimiento}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.enfriamiento}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.desmolde}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.atemperado}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.rebanado}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {row?.entrega}
-                      </StyledTableCell>
+                      {_.map(
+                        _.slice(row?.procesos, procesoIndex, procesoIndex + 8),
+                        (item) => (
+                          <StyledTableCell key={item.nombre} align="center">
+                            {item.data}
+                          </StyledTableCell>
+                        )
+                      )}
                       <StyledTableCell align="right">
                         <div className="flex items-center justify-end">
                           <IconButton
