@@ -58,7 +58,7 @@ module.exports.parseWeeks = (fileContent) => {
   return productosFiltrados;
 };
 
-module.exports.uploadWeeks = async (cn, data, date) => {
+module.exports.uploadWeeks = async (cn, res, data, date) => {
   try {
     const cleanData = data.filter(
       (obj) => !Object.values(obj).every((val) => val === undefined)
@@ -78,5 +78,9 @@ module.exports.uploadWeeks = async (cn, data, date) => {
   `);
   } catch (error) {
     console.log(error);
+    res.json({
+      isError: true,
+      status: "Error al subir los datos en semanas",
+    });
   }
 };

@@ -32,9 +32,8 @@ const Programmer = () => {
   const requirements = useSelector(getRequirement);
   const { data: sliced } = useSelector((state) => state.sliced);
   const { date } = useSelector((state) => state.date);
-  const { isFetching, didError, isFetchingInsert } = useSelector(
-    (state) => state.requirement
-  );
+  const { isFetching, didError, isFetchingInsert, didErrorInsert } =
+    useSelector((state) => state.requirement);
 
   const handleChangeDate = (newDate) => {
     dispatch(changeDate(newDate));
@@ -66,7 +65,7 @@ const Programmer = () => {
     <>
       {isFetching || isFetchingInsert ? (
         <Spinner />
-      ) : didError ? (
+      ) : didError || didErrorInsert ? (
         <h1>Error</h1>
       ) : (
         <>
@@ -120,13 +119,12 @@ const Programmer = () => {
                     sx={{ width: "15rem", ml: "auto" }}
                   />
                 </div>
-                <div className="flex items-center justify-center w-full h-4/5">
-                  <FileUploader
-                    onUpload={handleUpload}
-                    setSelectedFiles={setSelectedFiles}
-                    selectedFiles={selectedFiles}
-                  />
-                </div>
+                <FileUploader
+                  onUpload={handleUpload}
+                  setSelectedFiles={setSelectedFiles}
+                  selectedFiles={selectedFiles}
+                  date={date}
+                />
               </Paper>
             </Box>
           )}

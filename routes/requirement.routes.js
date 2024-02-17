@@ -15,6 +15,12 @@ const {
 } = require("../controllers/requirement.controller");
 const { parseOrder, uploadOrder } = require("../controllers/order.controller");
 const { parseWeeks, uploadWeeks } = require("../controllers/weeks.controller");
+const {
+  requirementValidator,
+  inventoryValidator,
+  orderValidator,
+  weekValidator,
+} = require("../helpers/fileValidator");
 
 const router = Router();
 
@@ -25,32 +31,52 @@ router.get("/", (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const cn = new Connection(false);
     const date = req.body.fecha;
     const files = req.files.files;
-    const inv_nacional = _.find(
-      files,
-      (file) => file.name === "inv_nacional.csv"
-    );
-    const req_celda = _.find(files, (file) => file.name === "req_celda.xlsx");
-    const wip_jam = _.find(files, (file) => file.name === "pedido.xlsx");
-    const weeks = _.find(files, (file) => file.name === "semanas.xlsx");
-    const data_inv = await parseInventory(inv_nacional.data, date);
-    const data_req = parseRequirement(req_celda.data, date);
-    const data_order = parseOrder(wip_jam.data);
-    const data_weeks = parseWeeks(weeks.data);
-    await Promise.all([
-      uploadInventory(cn, data_inv, date),
-      uploadRequirement(cn, data_req, date),
-      uploadOrder(cn, data_order, date),
-      uploadWeeks(cn, data_weeks, date),
-    ]);
-    const invNacional = await transfered(cn, date);
-    // res.status(200).json({
-    //   isError: false,
-    //   status: "SUCCESS",
-    // });
-    response(res, true, insertRequirement, { invNacional, date });
+    if (files && files.length > 0) {
+      const cn = new Connection(false);
+      let inv_nacional, req_celda, wip_jam, weeks;
+      for (let i = 0; i < files.length; i++) {
+        if (requirementValidator(files[i].name)) {
+          req_celda = files[i];
+        }
+        if (inventoryValidator(files[i].name)) {
+          inv_nacional = files[i];
+        }
+        if (orderValidator(files[i].name)) {
+          wip_jam = files[i];
+        }
+        if (weekValidator(files[i].name)) {
+          weeks = files[i];
+        }
+      }
+      if (inv_nacional && req_celda && wip_jam && weeks) {
+        const data_inv = await parseInventory(inv_nacional.data, date);
+        const data_req = parseRequirement(req_celda.data, date);
+        const data_order = parseOrder(wip_jam.data);
+        const data_weeks = parseWeeks(weeks.data);
+        await Promise.all([
+          uploadInventory(cn, res, data_inv, date),
+          uploadRequirement(cn, res, data_req, date),
+          uploadOrder(cn, res, data_order, date),
+          uploadWeeks(cn, res, data_weeks, date),
+        ]);
+        const invNacional = await transfered(cn, date);
+        cn.close();
+        response(res, true, insertRequirement, { invNacional, date });
+      } else {
+        cn.close();
+        res.json({
+          isError: true,
+          status: "No se encontraron los archivos necesarios",
+        });
+      }
+    } else {
+      res.json({
+        isError: true,
+        status: "No se encontraron los archivos necesarios",
+      });
+    }
   } catch (error) {
     console.log(error);
   }

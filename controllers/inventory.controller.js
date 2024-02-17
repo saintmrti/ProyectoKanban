@@ -24,7 +24,7 @@ module.exports.parseInventory = (fileContent) => {
   });
 };
 
-module.exports.uploadInventory = async (cn, data, date) => {
+module.exports.uploadInventory = async (cn, res, data, date) => {
   try {
     const cleanData = data.filter(
       (obj) => !Object.values(obj).every((val) => val === undefined)
@@ -91,6 +91,10 @@ module.exports.uploadInventory = async (cn, data, date) => {
     }
   } catch (error) {
     console.log(error);
+    res.json({
+      isError: true,
+      status: "Error al subir los datos en inventario nacional",
+    });
   }
 };
 

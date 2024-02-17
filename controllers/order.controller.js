@@ -1,5 +1,4 @@
 const xlsx = require("xlsx");
-const moment = require("moment-timezone");
 const _ = require("lodash");
 
 module.exports.parseOrder = (fileContent) => {
@@ -24,20 +23,44 @@ module.exports.parseOrder = (fileContent) => {
     return datosExtraidos;
   }
 
+  // function agruparDatos(datosExtraidos) {
+  //   const filasAgrupadas = [];
+  //   const encabezados = datosExtraidos[0];
+
+  //   for (let i = 1; i < datosExtraidos.length; i++) {
+  //     const fila = {};
+  //     encabezados.forEach((encabezado, index) => {
+  //       const nombreColumna = encabezado.toString();
+  //       fila[nombreColumna] = datosExtraidos[i][index] || 0;
+  //     });
+
+  //     filasAgrupadas.push(fila);
+  //   }
+  //   return filasAgrupadas;
+  // }
+
   function agruparDatos(datosExtraidos) {
-    const filasAgrupadas = [];
-    const encabezados = datosExtraidos[0];
-
-    for (let i = 1; i < datosExtraidos.length; i++) {
-      const fila = {};
-      encabezados.forEach((encabezado, index) => {
-        const nombreColumna = encabezado.toString();
-        fila[nombreColumna] = datosExtraidos[i][index] || 0;
-      });
-
-      filasAgrupadas.push(fila);
-    }
-    return filasAgrupadas;
+    const datosFiltrados = datosExtraidos.filter(
+      (item) => item[1] !== null && item[1] !== undefined && item[1] !== ""
+    );
+    const wip_jam = _.map(datosFiltrados, (item) => ({
+      peso_promedio: parseFloat(item[0]) || 0,
+      producto: item[1] ? item[1].toString() : null,
+      descripcion: typeof item[2] === "string" ? item[2] : "",
+      cocer_embutido: parseFloat(item[3]) || 0,
+      cocimiento: parseFloat(item[4]) || 0,
+      enfriamiento: parseFloat(item[5]) || 0,
+      madurado: parseFloat(item[6]) || 0,
+      camaras: parseFloat(item[7]) || 0,
+      empaque: parseFloat(item[8]) || 0,
+      incompletas: parseFloat(item[9]) || 0,
+      retenidas: parseFloat(item[10]) || 0,
+      total_piezas: parseFloat(item[11]) || 0,
+      canastillas: parseFloat(item[12]) || 0,
+      tarimas: parseFloat(item[13]) || 0,
+      total_Kilos: parseFloat(item[14]) || 0,
+    }));
+    return wip_jam;
   }
 
   const filasAExtraer = Array.from({ length: 80 }, (_, index) => index + 6);
@@ -47,39 +70,21 @@ module.exports.parseOrder = (fileContent) => {
 
   const sheet = leerArchivoExcel(fileContent, sheetName);
   const datosExtraidos = extraerDatos(sheet, filasAExtraer, columnasAExtraer);
-  const datosAgrupados = agruparDatos(datosExtraidos, columnasAExtraer);
+  const datosAgrupados = agruparDatos(datosExtraidos);
   return datosAgrupados;
 };
 
-module.exports.uploadOrder = async (cn, data, date) => {
+module.exports.uploadOrder = async (cn, res, data, date) => {
   try {
-    const cleanData = data.filter(
-      (obj) => !Object.values(obj).every((val) => val === undefined)
-    );
-
-    const transformData = _.map(cleanData, (item) => ({
-      peso_promedio: parseFloat(item["PESO PROMEDIO"]) || 0,
-      producto: `'${item.PRODUCTO}'` || null,
-      descripcion: `'${item.DESCRIPCION}'` || null,
-      cocer_embutido: parseFloat(item["COCER (Embutido)"]) || 0,
-      cocimiento: parseFloat(item.COCIMIENTO) || 0,
-      enfriamiento: parseFloat(item.ENFRIAMIENTO) || 0,
-      madurado: parseFloat(item.MADURADO) || 0,
-      camaras: parseFloat(item.CAMARAS) || 0,
-      empaque: parseFloat(item.EMPAQUE) || 0,
-      incompletas: parseFloat(item.INCOMPLETAS) || 0,
-      retenidas: parseFloat(item.RETENIDAS) || 0,
-      total_piezas: parseFloat(item["Total Piezas"]) || 0,
-      canastillas: parseFloat(item.Canastillas) || 0,
-      tarimas: parseFloat(item.Tarimas) || 0,
-      total_Kilos: parseFloat(item["Total kilos"]) || 0,
+    const transformData = _.map(data, (item) => ({
+      ...item,
       fecha: date,
     }));
 
     const values = transformData
       .map(
         (item) =>
-          `(${item.peso_promedio}, ${item.producto},${item.descripcion},
+          `(${item.peso_promedio}, '${item.producto}','${item.descripcion}',
             ${item.cocer_embutido}, ${item.cocimiento}, ${item.enfriamiento},
             ${item.madurado}, ${item.camaras}, ${item.empaque}, ${item.incompletas},
             ${item.retenidas}, ${item.total_piezas}, ${item.canastillas}, 
@@ -93,5 +98,6 @@ module.exports.uploadOrder = async (cn, data, date) => {
     `);
   } catch (error) {
     console.log(error);
+    res.json({ isError: true, status: "Error al subir los datos en pedido" });
   }
 };

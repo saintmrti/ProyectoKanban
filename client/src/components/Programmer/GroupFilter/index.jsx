@@ -84,6 +84,7 @@ const GroupFilter = ({ setFilteredPlan, plan, date, handleChangeDate }) => {
         id="product-search"
         label="Buscar Sku"
         variant="outlined"
+        autoComplete="off"
         size="small"
         value={searchText}
         onChange={handleSearchChange}

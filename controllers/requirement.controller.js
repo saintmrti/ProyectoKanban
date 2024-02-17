@@ -1,6 +1,5 @@
 const xlsx = require("xlsx");
 const _ = require("lodash");
-const moment = require("moment");
 
 module.exports.parseRequirement = (fileContent) => {
   const sheetName = "Celda";
@@ -27,43 +26,67 @@ module.exports.parseRequirement = (fileContent) => {
   }
 
   function agruparDatos(datosExtraidos) {
-    const filasAgrupadas = [];
-    const encabezados = datosExtraidos[0];
-
-    for (let i = 1; i < datosExtraidos.length; i++) {
-      const fila = {};
-      encabezados.forEach((encabezado, index) => {
-        const nombreColumna = encabezado.toString();
-        fila[nombreColumna] = datosExtraidos[i][index] || 0;
-      });
-
-      filasAgrupadas.push(fila);
-    }
-
-    return filasAgrupadas;
+    return _.map(datosExtraidos, (item) => ({
+      sku: item[0] ? item[0].toString() : null,
+      descripcion: typeof item[1] === "string" ? item[1] : "",
+      linea: typeof item[2] === "string" ? item[2] : "",
+      origen: typeof item[3] === "string" ? item[3] : "",
+      bptmy_maximo: item[4] || 0,
+      bptmy_minimo: item[5] || 0,
+      cedmty: item[6] || 0,
+      cedchih: item[7] || 0,
+      cedlan: item[8] || 0,
+      cedgdl: item[9] || 0,
+      cedcul: item[10] || 0,
+      cedtij: item[11] || 0,
+      cedmer: item[12] || 0,
+      cedleon: item[13] || 0,
+      cedver: item[14] || 0,
+      cedmex: item[15] || 0,
+      cedtep: item[16] || 0,
+      qyq: item[17] || 0,
+      carnemart: item[18] || 0,
+      total: item[19] || 0,
+    }));
   }
-  const filasAExtraer = Array.from({ length: 117 }, (_, index) => index + 5);
+
+  // function agruparDatos(datosExtraidos) {
+  //   const filasAgrupadas = [];
+  //   const encabezados = datosExtraidos[0];
+
+  //   for (let i = 1; i < datosExtraidos.length; i++) {
+  //     const fila = {};
+  //     encabezados.forEach((encabezado, index) => {
+  //       const nombreColumna = encabezado.toString();
+  //       fila[nombreColumna] = datosExtraidos[i][index] || 0;
+  //     });
+
+  //     filasAgrupadas.push(fila);
+  //   }
+
+  //   return filasAgrupadas;
+  // }
+  const filasAExtraer = Array.from({ length: 117 }, (_, index) => index + 6);
   const columnasAExtraer = Array.from({ length: 20 }, (_, index) =>
     xlsx.utils.encode_col(index + 1)
   );
-
   const sheet = leerArchivoExcel(fileContent, sheetName);
   const datosExtraidos = extraerDatos(sheet, filasAExtraer, columnasAExtraer);
-  const datosAgrupados = agruparDatos(datosExtraidos, columnasAExtraer);
-
+  const datosAgrupados = agruparDatos(datosExtraidos);
   return datosAgrupados;
 };
 
-module.exports.uploadRequirement = async (cn, data, date) => {
+module.exports.uploadRequirement = async (cn, res, data, date) => {
   try {
     const cleanData = data.filter(
-      (obj) => !Object.values(obj).every((val) => val === undefined)
+      (obj) =>
+        !Object.values(obj).every((val) => val === null || val === undefined)
     );
 
     const values = cleanData
       .map(
         (item) =>
-          `('${item["SKU"]}', '${item["Descripción"]}', '${item["Linea"]}', '${item["Origen"]}', ${item["BPTMY Maximo"]}, ${item["BPTMTY Minimo"]}, ${item["CEDMTY"]}, ${item["CEDCHIH"]}, ${item["CEDLAN"]}, ${item["CEDGDL"]}, ${item["CEDCUL"]}, ${item["CEDTIJ"]}, ${item["CEDMER"]}, ${item["CEDLEON"]},${item["CEDVER"]}, ${item["CEDMEX"]}, ${item["CEDTEP"]}, ${item["QyQ"]}, ${item["CARNEMART"]}, ${item["TOTAL"]}, '${date}')`
+          `('${item.sku}', '${item.descripcion}', '${item.linea}', '${item.origen}', ${item.bptmy_maximo}, ${item.bptmy_minimo}, ${item.cedmty}, ${item.cedchih}, ${item.cedlan}, ${item.cedgdl}, ${item.cedcul}, ${item.cedtij}, ${item.cedmer}, ${item.cedleon}, ${item.cedver}, ${item.cedmex}, ${item.cedtep}, ${item.qyq}, ${item.carnemart}, ${item.total}, '${date}')`
       )
       .join(",");
 
@@ -74,5 +97,9 @@ module.exports.uploadRequirement = async (cn, data, date) => {
   `);
   } catch (error) {
     console.log(error);
+    res.json({
+      isError: true,
+      status: "Error al subir los datos en requerimiento",
+    });
   }
 };

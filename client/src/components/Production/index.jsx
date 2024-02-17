@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 // import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -19,6 +18,7 @@ import RackTable from "./RackTable";
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
 import { Spinner } from "../Spinner";
+import { changeDate } from "../../slices/date";
 import { fetchCapacityRequest } from "../../slices/capacity";
 import {
   fetchProductionRequest,
@@ -41,7 +41,6 @@ const style = {
 const Production = () => {
   const dispatch = useDispatch();
   const [openProd, setOpenProd] = useState(false);
-  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
   const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
   const [procesoIndex, setProcesoIndex] = useState(0);
@@ -50,7 +49,7 @@ const Production = () => {
 
   const production = useSelector(getProduction);
   const { isFetching, didError } = useSelector((state) => state.production);
-
+  const { date } = useSelector((state) => state.date);
   // const handleOnSaveProd = () => {
   //   dispatch(insertProductionRequest({ planProd: planProd, date }));
   //   setOriginalPlanProd(planProd);
@@ -78,10 +77,9 @@ const Production = () => {
     }
   };
 
-  const handleChangeDate = (event) => {
-    const { value } = event.target;
-    setDate(value);
-    dispatch(fetchProductionRequest({ date: value }));
+  const handleChangeDate = (newDate) => {
+    changeDate(newDate);
+    dispatch(fetchProductionRequest({ date: newDate }));
   };
 
   useEffect(() => {
@@ -141,7 +139,7 @@ const Production = () => {
                     type="date"
                     size="small"
                     value={date}
-                    onChange={(event) => handleChangeDate(event)}
+                    onChange={(e) => handleChangeDate(e.target.value)}
                     sx={{ mr: 2, width: "15rem" }}
                   />
                   {/* <Button
