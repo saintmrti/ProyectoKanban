@@ -11,6 +11,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import Autocomplete from "@mui/material/Autocomplete";
+// import Avatar from "@mui/material/Avatar";
+// import IconButton from "@mui/material/IconButton";
+// import List from "@mui/material/List";
+// import ListItem from "@mui/material/ListItem";
+// import ListItemAvatar from "@mui/material/ListItemAvatar";
+// import FolderIcon from "@mui/icons-material/Folder";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import ListItemText from "@mui/material/ListItemText";
+// import Box from "@mui/material/Box";
+// import ButtonGroup from "@mui/material/ButtonGroup";
+// import CheckIcon from "@mui/icons-material/Check";
+// import ClearIcon from "@mui/icons-material/Clear";
 
 import { getListSku } from "../../../selectors/capacity";
 import { insertProductionRequest } from "../../../slices/production";
@@ -19,7 +31,6 @@ export default function ProductionForm({
   planProd,
   setProduct,
   date,
-  setOpen,
   product,
 }) {
   const { register, handleSubmit, reset, setValue, control } = useForm({
@@ -40,13 +51,15 @@ export default function ProductionForm({
     const production_order = {
       idSku: values.producto,
       idMaquina: 6,
-      fecha_mezclado: `${date} 06:00:00`,
+      fecha_mezclado: `${date} ${values.mezcladora_inicio}:00`,
       destino: values.destino,
     };
+    // setOriginalPlanProd([...originalPlanProd, production_order]);
     dispatch(insertProductionRequest({ production_order }));
     setProduct(null);
-    setOpen(false);
-    reset();
+    reset({
+      producto: null,
+    });
   };
 
   const calculateTiming = (mezcladoInicio, embutidoFin) => {
@@ -94,6 +107,11 @@ export default function ProductionForm({
     return moment(startTime, "HH:mm").add(min, "minutes").format("HH:mm");
   };
 
+  // const handleOnDelete = (index) => {
+  //   const newPlanProd = originalPlanProd.filter((_, i) => i !== index);
+  //   setOriginalPlanProd(newPlanProd);
+  // };
+
   useEffect(() => {
     if (process && process.length > 0 && product) {
       calculateTiming(process[0].fin, process[1].fin);
@@ -107,16 +125,13 @@ export default function ProductionForm({
   }, [product, process, setValue]);
 
   return (
-    <form
-      className="flex justify-center items-center flex-wrap"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <h1 className="text-2xl mb-5 w-full text-center">Seleccionar SKU</h1>
-      <div className="flex flex-col">
+    <form className="" onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-2xl mb-5 text-center">Seleccionar SKU</h1>
+      <div className="flex flex-col items-center w-full">
         <Controller
           name="producto"
           control={control}
-          rules={{ required: false }}
+          rules={{ required: true }}
           render={({ field }) => (
             <Autocomplete
               {...field}
@@ -133,7 +148,6 @@ export default function ProductionForm({
             />
           )}
         />
-        {console.log(listSku)}
         <FormControl sx={{ width: "15rem", mb: 2 }} size="small">
           <InputLabel id="destino">Destino</InputLabel>
           <Select
@@ -153,6 +167,16 @@ export default function ProductionForm({
         </FormControl>
         <TextField
           sx={{ width: "15rem", mb: 2 }}
+          autoComplete="off"
+          label="Mezcladora Inicio"
+          type="time"
+          size="small"
+          InputLabelProps={{ shrink: true }}
+          {...register("mezcladora_inicio", { required: true })}
+        />
+        <TextField
+          sx={{ width: "15rem", mb: 2 }}
+          autoComplete="off"
           label="Rack"
           type="text"
           size="small"
@@ -162,6 +186,7 @@ export default function ProductionForm({
         <TextField
           sx={{ width: "15rem", mb: 2 }}
           label="Kg Lote"
+          autoComplete="off"
           type="number"
           size="small"
           value={product ? _.find(listSku, { sku: product })?.kg_lote : ""}
@@ -170,14 +195,16 @@ export default function ProductionForm({
         <TextField
           sx={{ width: "15rem", mb: 2 }}
           label="No Racks"
+          autoComplete="off"
           type="number"
           size="small"
           value={product ? _.find(listSku, { sku: product })?.no_rack : ""}
           // {...register("no_rack", { required: true })}
         />
         <TextField
-          sx={{ width: "15rem", mb: 2 }}
+          sx={{ width: "15rem" }}
           label="Tipo"
+          autoComplete="off"
           type="text"
           size="small"
           value={
@@ -185,14 +212,69 @@ export default function ProductionForm({
           }
           // {...register("tipo_emulsion", { required: true })}
         />
-        <div></div>
-        <div></div>
+        <div className="flex justify-center mt-8">
+          <Button variant="contained" type="submit" size="small">
+            Agregar
+          </Button>
+        </div>
       </div>
-      <div className="w-full flex justify-center">
-        <Button variant="contained" type="submit">
-          Agregar
-        </Button>
-      </div>
+      {/* {console.log(originalPlanProd)}
+        {originalPlanProd.length > 0 && (
+          <Box height="100%">
+            <Box
+              height={375}
+              width={250}
+              paddingLeft={1}
+              sx={{ overflowY: "auto" }}
+            >
+              <List dense={true} sx={{ padding: 0 }}>
+                {_.map(originalPlanProd, (item, index) => (
+                  <ListItem
+                    sx={{
+                      borderRadius: "5px",
+                      "&:hover": { backgroundColor: "#f5f5f5" },
+                    }}
+                    key={index}
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => handleOnDelete(index)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FolderIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={item.idSku} />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+            <div className="flex justify-center mt-8">
+              <ButtonGroup
+                disableElevation
+                variant="contained"
+                aria-label="Disabled button group"
+              >
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => setOriginalPlanProd([])}
+                >
+                  <ClearIcon />
+                </Button>
+                <Button size="small" color="success">
+                  <CheckIcon />
+                </Button>
+              </ButtonGroup>
+            </div>
+          </Box>
+        )} */}
     </form>
   );
 }

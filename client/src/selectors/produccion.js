@@ -6,7 +6,6 @@ export const getProduction = createSelector(
   ({ production }) => production.data,
   (production) => {
     if (_.isEmpty(production)) return [];
-    console.log(production);
     const data = _.map(production, (prod) => ({
       id: prod.idOrdenProduccion,
       producto: prod.idSku,

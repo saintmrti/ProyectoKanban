@@ -7,7 +7,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import _ from "lodash";
-import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 
 import { dataFamily } from "../CapacityTable/dummyData";
@@ -16,7 +15,7 @@ import {
   updateCapacityRequest,
   insertCapacityRequest,
 } from "../../../slices/capacity";
-import moment from "moment-timezone";
+// import moment from "moment-timezone";
 
 const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -42,15 +41,15 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
     setOpenForm(false);
   };
 
-  function convertMinutesAsHours(minutos) {
-    const horas = Math.floor(minutos / 60);
-    const minutosRestantes = minutos % 60;
-    const horaFormateada = moment({
-      hour: horas,
-      minute: minutosRestantes,
-    }).format("HH:mm");
-    return horaFormateada;
-  }
+  // function convertMinutesAsHours(minutos) {
+  //   const horas = Math.floor(minutos / 60);
+  //   const minutosRestantes = minutos % 60;
+  //   const horaFormateada = moment({
+  //     hour: horas,
+  //     minute: minutosRestantes,
+  //   }).format("HH:mm");
+  //   return horaFormateada;
+  // }
 
   useEffect(() => {
     if (selectedLinea) {
@@ -70,72 +69,33 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       setValue("tinas_emulsion", product.tinas_emulsion);
       setValue("tinas_fresco", product.tinas_fresco);
       setValue("tinas_congelado", product.tinas_congelado);
-      setValue(
-        "ingredientes_secos",
-        convertMinutesAsHours(product.ingredientes_secos)
-      );
-      setValue("salmuerizador", convertMinutesAsHours(product.salmuerizador));
-      setValue(
-        "corte_deshuese_fresco",
-        convertMinutesAsHours(product.corte_deshuese_fresco)
-      );
-      setValue("emulsiones", convertMinutesAsHours(product.emulsiones));
-      setValue("mezclado", convertMinutesAsHours(product.mezclado));
-      setValue("embutido", convertMinutesAsHours(product.embutido));
-      setValue("cocimiento", convertMinutesAsHours(product.cocimiento));
-      setValue("enfriamiento", convertMinutesAsHours(product.enfriamiento));
-      setValue("desmolde", convertMinutesAsHours(product.desmolde));
-      setValue("atemperado", convertMinutesAsHours(product.atemperado));
-      setValue("rebanado", convertMinutesAsHours(product.rebanado));
-      setValue("entrega", convertMinutesAsHours(product.entrega));
-      setValue(
-        "te_ingredientes_salmuera",
-        convertMinutesAsHours(product.te_ingredientes_salmuera)
-      );
-      setValue(
-        "te_salmuera_mezclado",
-        convertMinutesAsHours(product.te_salmuera_mezclado)
-      );
-      setValue(
-        "te_emulsiones_mezclado",
-        convertMinutesAsHours(product.te_emulsiones_mezclado)
-      );
-      setValue(
-        "te_cyd_emulsiones",
-        convertMinutesAsHours(product.te_cyd_emulsiones)
-      );
-      setValue(
-        "te_cyd_mezclado",
-        convertMinutesAsHours(product.te_cyd_mezclado)
-      );
-      setValue(
-        "te_mezclado_embutido",
-        convertMinutesAsHours(product.te_mezclado_embutido)
-      );
-      setValue(
-        "te_embutido_cocimiento",
-        convertMinutesAsHours(product.te_embutido_cocimiento)
-      );
+      setValue("ingredientes_secos", product.ingredientes_secos);
+      setValue("salmuerizador", product.salmuerizador);
+      setValue("corte_deshuese_fresco", product.corte_deshuese_fresco);
+      setValue("emulsiones", product.emulsiones);
+      setValue("mezclado", product.mezclado);
+      setValue("embutido", product.embutido);
+      setValue("cocimiento", product.cocimiento);
+      setValue("enfriamiento", product.enfriamiento);
+      setValue("desmolde", product.desmolde);
+      setValue("atemperado", product.atemperado);
+      setValue("rebanado", product.rebanado);
+      setValue("entrega", product.entrega);
+      setValue("te_ingredientes_salmuera", product.te_ingredientes_salmuera);
+      setValue("te_salmuera_mezclado", product.te_salmuera_mezclado);
+      setValue("te_emulsiones_mezclado", product.te_emulsiones_mezclado);
+      setValue("te_cyd_emulsiones", product.te_cyd_emulsiones);
+      setValue("te_cyd_mezclado", product.te_cyd_mezclado);
+      setValue("te_mezclado_embutido", product.te_mezclado_embutido);
+      setValue("te_embutido_cocimiento", product.te_embutido_cocimiento);
       setValue(
         "te_cocimiento_enfriamiento",
-        convertMinutesAsHours(product.te_cocimiento_enfriamiento)
+        product.te_cocimiento_enfriamiento
       );
-      setValue(
-        "te_enfriamiento_desmolde",
-        convertMinutesAsHours(product.te_enfriamiento_desmolde)
-      );
-      setValue(
-        "te_desmolde_atemperado",
-        convertMinutesAsHours(product.te_desmolde_atemperado)
-      );
-      setValue(
-        "te_atemperado_rebanado",
-        convertMinutesAsHours(product.te_atemperado_rebanado)
-      );
-      setValue(
-        "te_rebanado_entrega",
-        convertMinutesAsHours(product.te_rebanado_entrega)
-      );
+      setValue("te_enfriamiento_desmolde", product.te_enfriamiento_desmolde);
+      setValue("te_desmolde_atemperado", product.te_desmolde_atemperado);
+      setValue("te_atemperado_rebanado", product.te_atemperado_rebanado);
+      setValue("te_rebanado_entrega", product.te_rebanado_entrega);
     }
   }, [product, setValue]);
 
@@ -148,7 +108,6 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
         <h1 className="text-2xl mb-5 w-full text-center">
           {editProduct ? "Editar SKU" : "Agregar SKU"}
         </h1>
-        {console.log(product)}
         <div className="grid grid-cols-4 gap-5 mb-5">
           {!editProduct && (
             <Fragment>
@@ -281,330 +240,175 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
           />
         </div>
         <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
-        <div className="grid grid-cols-3 gap-5 mb-10">
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Ingredientes secos"
-              type="time"
-              defaultValue={product?.ingredientes_secos}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("ingredientes_secos", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a salmuerizador"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_ingredientes_salmuera", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Salmuerizador"
-              type="time"
-              defaultValue={product?.salmuerizador}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("salmuerizador", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a mezclado"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_salmuera_mezclado", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Emulsiones"
-              type="time"
-              defaultValue={product?.emulsiones}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("emulsiones", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a mezclado"
-              type="time"
-              defaultValue={product?.te_celda}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_emulsiones_mezclado", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "6.6rem" }}
-              label="Corte y Deshuese"
-              type="time"
-              defaultValue={product?.corte_deshuese_fresco}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("corte_deshuese_fresco", { required: true })}
-            />
-            <TextField
-              sx={{ width: "6.6rem" }}
-              label="T.E. a emulsiones"
-              type="time"
-              defaultValue={product?.te_corte_deshuese}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_cyd_emulsiones", { required: true })}
-            />
-            <TextField
-              sx={{ width: "6.6rem" }}
-              label="T.E. a mezclado"
-              type="time"
-              defaultValue={product?.te_corte_deshuese}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_cyd_mezclado", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Mezclado"
-              type="time"
-              defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("mezclado", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a embutido"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_mezclado_embutido", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Embutido"
-              type="time"
-              defaultValue={product?.embutido}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("embutido", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a cocimiento"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_embutido_cocimiento", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Cocimiento"
-              type="time"
-              defaultValue={product?.cocimiento}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("cocimiento", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a enfriamiento"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_cocimiento_enfriamiento", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Enfriamiento"
-              type="time"
-              defaultValue={product?.enfriamiento}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("enfriamiento", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a desmolde"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_enfriamiento_desmolde", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Desmolde"
-              type="time"
-              defaultValue={product?.desmolde}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("desmolde", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a atemperado"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_desmolde_atemperado", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Atemperado"
-              type="time"
-              defaultValue={product?.atemperado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("atemperado", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a rebanado"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_atemperado_rebanado", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Rebanado"
-              type="time"
-              defaultValue={product?.rebanado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("rebanado", { required: true })}
-            />
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="T.E. a entrega"
-              type="time"
-              // defaultValue={product?.mezclado}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("te_rebanado_entrega", { required: true })}
-            />
-          </Card>
-          <Card
-            sx={{
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "start",
-            }}
-          >
-            <TextField
-              sx={{ width: "10.3rem" }}
-              label="Entrega"
-              type="time"
-              defaultValue={product?.entrega}
-              InputLabelProps={{ shrink: true }}
-              size="small"
-              {...register("entrega", { required: true })}
-            />
-          </Card>
+        <div className="grid grid-cols-6 gap-5 mb-10">
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Ingredientes secos"
+            type="number"
+            size="small"
+            {...register("ingredientes_secos", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a salmuerizador"
+            type="number"
+            size="small"
+            {...register("te_ingredientes_salmuera", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Salmuerizador"
+            type="number"
+            size="small"
+            {...register("salmuerizador", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a mezclado"
+            type="number"
+            size="small"
+            {...register("te_salmuera_mezclado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Emulsiones"
+            type="number"
+            size="small"
+            {...register("emulsiones", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a mezclado"
+            type="number"
+            size="small"
+            {...register("te_emulsiones_mezclado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Corte y Deshuese"
+            type="number"
+            size="small"
+            {...register("corte_deshuese_fresco", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a emulsiones"
+            type="number"
+            size="small"
+            {...register("te_cyd_emulsiones", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a mezclado"
+            type="number"
+            size="small"
+            {...register("te_cyd_mezclado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Mezclado"
+            type="number"
+            size="small"
+            {...register("mezclado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a embutido"
+            type="number"
+            size="small"
+            {...register("te_mezclado_embutido", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Embutido"
+            type="number"
+            size="small"
+            {...register("embutido", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a cocimiento"
+            type="number"
+            size="small"
+            {...register("te_embutido_cocimiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Cocimiento"
+            type="number"
+            size="small"
+            {...register("cocimiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a enfriamiento"
+            type="number"
+            size="small"
+            {...register("te_cocimiento_enfriamiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Enfriamiento"
+            type="number"
+            size="small"
+            {...register("enfriamiento", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a desmolde"
+            type="number"
+            size="small"
+            {...register("te_enfriamiento_desmolde", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Desmolde"
+            type="number"
+            size="small"
+            {...register("desmolde", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a atemperado"
+            type="number"
+            size="small"
+            {...register("te_desmolde_atemperado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Atemperado"
+            type="number"
+            size="small"
+            {...register("atemperado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a rebanado"
+            type="number"
+            size="small"
+            {...register("te_atemperado_rebanado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Rebanado"
+            type="number"
+            size="small"
+            {...register("rebanado", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="T.E. a entrega"
+            type="number"
+            size="small"
+            {...register("te_rebanado_entrega", { required: false })}
+          />
+          <TextField
+            sx={{ width: "10.3rem" }}
+            label="Entrega"
+            type="number"
+            size="small"
+            {...register("entrega", { required: false })}
+          />
         </div>
         <div className="w-full flex justify-center">
           <Button variant="contained" type="submit">

@@ -143,7 +143,7 @@ const CapacityTable = ({
                         ),
                         (item) => (
                           <StyledTableCell key={item.nombre} align="center">
-                            {item.nombre}
+                            <b>{item.nombre}</b>
                           </StyledTableCell>
                         )
                       )}
@@ -172,13 +172,13 @@ const CapacityTable = ({
                       <b>Tipo Emulsión</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <b>Tina Emulsión</b>
+                      <b>Tina Cárnico Fresco a Celda</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <b>Tina Fresco</b>
+                      <b>Tina Emulsión a Celda</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      <b>Tina Congelado</b>
+                      <b>Tina Congelado a Tina Emulsión</b>
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       <b>Acciones</b>
@@ -239,10 +239,10 @@ const CapacityTable = ({
                         {row.tipo_emulsion}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.tinas_emulsion}
+                        {row.tinas_fresco}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.tinas_fresco}
+                        {row.tinas_emulsion}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {row.tinas_congelado}

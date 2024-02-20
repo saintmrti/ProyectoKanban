@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import RackTable from "./RackTable";
 
@@ -45,7 +45,7 @@ const Production = () => {
   const [product, setProduct] = useState(null);
   const [procesoIndex, setProcesoIndex] = useState(0);
   const [planProd, setPlanProd] = useState([]);
-  const [originalPlanProd, setOriginalPlanProd] = useState([]);
+  // const [originalPlanProd, setOriginalPlanProd] = useState([]);
 
   const production = useSelector(getProduction);
   const { isFetching, didError } = useSelector((state) => state.production);
@@ -85,7 +85,7 @@ const Production = () => {
   useEffect(() => {
     if (production) {
       setPlanProd(production);
-      setOriginalPlanProd(production);
+      // setOriginalPlanProd(production);
     }
   }, [production]);
 
@@ -133,6 +133,9 @@ const Production = () => {
                   <AddIcon />
                 </IconButton>
                 <div className="ml-auto flex items-center">
+                  <Button sx={{ mr: 1 }} variant="contained">
+                    Generar Kanban
+                  </Button>
                   <TextField
                     id="date"
                     label="Fecha"
@@ -149,18 +152,6 @@ const Production = () => {
                     sx={{ mr: 1 }}
                   >
                     Eliminar
-                  </Button>
-                  <Button
-                    sx={{ mr: 1 }}
-                    variant="outlined"
-                    onClick={handleOnSaveProd}
-                    disabled={
-                      planProd.length === 0 ||
-                      planProd[planProd.length - 1]?.sec ===
-                        originalPlanProd[originalPlanProd.length - 1]?.sec
-                    }
-                  >
-                    Guardar
                   </Button> */}
                   <IconButton size="small" onClick={handleBack}>
                     <ArrowBackIcon />
@@ -194,9 +185,7 @@ const Production = () => {
               <ProductionForm
                 date={date}
                 planProd={planProd}
-                setOpen={setOpenProd}
                 setProduct={setProduct}
-                setOriginalPlanProd={setOriginalPlanProd}
                 product={product}
               />
             </Box>

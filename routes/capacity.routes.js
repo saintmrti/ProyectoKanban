@@ -64,76 +64,48 @@ router.post("/", (req, res) => {
     tinas_fresco: tinas_fresco ? parseInt(tinas_fresco) : null,
     tinas_congelado: tinas_congelado ? parseInt(tinas_congelado) : null,
     ingredientes_secos:
-      ingredientes_secos === ""
-        ? null
-        : moment.duration(ingredientes_secos).asMinutes(),
-    salmuerizador:
-      salmuerizador === "" ? null : moment.duration(salmuerizador).asMinutes(),
-    emulsiones:
-      emulsiones === "" ? null : moment.duration(emulsiones).asMinutes(),
+      ingredientes_secos === "" ? null : parseInt(ingredientes_secos),
+    salmuerizador: salmuerizador === "" ? null : parseInt(salmuerizador),
+    emulsiones: emulsiones === "" ? null : parseInt(emulsiones),
     corte_deshuese_fresco:
-      corte_deshuese_fresco === ""
-        ? null
-        : moment.duration(corte_deshuese_fresco).asMinutes(),
-    mezclado: mezclado === "" ? null : moment.duration(mezclado).asMinutes(),
-    embutido: embutido === "" ? null : moment.duration(embutido).asMinutes(),
-    cocimiento:
-      cocimiento === "" ? null : moment.duration(cocimiento).asMinutes(),
-    enfriamiento:
-      enfriamiento === "" ? null : moment.duration(enfriamiento).asMinutes(),
-    desmolde: desmolde === "" ? null : moment.duration(desmolde).asMinutes(),
-    atemperado:
-      atemperado === "" ? null : moment.duration(atemperado).asMinutes(),
-    rebanado: rebanado === "" ? null : moment.duration(rebanado).asMinutes(),
-    entrega: entrega === "" ? null : moment.duration(entrega).asMinutes(),
+      corte_deshuese_fresco === "" ? null : parseInt(corte_deshuese_fresco),
+    mezclado: mezclado === "" ? null : parseInt(mezclado),
+    embutido: embutido === "" ? null : parseInt(embutido),
+    cocimiento: cocimiento === "" ? null : parseInt(cocimiento),
+    enfriamiento: enfriamiento === "" ? null : parseInt(enfriamiento),
+    desmolde: desmolde === "" ? null : parseInt(desmolde),
+    atemperado: atemperado === "" ? null : parseInt(atemperado),
+    rebanado: rebanado === "" ? null : parseInt(rebanado),
+    entrega: entrega === "" ? null : parseInt(entrega),
     te_ingredientes_salmuera:
       te_ingredientes_salmuera === ""
         ? null
-        : moment.duration(te_ingredientes_salmuera).asMinutes(),
+        : parseInt(te_ingredientes_salmuera),
     te_salmuera_mezclado:
-      te_salmuera_mezclado === ""
-        ? null
-        : moment.duration(te_salmuera_mezclado).asMinutes(),
+      te_salmuera_mezclado === "" ? null : parseInt(te_salmuera_mezclado),
     te_emulsiones_mezclado:
-      te_emulsiones_mezclado === ""
-        ? null
-        : moment.duration(te_emulsiones_mezclado).asMinutes(),
+      te_emulsiones_mezclado === "" ? null : parseInt(te_emulsiones_mezclado),
     te_cyd_emulsiones:
-      te_cyd_emulsiones === ""
-        ? null
-        : moment.duration(te_cyd_emulsiones).asMinutes(),
-    te_cyd_mezclado:
-      te_cyd_mezclado === ""
-        ? null
-        : moment.duration(te_cyd_mezclado).asMinutes(),
+      te_cyd_emulsiones === "" ? null : parseInt(te_cyd_emulsiones),
+    te_cyd_mezclado: te_cyd_mezclado === "" ? null : parseInt(te_cyd_mezclado),
     te_mezclado_embutido:
-      te_mezclado_embutido === ""
-        ? null
-        : moment.duration(te_mezclado_embutido).asMinutes(),
+      te_mezclado_embutido === "" ? null : parseInt(te_mezclado_embutido),
     te_embutido_cocimiento:
-      te_embutido_cocimiento === ""
-        ? null
-        : moment.duration(te_embutido_cocimiento).asMinutes(),
+      te_embutido_cocimiento === "" ? null : parseInt(te_embutido_cocimiento),
     te_cocimiento_enfriamiento:
       te_cocimiento_enfriamiento === ""
         ? null
-        : moment.duration(te_cocimiento_enfriamiento).asMinutes(),
+        : parseInt(te_cocimiento_enfriamiento),
     te_enfriamiento_desmolde:
       te_enfriamiento_desmolde === ""
         ? null
-        : moment.duration(te_enfriamiento_desmolde).asMinutes(),
+        : parseInt(te_enfriamiento_desmolde),
     te_desmolde_atemperado:
-      te_desmolde_atemperado === ""
-        ? null
-        : moment.duration(te_desmolde_atemperado).asMinutes(),
+      te_desmolde_atemperado === "" ? null : parseInt(te_desmolde_atemperado),
     te_atemperado_rebanado:
-      te_atemperado_rebanado === ""
-        ? null
-        : moment.duration(te_atemperado_rebanado).asMinutes(),
+      te_atemperado_rebanado === "" ? null : parseInt(te_atemperado_rebanado),
     te_rebanado_entrega:
-      te_rebanado_entrega === ""
-        ? null
-        : moment.duration(te_rebanado_entrega).asMinutes(),
+      te_rebanado_entrega === "" ? null : parseInt(te_rebanado_entrega),
   };
   response(res, false, insertCapacity, newSku);
 });
@@ -187,76 +159,49 @@ router.put("/", (req, res) => {
     tinas_fresco: tinas_fresco ? parseInt(tinas_fresco) : null,
     tinas_congelado: tinas_congelado ? parseInt(tinas_congelado) : null,
     ingredientes_secos:
-      ingredientes_secos === ""
-        ? null
-        : moment.duration(ingredientes_secos).asMinutes(),
-    salmuerizador:
-      salmuerizador === "" ? null : moment.duration(salmuerizador).asMinutes(),
-    emulsiones:
-      emulsiones === "" ? null : moment.duration(emulsiones).asMinutes(),
+      ingredientes_secos === null ? null : parseInt(ingredientes_secos),
+    salmuerizador: salmuerizador === null ? null : parseInt(salmuerizador),
+    emulsiones: emulsiones === null ? null : parseInt(emulsiones),
     corte_deshuese_fresco:
-      corte_deshuese_fresco === ""
-        ? null
-        : moment.duration(corte_deshuese_fresco).asMinutes(),
-    mezclado: mezclado === "" ? null : moment.duration(mezclado).asMinutes(),
-    embutido: embutido === "" ? null : moment.duration(embutido).asMinutes(),
-    cocimiento:
-      cocimiento === "" ? null : moment.duration(cocimiento).asMinutes(),
-    enfriamiento:
-      enfriamiento === "" ? null : moment.duration(enfriamiento).asMinutes(),
-    desmolde: desmolde === "" ? null : moment.duration(desmolde).asMinutes(),
-    atemperado:
-      atemperado === "" ? null : moment.duration(atemperado).asMinutes(),
-    rebanado: rebanado === "" ? null : moment.duration(rebanado).asMinutes(),
-    entrega: entrega === "" ? null : moment.duration(entrega).asMinutes(),
+      corte_deshuese_fresco === null ? null : parseInt(corte_deshuese_fresco),
+    mezclado: mezclado === null ? null : parseInt(mezclado),
+    embutido: embutido === null ? null : parseInt(embutido),
+    cocimiento: cocimiento === null ? null : parseInt(cocimiento),
+    enfriamiento: enfriamiento === null ? null : parseInt(enfriamiento),
+    desmolde: desmolde === null ? null : parseInt(desmolde),
+    atemperado: atemperado === null ? null : parseInt(atemperado),
+    rebanado: rebanado === null ? null : parseInt(rebanado),
+    entrega: entrega === null ? null : parseInt(entrega),
     te_ingredientes_salmuera:
-      te_ingredientes_salmuera === ""
+      te_ingredientes_salmuera === null
         ? null
-        : moment.duration(te_ingredientes_salmuera).asMinutes(),
+        : parseInt(te_ingredientes_salmuera),
     te_salmuera_mezclado:
-      te_salmuera_mezclado === ""
-        ? null
-        : moment.duration(te_salmuera_mezclado).asMinutes(),
+      te_salmuera_mezclado === null ? null : parseInt(te_salmuera_mezclado),
     te_emulsiones_mezclado:
-      te_emulsiones_mezclado === ""
-        ? null
-        : moment.duration(te_emulsiones_mezclado).asMinutes(),
+      te_emulsiones_mezclado === null ? null : parseInt(te_emulsiones_mezclado),
     te_cyd_emulsiones:
-      te_cyd_emulsiones === ""
-        ? null
-        : moment.duration(te_cyd_emulsiones).asMinutes(),
+      te_cyd_emulsiones === null ? null : parseInt(te_cyd_emulsiones),
     te_cyd_mezclado:
-      te_cyd_mezclado === ""
-        ? null
-        : moment.duration(te_cyd_mezclado).asMinutes(),
+      te_cyd_mezclado === null ? null : parseInt(te_cyd_mezclado),
     te_mezclado_embutido:
-      te_mezclado_embutido === ""
-        ? null
-        : moment.duration(te_mezclado_embutido).asMinutes(),
+      te_mezclado_embutido === null ? null : parseInt(te_mezclado_embutido),
     te_embutido_cocimiento:
-      te_embutido_cocimiento === ""
-        ? null
-        : moment.duration(te_embutido_cocimiento).asMinutes(),
+      te_embutido_cocimiento === null ? null : parseInt(te_embutido_cocimiento),
     te_cocimiento_enfriamiento:
-      te_cocimiento_enfriamiento === ""
+      te_cocimiento_enfriamiento === null
         ? null
-        : moment.duration(te_cocimiento_enfriamiento).asMinutes(),
+        : parseInt(te_cocimiento_enfriamiento),
     te_enfriamiento_desmolde:
-      te_enfriamiento_desmolde === ""
+      te_enfriamiento_desmolde === null
         ? null
-        : moment.duration(te_enfriamiento_desmolde).asMinutes(),
+        : parseInt(te_enfriamiento_desmolde),
     te_desmolde_atemperado:
-      te_desmolde_atemperado === ""
-        ? null
-        : moment.duration(te_desmolde_atemperado).asMinutes(),
+      te_desmolde_atemperado === null ? null : parseInt(te_desmolde_atemperado),
     te_atemperado_rebanado:
-      te_atemperado_rebanado === ""
-        ? null
-        : moment.duration(te_atemperado_rebanado).asMinutes(),
+      te_atemperado_rebanado === null ? null : parseInt(te_atemperado_rebanado),
     te_rebanado_entrega:
-      te_rebanado_entrega === ""
-        ? null
-        : moment.duration(te_rebanado_entrega).asMinutes(),
+      te_rebanado_entrega === null ? null : parseInt(te_rebanado_entrega),
   };
   response(res, false, updateCapacity, newSku);
 });

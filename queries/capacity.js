@@ -1,6 +1,3 @@
-const moment = require("moment-timezone");
-const today = moment().format("YYYY-MM-DD HH:mm:ss");
-
 module.exports.getSummary = async (conn) => {
   const { data } = await conn.query(`
       SELECT c.id, c.idMaquina, m.nombre as maquina, c.sku, c.descripcion,
