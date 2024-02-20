@@ -25,6 +25,20 @@ export const insertProductionApi = {
       .then(({ data }) => data),
 };
 
+export const updateProductionApi = {
+  cancel: null,
+  run: (date) =>
+    axios
+      .get(
+        "https://qualtia-kanban.azurewebsites.net/api/production_orders/activateKanban",
+        {
+          cancelToken: new CancelToken((c) => (updateProductionApi.cancel = c)),
+          params: { fecha: date },
+        }
+      )
+      .then(({ data }) => data),
+};
+
 export const deleteProductionApi = {
   cancel: null,
   run: (idProd) =>

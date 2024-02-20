@@ -24,7 +24,6 @@ const SliceHistory = () => {
     dispatch(fetchRequirementRequest({ date: newDate }));
     dispatch(fetchSlicedRequest({ date: newDate }));
   };
-  // const slicedByDate = _.groupBy(sliced, "fecha");
   useEffect(() => {
     dispatch(fetchRequirementRequest({ date }));
     dispatch(fetchSlicedRequest({ date }));
@@ -58,6 +57,8 @@ const SliceHistory = () => {
                 key={item[0].fecha}
                 sx={{
                   maxWidth: 400,
+                  maxHeight: 400,
+                  overflow: "auto",
                   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
                 }}
               >

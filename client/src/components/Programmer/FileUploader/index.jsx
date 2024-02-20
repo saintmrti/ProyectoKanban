@@ -129,7 +129,7 @@ export function FileUploader({
           </Typography>
         </div>
       </div>
-      <div className="col-span-2">
+      <div className="col-span-2 overflow-auto">
         {filesRejected.length > 0 ? (
           <Box>
             <Grid item xs={12}>

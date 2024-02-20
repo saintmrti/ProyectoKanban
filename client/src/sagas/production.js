@@ -3,6 +3,7 @@ import { takeLatest, call, put, cancelled } from "redux-saga/effects";
 import {
   fetchProductionApi,
   insertProductionApi,
+  updateProductionApi,
   deleteProductionApi,
 } from "../api";
 import {
@@ -12,6 +13,9 @@ import {
   insertProductionRequest,
   insertProductionSuccess,
   insertProductionError,
+  updateProductionRequest,
+  updateProductionSuccess,
+  updateProductionError,
   deleteProductionRequest,
   deleteProductionSuccess,
   deleteProductionError,
@@ -51,6 +55,25 @@ function* insertProduction({ payload }) {
 
 export function* insertProductionSaga() {
   yield takeLatest(insertProductionRequest.toString(), insertProduction);
+}
+
+function* updateProduction({ payload: { date, setOpenAlert } }) {
+  try {
+    const { data, isError } = yield call(updateProductionApi.run, date);
+    if (isError) throw new Error();
+    yield put(updateProductionSuccess({ data }));
+    setOpenAlert(true);
+  } catch (e) {
+    yield put(updateProductionError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(updateProductionApi.cancel);
+    }
+  }
+}
+
+export function* updateProductionSaga() {
+  yield takeLatest(updateProductionRequest.toString(), updateProduction);
 }
 
 function* deleteProduction({ payload: { idProd } }) {

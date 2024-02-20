@@ -14,6 +14,7 @@ export const getProduction = createSelector(
       kg_lote: prod.kg_lote,
       no_rack: prod.no_rack,
       tipo_emulsion: prod.tipo_emulsion,
+      kanban: prod.kanban,
       procesos: [
         {
           nombre: "Ingredientes Secos",

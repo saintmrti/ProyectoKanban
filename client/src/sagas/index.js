@@ -9,5 +9,6 @@ export {
 export {
   fetchProductionSaga,
   insertProductionSaga,
+  updateProductionSaga,
   deleteProductionSaga,
 } from "./production";

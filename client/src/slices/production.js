@@ -9,6 +9,8 @@ const Slice = createSlice({
     didError: false,
     isFetchingInsert: false,
     didErrorInsert: false,
+    isFetchingUpdate: false,
+    didErrorUpdate: false,
     isFetchingDelete: false,
     didErrorDelete: false,
   },
@@ -39,6 +41,20 @@ const Slice = createSlice({
       state.isFetchingInsert = false;
       state.didErrorInsert = true;
     },
+    updateProductionRequest: (state) => {
+      state.isFetchingUpdate = true;
+      state.didErrorUpdate = false;
+    },
+    updateProductionSuccess: (state, action) => {
+      console.log(action.payload);
+      const { data } = action.payload;
+      state.data = _.keyBy(data, "idOrdenProduccion");
+      state.isFetchingUpdate = false;
+    },
+    updateProductionError: (state) => {
+      state.isFetchingUpdate = false;
+      state.didErrorUpdate = true;
+    },
     deleteProductionRequest: (state) => {
       state.isFetchingDelete = true;
       state.didErrorDelete = false;
@@ -62,6 +78,9 @@ export const {
   insertProductionRequest,
   insertProductionSuccess,
   insertProductionError,
+  updateProductionRequest,
+  updateProductionSuccess,
+  updateProductionError,
   deleteProductionRequest,
   deleteProductionSuccess,
   deleteProductionError,

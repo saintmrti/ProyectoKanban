@@ -13,15 +13,17 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import RackTable from "./RackTable";
+// import RackTable from "./RackTable";
 
 import ProductionForm from "./ProductionForm";
 import ProductionTable from "./ProductionTable";
+import AlertSuccess from "./AlertSuccess";
 import { Spinner } from "../Spinner";
 import { changeDate } from "../../slices/date";
 import { fetchCapacityRequest } from "../../slices/capacity";
 import {
   fetchProductionRequest,
+  updateProductionRequest,
   deleteProductionRequest,
 } from "../../slices/production";
 import { getProduction } from "../../selectors/produccion";
@@ -41,20 +43,15 @@ const style = {
 const Production = () => {
   const dispatch = useDispatch();
   const [openProd, setOpenProd] = useState(false);
-  const [openSpeedDial, setOpenSpeedDial] = useState(false);
+  // const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
   const [procesoIndex, setProcesoIndex] = useState(0);
   const [planProd, setPlanProd] = useState([]);
-  // const [originalPlanProd, setOriginalPlanProd] = useState([]);
+  const [openAlert, setOpenAlert] = useState(false);
 
   const production = useSelector(getProduction);
   const { isFetching, didError } = useSelector((state) => state.production);
   const { date } = useSelector((state) => state.date);
-  // const handleOnSaveProd = () => {
-  //   dispatch(insertProductionRequest({ planProd: planProd, date }));
-  //   setOriginalPlanProd(planProd);
-  //   setPlanProd([]);
-  // };
 
   const handleDeleteProd = (idProd) => {
     dispatch(deleteProductionRequest({ idProd }));
@@ -78,14 +75,16 @@ const Production = () => {
   };
 
   const handleChangeDate = (newDate) => {
-    changeDate(newDate);
+    dispatch(changeDate(newDate));
     dispatch(fetchProductionRequest({ date: newDate }));
   };
 
+  const handleSaveProd = () => {
+    dispatch(updateProductionRequest({ date, setOpenAlert }));
+  };
   useEffect(() => {
     if (production) {
       setPlanProd(production);
-      // setOriginalPlanProd(production);
     }
   }, [production]);
 
@@ -93,6 +92,10 @@ const Production = () => {
     dispatch(fetchCapacityRequest());
     dispatch(fetchProductionRequest({ date }));
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   setOpenAlert(planProd.length > 0 && planProd[0]?.kanban === true);
+  // }, [planProd]);
 
   return (
     <>
@@ -102,17 +105,16 @@ const Production = () => {
         <div>Error</div>
       ) : (
         <>
-          {!openSpeedDial ? (
-            // <Box
-            //   sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
-            // >
-            //   <SpeedDial
-            //     ariaLabel="SpeedDial basic example"
-            //     sx={{ position: "absolute", bottom: 1, right: 3 }}
-            //     icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
-            //   ></SpeedDial>
-            // </Box>
-            <div></div>
+          {/* {!openSpeedDial ? (
+            <Box
+              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
+            >
+              <SpeedDial
+                ariaLabel="SpeedDial basic example"
+                sx={{ position: "absolute", bottom: 1, right: 3 }}
+                icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
+              ></SpeedDial>
+            </Box>
           ) : (
             <>
               <CloseIcon
@@ -122,7 +124,7 @@ const Production = () => {
               />
               <RackTable />
             </>
-          )}
+          )} */}
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
               <div className="flex items-center mb-2">
@@ -133,9 +135,15 @@ const Production = () => {
                   <AddIcon />
                 </IconButton>
                 <div className="ml-auto flex items-center">
-                  <Button sx={{ mr: 1 }} variant="contained">
-                    Generar Kanban
-                  </Button>
+                  {planProd.length > 0 && planProd[0]?.kanban === false && (
+                    <Button
+                      sx={{ mr: 1 }}
+                      variant="contained"
+                      onClick={handleSaveProd}
+                    >
+                      Generar Kanban
+                    </Button>
+                  )}
                   <TextField
                     id="date"
                     label="Fecha"
@@ -145,14 +153,6 @@ const Production = () => {
                     onChange={(e) => handleChangeDate(e.target.value)}
                     sx={{ mr: 2, width: "15rem" }}
                   />
-                  {/* <Button
-                    variant="outlined"
-                    onClick={handleDeleteProd}
-                    disabled={planProd.length === 0}
-                    sx={{ mr: 1 }}
-                  >
-                    Eliminar
-                  </Button> */}
                   <IconButton size="small" onClick={handleBack}>
                     <ArrowBackIcon />
                   </IconButton>
@@ -190,6 +190,7 @@ const Production = () => {
               />
             </Box>
           </Modal>
+          <AlertSuccess open={openAlert} setOpen={setOpenAlert} />
         </>
       )}
     </>

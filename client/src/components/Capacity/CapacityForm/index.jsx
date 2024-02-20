@@ -246,168 +246,168 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
             label="Ingredientes secos"
             type="number"
             size="small"
-            {...register("ingredientes_secos", { required: false })}
+            {...register("ingredientes_secos", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a salmuerizador"
             type="number"
             size="small"
-            {...register("te_ingredientes_salmuera", { required: false })}
+            {...register("te_ingredientes_salmuera", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Salmuerizador"
             type="number"
             size="small"
-            {...register("salmuerizador", { required: false })}
+            {...register("salmuerizador", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a mezclado"
             type="number"
             size="small"
-            {...register("te_salmuera_mezclado", { required: false })}
+            {...register("te_salmuera_mezclado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Emulsiones"
             type="number"
             size="small"
-            {...register("emulsiones", { required: false })}
+            {...register("emulsiones", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a mezclado"
             type="number"
             size="small"
-            {...register("te_emulsiones_mezclado", { required: false })}
+            {...register("te_emulsiones_mezclado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Corte y Deshuese"
             type="number"
             size="small"
-            {...register("corte_deshuese_fresco", { required: false })}
+            {...register("corte_deshuese_fresco", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a emulsiones"
             type="number"
             size="small"
-            {...register("te_cyd_emulsiones", { required: false })}
+            {...register("te_cyd_emulsiones", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a mezclado"
             type="number"
             size="small"
-            {...register("te_cyd_mezclado", { required: false })}
+            {...register("te_cyd_mezclado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Mezclado"
             type="number"
             size="small"
-            {...register("mezclado", { required: false })}
+            {...register("mezclado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a embutido"
             type="number"
             size="small"
-            {...register("te_mezclado_embutido", { required: false })}
+            {...register("te_mezclado_embutido", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Embutido"
             type="number"
             size="small"
-            {...register("embutido", { required: false })}
+            {...register("embutido", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a cocimiento"
             type="number"
             size="small"
-            {...register("te_embutido_cocimiento", { required: false })}
+            {...register("te_embutido_cocimiento", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Cocimiento"
             type="number"
             size="small"
-            {...register("cocimiento", { required: false })}
+            {...register("cocimiento", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a enfriamiento"
             type="number"
             size="small"
-            {...register("te_cocimiento_enfriamiento", { required: false })}
+            {...register("te_cocimiento_enfriamiento", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Enfriamiento"
             type="number"
             size="small"
-            {...register("enfriamiento", { required: false })}
+            {...register("enfriamiento", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a desmolde"
             type="number"
             size="small"
-            {...register("te_enfriamiento_desmolde", { required: false })}
+            {...register("te_enfriamiento_desmolde", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Desmolde"
             type="number"
             size="small"
-            {...register("desmolde", { required: false })}
+            {...register("desmolde", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a atemperado"
             type="number"
             size="small"
-            {...register("te_desmolde_atemperado", { required: false })}
+            {...register("te_desmolde_atemperado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Atemperado"
             type="number"
             size="small"
-            {...register("atemperado", { required: false })}
+            {...register("atemperado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a rebanado"
             type="number"
             size="small"
-            {...register("te_atemperado_rebanado", { required: false })}
+            {...register("te_atemperado_rebanado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Rebanado"
             type="number"
             size="small"
-            {...register("rebanado", { required: false })}
+            {...register("rebanado", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a entrega"
             type="number"
             size="small"
-            {...register("te_rebanado_entrega", { required: false })}
+            {...register("te_rebanado_entrega", { required: true })}
           />
           <TextField
             sx={{ width: "10.3rem" }}
             label="Entrega"
             type="number"
             size="small"
-            {...register("entrega", { required: false })}
+            {...register("entrega", { required: true })}
           />
         </div>
         <div className="w-full flex justify-center">

@@ -9,5 +9,6 @@ export {
 export {
   fetchProductionApi,
   insertProductionApi,
+  updateProductionApi,
   deleteProductionApi,
 } from "./production";

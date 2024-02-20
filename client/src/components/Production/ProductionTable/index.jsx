@@ -61,9 +61,11 @@ export default function ProductionTable({
             )}
           </TableRow>
           <TableRow>
-            <StyledTableCell sx={{ width: "2rem" }}>
-              <b>Acciones</b>
-            </StyledTableCell>
+            {planProd.length > 0 && planProd[0]?.kanban === false && (
+              <StyledTableCell sx={{ width: "2rem" }}>
+                <b>Acciones</b>
+              </StyledTableCell>
+            )}
             <StyledTableCell align="center">
               <b>SKU</b>
             </StyledTableCell>
@@ -97,14 +99,16 @@ export default function ProductionTable({
         <TableBody>
           {_.map(planProd, (row) => (
             <StyledTableRow key={row.id}>
-              <StyledTableCell align="center" component="th" scope="row">
-                <IconButton
-                  size="small"
-                  onClick={() => handleDeleteProd(row.id)}
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </StyledTableCell>
+              {planProd.length > 0 && planProd[0]?.kanban === false && (
+                <StyledTableCell align="center" component="th" scope="row">
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDeleteProd(row.id)}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </StyledTableCell>
+              )}
               <StyledTableCell align="center">{row.producto}</StyledTableCell>
               <StyledTableCell align="center">{row.destino}</StyledTableCell>
               <StyledTableCell align="center">{row.kg_lote}</StyledTableCell>
