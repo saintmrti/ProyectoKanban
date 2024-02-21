@@ -28,7 +28,7 @@ const NavProduction = () => {
             mr: 1,
           }}
         >
-          Acumulado Rebanados
+          Acumulado
         </Button>
         <Button
           variant="contained"

@@ -22,12 +22,10 @@ export default function TablaRes({ total, minutosPorDia }) {
       component={Paper}
       sx={{
         overflowY: "auto",
-        marginBottom: "0",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-        width: "50%",
       }}
     >
-      <Table sx={{ maxWidth: 250 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell
@@ -38,6 +36,7 @@ export default function TablaRes({ total, minutosPorDia }) {
                     ? theme.palette.status.error
                     : theme.palette.status.success,
                 fontWeight: 600,
+                color: "white",
               }}
               colSpan={2}
             >

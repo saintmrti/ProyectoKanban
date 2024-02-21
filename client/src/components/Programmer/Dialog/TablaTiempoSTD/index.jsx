@@ -5,7 +5,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useTheme } from "@mui/material/styles";
 
 const rows = [
   { name: "Horas por día:", tiempo: 18 },
@@ -13,29 +12,25 @@ const rows = [
 ];
 
 export default function TablaTiempoSTD() {
-  const theme = useTheme();
   return (
     <TableContainer
       component={Paper}
       sx={{
         overflowY: "auto",
-        marginBottom: "0",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-        width: "50%",
       }}
     >
-      <Table sx={{ maxWidth: 250 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell
               align="center"
               colSpan={2}
               sx={{
-                background: theme.palette.status.disabled,
                 fontWeight: 600,
               }}
             >
-              Tiem STD de Prod
+              Tiempo STD de Producción
             </TableCell>
           </TableRow>
         </TableHead>

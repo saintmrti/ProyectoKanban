@@ -37,7 +37,7 @@ export default function AlertDialog({
         aria-describedby="alert-dialog-description"
         maxWidth="x1"
       >
-        <DialogTitle id="alert-dialog-title">{"Revisa tus datos"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Calcular Capacidad</DialogTitle>
         <DialogContent sx={{ margin: "0px", overflowY: "auto" }}>
           <TablaProgramador
             dataInicial={realPlan}
@@ -45,7 +45,7 @@ export default function AlertDialog({
             setRealPlan={setRealPlan}
           />
         </DialogContent>
-        <DialogContent sx={{ display: "flex", width: "70%", gap: 1 }}>
+        <DialogContent sx={{ display: "flex", gap: 1 }}>
           <TablaTiempoSTD />
           <TablaRes total={datosParaTablaRes} minutosPorDia={1080} />
         </DialogContent>

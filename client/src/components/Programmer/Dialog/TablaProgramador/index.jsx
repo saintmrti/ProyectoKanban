@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Input from "@mui/material/Input";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 // import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
@@ -54,30 +54,30 @@ const datosParaTiempoDeCambio = [
   { SKU: "X450", cantidad: 0 },
 ];
 //Tabla que consulta hoja "Lead Time"
-const datosLeadTime = [
-  { SKU: "10155", tiempoTotalHrs: 17.4 },
-  { SKU: "11022", tiempoTotalHrs: 17.4 },
-  { SKU: "X450", tiempoTotalHrs: 17.6 },
-  { SKU: "X519", tiempoTotalHrs: 17.6 },
-  { SKU: "10407", tiempoTotalHrs: 16.0 },
-  { SKU: "51793", tiempoTotalHrs: 14.2 },
-  { SKU: "X135", tiempoTotalHrs: 15.2 },
-  { SKU: "X050B", tiempoTotalHrs: 14.1 },
-  { SKU: "X444", tiempoTotalHrs: 28.2 },
-  { SKU: "53858", tiempoTotalHrs: 20.2 },
-  { SKU: "11060", tiempoTotalHrs: 27.9 },
-  { SKU: "11039", tiempoTotalHrs: 22.0 },
-  { SKU: "X460", tiempoTotalHrs: 20.2 },
-  { SKU: "X452", tiempoTotalHrs: 20.2 },
-  { SKU: "X168", tiempoTotalHrs: 14.7 },
-  { SKU: "X198", tiempoTotalHrs: 14.7 },
-  { SKU: "X169", tiempoTotalHrs: 12.5 },
-  { SKU: "X328", tiempoTotalHrs: 14.7 },
-  { SKU: "X329", tiempoTotalHrs: 16.6 },
-  { SKU: "X220", tiempoTotalHrs: 14.1 },
-  { SKU: "X210", tiempoTotalHrs: 12.0 },
-  { SKU: "71033", tiempoTotalHrs: 13.6 },
-];
+// const datosLeadTime = [
+//   { SKU: "10155", tiempoTotalHrs: 17.4 },
+//   { SKU: "11022", tiempoTotalHrs: 17.4 },
+//   { SKU: "X450", tiempoTotalHrs: 17.6 },
+//   { SKU: "X519", tiempoTotalHrs: 17.6 },
+//   { SKU: "10407", tiempoTotalHrs: 16.0 },
+//   { SKU: "51793", tiempoTotalHrs: 14.2 },
+//   { SKU: "X135", tiempoTotalHrs: 15.2 },
+//   { SKU: "X050B", tiempoTotalHrs: 14.1 },
+//   { SKU: "X444", tiempoTotalHrs: 28.2 },
+//   { SKU: "53858", tiempoTotalHrs: 20.2 },
+//   { SKU: "11060", tiempoTotalHrs: 27.9 },
+//   { SKU: "11039", tiempoTotalHrs: 22.0 },
+//   { SKU: "X460", tiempoTotalHrs: 20.2 },
+//   { SKU: "X452", tiempoTotalHrs: 20.2 },
+//   { SKU: "X168", tiempoTotalHrs: 14.7 },
+//   { SKU: "X198", tiempoTotalHrs: 14.7 },
+//   { SKU: "X169", tiempoTotalHrs: 12.5 },
+//   { SKU: "X328", tiempoTotalHrs: 14.7 },
+//   { SKU: "X329", tiempoTotalHrs: 16.6 },
+//   { SKU: "X220", tiempoTotalHrs: 14.1 },
+//   { SKU: "X210", tiempoTotalHrs: 12.0 },
+//   { SKU: "71033", tiempoTotalHrs: 13.6 },
+// ];
 //Nombre de las columnas de la tabla principal
 const columns = [
   //"Hra de Formulación",
@@ -99,39 +99,20 @@ const columns = [
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#e2e2e2",
-    color: "#13100c",
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.common.white,
     fontWeight: 600,
     textAlign: "center",
-    padding: "2px",
     fontSize: 12,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 12,
-    padding: "10px",
-  },
-}));
-const StyledTableCell_1 = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    color: "#13100c",
-    fontWeight: 600,
-    textAlign: "center",
-    padding: "2px",
-    fontSize: 12,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 12,
-    padding: "10px",
   },
 }));
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
-    //Se cambio de odd a even
-    backgroundColor: "rgba(223, 235, 237, 0.5)",
-    textAlign: "center",
-    padding: "2px",
+    backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -184,11 +165,11 @@ function obtenerTiempodeCambio(skuBuscado) {
   );
   return resultado.length > 0 ? resultado[0].cantidad : 0;
 }
-function obtenerLeadTime(skuBuscado) {
-  if (!skuBuscado) return 0;
-  const resultado = datosLeadTime.filter((dato) => dato.SKU === skuBuscado);
-  return resultado.length > 0 ? resultado[0].tiempoTotalHrs : 0;
-}
+// function obtenerLeadTime(skuBuscado) {
+//   if (!skuBuscado) return 0;
+//   const resultado = datosLeadTime.filter((dato) => dato.SKU === skuBuscado);
+//   return resultado.length > 0 ? resultado[0].tiempoTotalHrs : 0;
+// }
 
 export default function TablaProgramador({
   dataInicial,
@@ -264,7 +245,7 @@ export default function TablaProgramador({
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Table sx={{ minWidth: 80 }} aria-label="simple table">
+      <Table sx={{ minWidth: 80 }} aria-label="simple table" size="small">
         <TableHead>
           <TableRow>
             {/*<StyledTableCell_1
@@ -290,15 +271,7 @@ export default function TablaProgramador({
               align="center"
               sx={{ background: `#FFFFFF` }}
               colSpan={1}
-></StyledTableCell_1>*/}
-            <StyledTableCell_1
-              align="center"
-              sx={{ background: `#F8ED10` }}
-              colSpan={9}
-            >
-              CAPTURA SKU Y KGS
-            </StyledTableCell_1>
-
+            ></StyledTableCell_1>*/}
             {/*<StyledTableCell_1
               align="center"
               sx={{ background: `#FFFFFF` }}
@@ -313,7 +286,7 @@ export default function TablaProgramador({
               align="center"
               sx={{ background: `#FFFFFF` }}
               colSpan={1}
-></StyledTableCell_1>*/}
+            ></StyledTableCell_1>*/}
           </TableRow>
           <TableRow>
             <StyledTableCell align="left" colSpan={1}>

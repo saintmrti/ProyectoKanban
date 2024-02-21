@@ -38,7 +38,7 @@ const SliceHistory = () => {
         <Paper sx={{ minHeight: "calc(100vh - 157px)", p: 2 }}>
           <div className="flex justify-between w-full mb-3">
             <Typography variant="h6" gutterBottom component="div">
-              Acumulado Rebanado
+              Acumulado
             </Typography>
             <TextField
               id="date"
