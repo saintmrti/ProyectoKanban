@@ -16,8 +16,18 @@ export const insertRequirementApi = {
   run: (req) =>
     axios
       .post("/api/requerimiento", req, {
-        headers: { "Content-Type": "multipart/form-data" },
         cancelToken: new CancelToken((c) => (insertRequirementApi.cancel = c)),
+      })
+      .then(({ data }) => data),
+};
+
+export const deleteRequirementApi = {
+  cancel: null,
+  run: (date) =>
+    axios
+      .delete("/api/requerimiento", {
+        params: { date },
+        cancelToken: new CancelToken((c) => (deleteRequirementApi.cancel = c)),
       })
       .then(({ data }) => data),
 };

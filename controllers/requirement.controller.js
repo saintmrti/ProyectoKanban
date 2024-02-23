@@ -103,3 +103,11 @@ module.exports.uploadRequirement = async (cn, res, data, date) => {
     });
   }
 };
+
+module.exports.requirementExist = async (conn, date) => {
+  const { data } = await conn.query(`
+    SELECT * FROM Qualtia_Prod_requerimiento
+    WHERE CONVERT(date, fecha) = '${date}';
+    `);
+  return data;
+};

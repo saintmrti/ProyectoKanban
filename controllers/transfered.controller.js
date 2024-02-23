@@ -3,7 +3,7 @@ const Connection = require("../connection/db");
 const response = require("../helpers/response");
 const moment = require("moment-timezone");
 
-const { getSummary } = require("../queries/inventory");
+const { getSummary } = require("../queries/documents");
 
 // const plan_embutido = [
 //   {

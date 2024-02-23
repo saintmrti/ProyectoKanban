@@ -1,4 +1,8 @@
-export { fetchRequirementSaga, insertRequirementSaga } from "./requirement";
+export {
+  fetchRequirementSaga,
+  insertRequirementSaga,
+  deleteRequirementSaga,
+} from "./requirement";
 export { fetchSlicedSaga, insertSlicedSaga } from "./sliced";
 export {
   fetchCapacitySaga,
@@ -12,3 +16,10 @@ export {
   updateProductionSaga,
   deleteProductionSaga,
 } from "./production";
+
+export {
+  invDocumentsSaga,
+  reqDocumentsSaga,
+  wipDocumentsSaga,
+  weekDocumentsSaga,
+} from "./documents";

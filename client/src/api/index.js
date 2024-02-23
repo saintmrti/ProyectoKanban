@@ -1,4 +1,8 @@
-export { fetchRequirementApi, insertRequirementApi } from "./requirement";
+export {
+  fetchRequirementApi,
+  insertRequirementApi,
+  deleteRequirementApi,
+} from "./requirement";
 export { fetchSlicedApi, insertSlicedApi } from "./sliced";
 export {
   fetchCapacityApi,
@@ -12,3 +16,10 @@ export {
   updateProductionApi,
   deleteProductionApi,
 } from "./production";
+
+export {
+  invDocumentsApi,
+  reqDocumentsApi,
+  wipDocumentsApi,
+  weekDocumentsApi,
+} from "./documents";

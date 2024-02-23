@@ -1,6 +1,10 @@
 import { takeLatest, call, put, cancelled } from "redux-saga/effects";
 
-import { fetchRequirementApi, insertRequirementApi } from "../api";
+import {
+  fetchRequirementApi,
+  insertRequirementApi,
+  deleteRequirementApi,
+} from "../api";
 import {
   fetchRequirementRequest,
   fetchRequirementSuccess,
@@ -8,6 +12,9 @@ import {
   insertRequirementRequest,
   insertRequirementSuccess,
   insertRequirementError,
+  deleteRequirementRequest,
+  deleteRequirementSuccess,
+  deleteRequirementError,
 } from "../slices/requirement";
 
 function* fetchRequirement({ payload: { date } }) {
@@ -44,4 +51,22 @@ function* insertRequirement({ payload }) {
 
 export function* insertRequirementSaga() {
   yield takeLatest(insertRequirementRequest.toString(), insertRequirement);
+}
+
+function* deleteRequirement({ payload: { date } }) {
+  try {
+    const { data, isError } = yield call(deleteRequirementApi.run, date);
+    if (isError) throw new Error();
+    yield put(deleteRequirementSuccess({ data }));
+  } catch (e) {
+    yield put(deleteRequirementError());
+  } finally {
+    if (yield cancelled()) {
+      yield call(deleteRequirementApi.cancel);
+    }
+  }
+}
+
+export function* deleteRequirementSaga() {
+  yield takeLatest(deleteRequirementRequest.toString(), deleteRequirement);
 }

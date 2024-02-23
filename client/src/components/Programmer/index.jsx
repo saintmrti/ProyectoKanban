@@ -7,10 +7,14 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
+import { fetchRequirementRequest } from "../../slices/requirement";
 import {
-  fetchRequirementRequest,
-  insertRequirementRequest,
-} from "../../slices/requirement";
+  invDocumentsRequest,
+  reqDocumentsRequest,
+  wipDocumentsRequest,
+  weekDocumentsRequest,
+  changeDocuments,
+} from "../../slices/documents";
 import { fetchSlicedRequest } from "../../slices/sliced";
 import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
@@ -24,7 +28,7 @@ import { Spinner } from "../Spinner";
 
 const Programmer = () => {
   const dispatch = useDispatch();
-  // const [open, setOpen] = useState(false);
+  const [deleteBtn, setDeleteBtn] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -39,14 +43,17 @@ const Programmer = () => {
     dispatch(changeDate(newDate));
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     const f = new FormData();
     for (let i = 0; i < selectedFiles.length; i++) {
       f.append("files", selectedFiles[i]);
     }
     f.append("fecha", date);
-    dispatch(insertRequirementRequest(f));
-    setSelectedFiles([]);
+    setDeleteBtn(true);
+    dispatch(invDocumentsRequest(f));
+    dispatch(reqDocumentsRequest(f));
+    dispatch(wipDocumentsRequest(f));
+    dispatch(weekDocumentsRequest(f));
   };
 
   const handleDateChange = (event) => {
@@ -60,6 +67,12 @@ const Programmer = () => {
     dispatch(fetchRequirementRequest({ date }));
     dispatch(fetchSlicedRequest({ date }));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (Object.keys(requirements).length > 0) {
+      dispatch(changeDocuments(false));
+    }
+  }, [requirements, dispatch]);
 
   return (
     <>
@@ -124,6 +137,8 @@ const Programmer = () => {
                   setSelectedFiles={setSelectedFiles}
                   selectedFiles={selectedFiles}
                   date={date}
+                  setDeleteBtn={setDeleteBtn}
+                  deleteBtn={deleteBtn}
                 />
               </Paper>
             </Box>

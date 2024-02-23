@@ -46,3 +46,32 @@ module.exports.insertRequirement = async (conn, { invNacional, date }) => {
     return data;
   }
 };
+
+module.exports.deleteRequirement = async (conn, date) => {
+  await conn.query(`
+    DELETE FROM Qualtia_Prod_requerimiento
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
+  await conn.query(`
+    DELETE FROM Qualtia_Plan_pedido
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
+  await conn.query(`
+    DELETE FROM Qualtia_Prod_inv_nacional
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
+  await conn.query(`
+    DELETE FROM Qualtia_Plan_ajustado
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
+  await conn.query(`
+    DELETE FROM Qualtia_Prod_inv_req
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
+  return {};
+};

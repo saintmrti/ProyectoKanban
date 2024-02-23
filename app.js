@@ -9,7 +9,7 @@ const moment = require("moment");
 const es = require("moment/locale/es");
 const momentTz = require("moment-timezone");
 
-const inventoryRoutes = require("./routes/inventory.routes");
+const documentsRoutes = require("./routes/documents.routes");
 const requirementRoutes = require("./routes/requirement.routes");
 const slicedRoutes = require("./routes/sliced.routes");
 const capacityRoutes = require("./routes/capacity.routes");
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Routes
-app.use("/api/inventario", inventoryRoutes);
+app.use("/api/documentos", documentsRoutes);
 app.use("/api/requerimiento", requirementRoutes);
 app.use("/api/rebanado", slicedRoutes);
 app.use("/api/capacidad", capacityRoutes);

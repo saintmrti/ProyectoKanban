@@ -101,3 +101,11 @@ module.exports.uploadOrder = async (cn, res, data, date) => {
     res.json({ isError: true, status: "Error al subir los datos en pedido" });
   }
 };
+
+module.exports.orderExist = async (conn, date) => {
+  const { data } = await conn.query(`
+    SELECT * FROM Qualtia_Plan_pedido
+    WHERE CONVERT(date, fecha) = '${date}';
+    `);
+  return data;
+};

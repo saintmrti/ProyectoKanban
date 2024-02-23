@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { useSelector, useDispatch } from "react-redux";
+import _ from "lodash";
+import moment from "moment-timezone";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -13,26 +17,48 @@ import Typography from "@mui/material/Typography";
 import FolderIcon from "@mui/icons-material/Folder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import CircularProgress from "@mui/material/CircularProgress";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+
+import {
+  insertRequirementRequest,
+  deleteRequirementRequest,
+} from "../../../slices/requirement";
 import {
   requirementValidator,
   inventoryValidator,
   orderValidator,
   weekValidator,
 } from "../FileUploader/fileValidator";
-import moment from "moment-timezone";
-import _ from "lodash";
-import { Button } from "@mui/material";
+
+import { changeDocuments } from "../../../slices/documents";
 
 export function FileUploader({
   onUpload,
   selectedFiles,
   setSelectedFiles,
   date,
+  setDeleteBtn,
+  deleteBtn,
 }) {
+  const {
+    isFetchingWeek,
+    didErrorWeek,
+    isFetchingWip,
+    didErrorWip,
+    isFetchingReq,
+    didErrorReq,
+    isFetchingInv,
+    didErrorInv,
+    data,
+  } = useSelector((state) => state.documents);
+  const dispatch = useDispatch();
   const [filesRejected, setFilesRejected] = useState([]);
   const [errorFiles, setErrorFiles] = useState([]);
   const onDrop = (acceptedFiles, rejectedFiles) => {
     setErrorFiles([]);
+    setDeleteBtn(false);
     const promises = acceptedFiles.map((file) => {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -59,9 +85,25 @@ export function FileUploader({
   };
 
   const handleClear = () => {
+    if (
+      (data && data.inv_nacional) ||
+      data.req_celda ||
+      data.wip_jam ||
+      data.week
+    ) {
+      dispatch(deleteRequirementRequest({ date }));
+      dispatch(changeDocuments(false));
+    }
     setSelectedFiles([]);
     setFilesRejected([]);
     setErrorFiles([]);
+  };
+
+  const generateProgram = () => {
+    dispatch(insertRequirementRequest({ date }));
+    dispatch(changeDocuments(false));
+    setDeleteBtn(false);
+    setSelectedFiles([]);
   };
 
   const validatorFiles = (files) => {
@@ -193,6 +235,7 @@ export function FileUploader({
                           onClick={handleDeleteFile(file.name)}
                           edge="end"
                           aria-label="delete"
+                          disabled={deleteBtn}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -209,6 +252,50 @@ export function FileUploader({
                           "DD [de] MMMM YYYY"
                         )}
                       />
+                      {inventoryValidator(file.name) && (
+                        <Box>
+                          {isFetchingInv ? (
+                            <CircularProgress size={20} />
+                          ) : didErrorInv ? (
+                            <HighlightOffRoundedIcon color="error" />
+                          ) : data.inv_nacional ? (
+                            <CheckCircleOutlineIcon color="success" />
+                          ) : null}
+                        </Box>
+                      )}
+                      {requirementValidator(file.name) && (
+                        <Box>
+                          {isFetchingReq ? (
+                            <CircularProgress size={20} />
+                          ) : didErrorReq ? (
+                            <HighlightOffRoundedIcon color="error" />
+                          ) : data.req_celda ? (
+                            <CheckCircleOutlineIcon color="success" />
+                          ) : null}
+                        </Box>
+                      )}
+                      {orderValidator(file.name) && (
+                        <Box>
+                          {isFetchingWip ? (
+                            <CircularProgress size={20} />
+                          ) : didErrorWip ? (
+                            <HighlightOffRoundedIcon color="error" />
+                          ) : data.wip_jam ? (
+                            <CheckCircleOutlineIcon color="success" />
+                          ) : null}
+                        </Box>
+                      )}
+                      {weekValidator(file.name) && (
+                        <Box>
+                          {isFetchingWeek ? (
+                            <CircularProgress size={20} />
+                          ) : didErrorWeek ? (
+                            <HighlightOffRoundedIcon color="error" />
+                          ) : data.week ? (
+                            <CheckCircleOutlineIcon color="success" />
+                          ) : null}
+                        </Box>
+                      )}
                     </ListItem>
                   ))}
                 </List>
@@ -243,16 +330,40 @@ export function FileUploader({
                   variant="contained"
                   color="error"
                   onClick={() => handleClear()}
+                  disabled={
+                    isFetchingInv ||
+                    isFetchingReq ||
+                    isFetchingWip ||
+                    isFetchingWeek
+                  }
                 >
                   Cancelar
                 </Button>
-                <Button
-                  variant="contained"
-                  disabled={errorFiles.length > 0 || selectedFiles.length > 4}
-                  onClick={() => onUpload()}
-                >
-                  Aceptar
-                </Button>
+                {deleteBtn ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={generateProgram}
+                    disabled={
+                      data.inv_nacional &&
+                      data.req_celda &&
+                      data.wip_jam &&
+                      data.week
+                        ? false
+                        : true
+                    }
+                  >
+                    Generar Programa
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    disabled={errorFiles.length > 0 || selectedFiles.length > 4}
+                    onClick={() => onUpload()}
+                  >
+                    Aceptar
+                  </Button>
+                )}
               </div>
             </Grid>
           </Box>

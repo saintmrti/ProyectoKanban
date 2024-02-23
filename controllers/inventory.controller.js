@@ -56,7 +56,6 @@ module.exports.uploadInventory = async (cn, res, data, date) => {
         fecha: date,
       };
     });
-
     const batchSize = 2000;
     for (let i = 0; i < transformData.length; i += batchSize) {
       const currentBatch = transformData.slice(i, i + batchSize);
@@ -96,6 +95,14 @@ module.exports.uploadInventory = async (cn, res, data, date) => {
       status: "Error al subir los datos en inventario nacional",
     });
   }
+};
+
+module.exports.inventoryExist = async (conn, date) => {
+  const { data } = await conn.query(`
+    SELECT * FROM Qualtia_Prod_inv_nacional
+    WHERE CONVERT(date, fecha) = '${date}';
+    `);
+  return data;
 };
 
 function agruparDatos(datosCSV) {

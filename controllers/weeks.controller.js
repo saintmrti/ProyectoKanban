@@ -84,3 +84,11 @@ module.exports.uploadWeeks = async (cn, res, data, date) => {
     });
   }
 };
+
+module.exports.weeksExist = async (conn, date) => {
+  const { data } = await conn.query(`
+    SELECT * FROM Qualtia_Plan_ajustado
+    WHERE CONVERT(date, fecha) = '${date}';
+    `);
+  return data;
+};

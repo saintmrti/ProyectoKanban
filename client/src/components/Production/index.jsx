@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
@@ -153,12 +153,16 @@ const Production = () => {
                     onChange={(e) => handleChangeDate(e.target.value)}
                     sx={{ mr: 2, width: "15rem" }}
                   />
-                  <IconButton size="small" onClick={handleBack}>
-                    <ArrowBackIcon />
-                  </IconButton>
-                  <IconButton size="small" onClick={handleNext}>
-                    <ArrowForwardIcon />
-                  </IconButton>
+                  {planProd && planProd.length > 0 && (
+                    <Fragment>
+                      <IconButton size="small" onClick={handleBack}>
+                        <ArrowBackIcon />
+                      </IconButton>
+                      <IconButton size="small" onClick={handleNext}>
+                        <ArrowForwardIcon />
+                      </IconButton>
+                    </Fragment>
+                  )}
                 </div>
               </div>
               <ProductionTable

@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const axios = require("axios");
 
 const response = require("../helpers/response");
 const { prodTime } = require("../controllers/prodTime.controller");
