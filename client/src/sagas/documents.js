@@ -25,6 +25,7 @@ function* invDocuments({ payload }) {
     const { data, isError } = yield call(invDocumentsApi.run, payload);
     if (isError) throw new Error();
     yield put(invDocumentsSuccess({ data }));
+    yield put(reqDocumentsRequest(payload));
   } catch (e) {
     yield put(invDocumentsError());
   } finally {
@@ -43,6 +44,7 @@ function* reqDocuments({ payload }) {
     const { data, isError } = yield call(reqDocumentsApi.run, payload);
     if (isError) throw new Error();
     yield put(reqDocumentsSuccess({ data }));
+    yield put(wipDocumentsRequest(payload));
   } catch (e) {
     yield put(reqDocumentsError());
   } finally {
@@ -61,6 +63,7 @@ function* wipDocuments({ payload }) {
     const { data, isError } = yield call(wipDocumentsApi.run, payload);
     if (isError) throw new Error();
     yield put(wipDocumentsSuccess({ data }));
+    yield put(weekDocumentsRequest(payload));
   } catch (e) {
     yield put(wipDocumentsError());
   } finally {

@@ -44,7 +44,12 @@ export default function ProductionTable({
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center" colSpan={7}>
+            <StyledTableCell
+              align="center"
+              colSpan={
+                planProd.length > 0 && planProd[0]?.kanban === false ? 7 : 6
+              }
+            >
               Celda 2
             </StyledTableCell>
             {_.map(

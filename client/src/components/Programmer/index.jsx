@@ -10,9 +10,9 @@ import TextField from "@mui/material/TextField";
 import { fetchRequirementRequest } from "../../slices/requirement";
 import {
   invDocumentsRequest,
-  reqDocumentsRequest,
-  wipDocumentsRequest,
-  weekDocumentsRequest,
+  // reqDocumentsRequest,
+  // wipDocumentsRequest,
+  // weekDocumentsRequest,
   changeDocuments,
 } from "../../slices/documents";
 import { fetchSlicedRequest } from "../../slices/sliced";
@@ -51,9 +51,9 @@ const Programmer = () => {
     f.append("fecha", date);
     setDeleteBtn(true);
     dispatch(invDocumentsRequest(f));
-    dispatch(reqDocumentsRequest(f));
-    dispatch(wipDocumentsRequest(f));
-    dispatch(weekDocumentsRequest(f));
+    // dispatch(reqDocumentsRequest(f));
+    // dispatch(wipDocumentsRequest(f));
+    // dispatch(weekDocumentsRequest(f));
   };
 
   const handleDateChange = (event) => {

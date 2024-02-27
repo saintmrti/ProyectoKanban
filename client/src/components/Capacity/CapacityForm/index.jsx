@@ -239,7 +239,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
             {...register("tinas_congelado", { required: true })}
           />
         </div>
-        <h1 className="text-2xl mb-5 w-full text-center">Tiempos</h1>
+        <h1 className="text-2xl mb-5 w-full text-center">Tiempos (m)</h1>
         <div className="grid grid-cols-6 gap-5 mb-10">
           <TextField
             sx={{ width: "10.3rem" }}

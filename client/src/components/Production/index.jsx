@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment-timezone";
 // import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -128,12 +129,20 @@ const Production = () => {
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
               <div className="flex items-center mb-2">
-                <Typography variant="h6" component="span">
-                  Agregar SKU
-                </Typography>
-                <IconButton size="small" onClick={() => setOpenProd(true)}>
-                  <AddIcon />
-                </IconButton>
+                {planProd.length > 0 && planProd[0]?.kanban === false ? (
+                  <div>
+                    <Typography variant="h6" component="span">
+                      Agregar SKU
+                    </Typography>
+                    <IconButton size="small" onClick={() => setOpenProd(true)}>
+                      <AddIcon />
+                    </IconButton>
+                  </div>
+                ) : (
+                  <Typography variant="h6" component="span">
+                    Kanban del día {moment(date).format("DD/MM/YYYY")}
+                  </Typography>
+                )}
                 <div className="ml-auto flex items-center">
                   {planProd.length > 0 && planProd[0]?.kanban === false && (
                     <Button
