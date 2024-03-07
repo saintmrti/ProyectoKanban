@@ -32,6 +32,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
   const onSubmit = (values) => {
     const sku = {
       idSku: editProduct,
+      desmolde: null,
       ...values,
     };
     editProduct
@@ -77,7 +78,7 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
       setValue("embutido", product.embutido);
       setValue("cocimiento", product.cocimiento);
       setValue("enfriamiento", product.enfriamiento);
-      setValue("desmolde", product.desmolde);
+      // setValue("desmolde", product.desmolde);
       setValue("atemperado", product.atemperado);
       setValue("rebanado", product.rebanado);
       setValue("entrega", product.entrega);
@@ -355,18 +356,18 @@ const CapacityForm = ({ selectedArr, editProduct, setOpenForm }) => {
           />
           <TextField
             sx={{ width: "10.3rem" }}
-            label="T.E. a desmolde"
+            label="T.E. a pre-atemperado"
             type="number"
             size="small"
             {...register("te_enfriamiento_desmolde", { required: true })}
           />
-          <TextField
+          {/* <TextField
             sx={{ width: "10.3rem" }}
             label="Desmolde"
             type="number"
             size="small"
             {...register("desmolde", { required: true })}
-          />
+          /> */}
           <TextField
             sx={{ width: "10.3rem" }}
             label="T.E. a atemperado"

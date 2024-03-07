@@ -49,9 +49,9 @@ export default function AlertDialog({
           <TablaTiempoSTD />
           <TablaRes total={datosParaTablaRes} minutosPorDia={1080} />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Recalcular</Button>
-          <Button onClick={handleOnClick} autoFocus>
+        <DialogActions sx={{ marginRight: "20px" }}>
+          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button onClick={handleOnClick} variant="contained">
             Guardar
           </Button>
         </DialogActions>

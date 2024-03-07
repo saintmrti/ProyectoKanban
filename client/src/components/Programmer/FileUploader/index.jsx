@@ -149,7 +149,6 @@ export function FileUploader({
             <UploadFileIcon fontSize="small" /> archivos:
           </Typography>
         </div>
-        {console.log(data)}
         <div className="mb-2">
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
             {`1. Pedido ${moment(date).format("DD [de] MMM")}.xlsx`}
@@ -246,7 +245,6 @@ export function FileUploader({
                           "DD [de] MMMM YYYY"
                         )}
                       />
-                      {console.log(didErrorInv)}
                       {inventoryValidator(file.name) && (
                         <Box>
                           {isFetchingInv ? (

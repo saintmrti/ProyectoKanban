@@ -27,9 +27,15 @@ module.exports.parseWeeks = (fileContent) => {
   }
 
   function agruparDatos(datosExtraidos) {
+    // const registers = datosExtraidos.filter(
+    //   (register) =>
+    //     typeof register[0] === "string" &&
+    //     typeof register[1] === "string" &&
+    //     Number.isInteger(register[7])
+    // );
     _.forEach(datosExtraidos, function (register) {
       const producto = {
-        sku: `${register[0]}`,
+        sku: register[0],
         descripcion: register[1],
         plan_ajustado: register[7],
       };
@@ -43,7 +49,7 @@ module.exports.parseWeeks = (fileContent) => {
     xlsx.utils.encode_col(index + 3)
   );
 
-  const filasAExtraer2 = Array.from({ length: 23 }, (_, index) => index + 72);
+  const filasAExtraer2 = Array.from({ length: 86 }, (_, index) => index + 72);
   //console.log(filasAExtraer, columnasAExtraer)
 
   // Uso de las funciones
@@ -59,30 +65,31 @@ module.exports.parseWeeks = (fileContent) => {
 };
 
 module.exports.uploadWeeks = async (cn, res, data, date) => {
-  try {
-    const cleanData = data.filter(
-      (obj) => !Object.values(obj).every((val) => val === undefined)
-    );
-
-    const values = cleanData
-      .map(
-        (item) =>
-          `('${item.sku}', '${item.descripcion}', '${item.plan_ajustado}','${date}')`
-      )
-      .join(",");
-
-    await cn.query(`
-      INSERT INTO Qualtia_Plan_ajustado
-      (producto, descripcion, plan_ajustado, fecha)
-      VALUES ${values}
-  `);
-  } catch (error) {
-    console.log(error);
-    res.json({
-      isError: true,
-      status: "Error al subir los datos en semanas",
+  const cleanData = data
+    .filter(
+      (obj) =>
+        !Object.values(obj).every((val) => val === undefined || val === "")
+    )
+    .map((obj) => {
+      return {
+        sku: obj.sku,
+        descripcion: obj.descripcion,
+        plan_ajustado: parseInt(obj.plan_ajustado) || 0,
+      };
     });
-  }
+
+  const values = cleanData
+    .map(
+      (item) =>
+        `('${item.sku}', '${item.descripcion}', ${item.plan_ajustado},'${date}')`
+    )
+    .join(",");
+
+  await cn.query(`
+    INSERT INTO Qualtia_Plan_ajustado
+    (producto, descripcion, plan_ajustado, fecha)
+    VALUES ${values}
+  `);
 };
 
 module.exports.weeksExist = async (conn, date) => {

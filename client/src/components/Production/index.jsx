@@ -1,12 +1,12 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 // import SpeedDial from "@mui/material/SpeedDial";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AddIcon from "@mui/icons-material/Add";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -46,7 +46,7 @@ const Production = () => {
   const [openProd, setOpenProd] = useState(false);
   // const [openSpeedDial, setOpenSpeedDial] = useState(false);
   const [product, setProduct] = useState(null);
-  const [procesoIndex, setProcesoIndex] = useState(0);
+  // const [procesoIndex, setProcesoIndex] = useState(0);
   const [planProd, setPlanProd] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -63,17 +63,17 @@ const Production = () => {
     setProduct(null);
   };
 
-  const handleNext = () => {
-    if (procesoIndex < planProd[0].procesos.length - 4) {
-      setProcesoIndex(procesoIndex + 1);
-    }
-  };
+  // const handleNext = () => {
+  //   if (procesoIndex < planProd[0].procesos.length - 4) {
+  //     setProcesoIndex(procesoIndex + 1);
+  //   }
+  // };
 
-  const handleBack = () => {
-    if (procesoIndex > 0) {
-      setProcesoIndex(procesoIndex - 1);
-    }
-  };
+  // const handleBack = () => {
+  //   if (procesoIndex > 0) {
+  //     setProcesoIndex(procesoIndex - 1);
+  //   }
+  // };
 
   const handleChangeDate = (newDate) => {
     dispatch(changeDate(newDate));
@@ -106,42 +106,22 @@ const Production = () => {
         <div>Error</div>
       ) : (
         <>
-          {/* {!openSpeedDial ? (
-            <Box
-              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
-            >
-              <SpeedDial
-                ariaLabel="SpeedDial basic example"
-                sx={{ position: "absolute", bottom: 1, right: 3 }}
-                icon={<AddIcon onClick={() => setOpenSpeedDial(true)} />}
-              ></SpeedDial>
-            </Box>
-          ) : (
-            <>
-              <CloseIcon
-                sx={{ position: "absolute", top: 84, right: 20 }}
-                fontSize="medium"
-                onClick={() => setOpenSpeedDial(!openSpeedDial)}
-              />
-              <RackTable />
-            </>
-          )} */}
-          <Card sx={{ minWidth: 275 }}>
+          <Card>
             <CardContent>
               <div className="flex items-center mb-2">
-                {planProd.length > 0 && planProd[0]?.kanban === false ? (
-                  <div>
+                {planProd.length > 0 && planProd[0]?.kanban === true ? (
+                  <Typography variant="h6" component="span">
+                    Kanban del día {moment(date).format("DD/MM/YYYY")}
+                  </Typography>
+                ) : (
+                  <>
                     <Typography variant="h6" component="span">
                       Agregar SKU
                     </Typography>
                     <IconButton size="small" onClick={() => setOpenProd(true)}>
                       <AddIcon />
                     </IconButton>
-                  </div>
-                ) : (
-                  <Typography variant="h6" component="span">
-                    Kanban del día {moment(date).format("DD/MM/YYYY")}
-                  </Typography>
+                  </>
                 )}
                 <div className="ml-auto flex items-center">
                   {planProd.length > 0 && planProd[0]?.kanban === false && (
@@ -160,9 +140,9 @@ const Production = () => {
                     size="small"
                     value={date}
                     onChange={(e) => handleChangeDate(e.target.value)}
-                    sx={{ mr: 2, width: "15rem" }}
+                    sx={{ width: "15rem" }}
                   />
-                  {planProd && planProd.length > 0 && (
+                  {/* {planProd && planProd.length > 0 && (
                     <Fragment>
                       <IconButton size="small" onClick={handleBack}>
                         <ArrowBackIcon />
@@ -171,12 +151,12 @@ const Production = () => {
                         <ArrowForwardIcon />
                       </IconButton>
                     </Fragment>
-                  )}
+                  )} */}
                 </div>
               </div>
               <ProductionTable
                 planProd={planProd}
-                procesoIndex={procesoIndex}
+                // procesoIndex={procesoIndex}
                 handleDeleteProd={handleDeleteProd}
               />
             </CardContent>

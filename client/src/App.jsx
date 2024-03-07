@@ -31,6 +31,7 @@ const App = () => {
               p: 3,
               bgcolor: "bgcolor",
               minHeight: "100vh",
+              width: "100%",
               display: "flex",
               flexDirection: "column",
             }}
