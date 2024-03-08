@@ -45,6 +45,7 @@ const ProgrammerTable = ({
   setOpenDialog,
   openDialog,
   setRealPlan,
+  realPlan,
   date,
   handleChangeDate,
   sliced,
@@ -93,6 +94,36 @@ const ProgrammerTable = ({
             : row
         );
         setPlan(updatedData);
+        const productExist = realPlan.some((row) => row.idProducto === product);
+        if (productExist) {
+          if (loadValue > 0) {
+            const updatedRealPlan = realPlan.map((row) =>
+              row.idProducto === product
+                ? {
+                    ...row,
+                    ajuste_carga: loadValue,
+                    pedido: pedido(product),
+                  }
+                : row
+            );
+            setRealPlan(updatedRealPlan);
+          } else {
+            const updatedRealPlan = realPlan.filter(
+              (row) => row.idProducto !== product
+            );
+            setRealPlan(updatedRealPlan);
+          }
+        } else {
+          setRealPlan([
+            ...realPlan,
+            {
+              idProducto: product,
+              sku: _.find(list, { idProducto: product })?.producto,
+              ajuste_carga: loadValue,
+              pedido: pedido(product),
+            },
+          ]);
+        }
       }
     }
     setProduct(null);
@@ -100,18 +131,18 @@ const ProgrammerTable = ({
 
   const handleClickProgramer = () => {
     setOpenDialog(!openDialog);
-    const arrayPlan = [];
-    _.map(plan, (row) => {
-      if (row.ajuste_carga > 0) {
-        arrayPlan.push({
-          idProducto: row.idProducto,
-          sku: row.producto,
-          ajuste_carga: row.ajuste_carga,
-          pedido: row.pedido,
-        });
-      }
-    });
-    setRealPlan(arrayPlan);
+    // const arrayPlan = [];
+    // _.map(plan, (row) => {
+    //   if (row.ajuste_carga > 0) {
+    //     arrayPlan.push({
+    //       idProducto: row.idProducto,
+    //       sku: row.producto,
+    //       ajuste_carga: row.ajuste_carga,
+    //       pedido: row.pedido,
+    //     });
+    //   }
+    // });
+    // setRealPlan(arrayPlan);
   };
 
   const calculateInvFinal3 = (inv_final_1, prox_salida, pedido) => {
@@ -128,6 +159,7 @@ const ProgrammerTable = ({
   };
 
   useEffect(() => {
+    const arrayPlan = [];
     const planData = _.map(list, (row) => {
       const pedido_actual =
         _.find(sliced, { id: row?.idProducto })?.pedido || 0;
@@ -150,12 +182,24 @@ const ProgrammerTable = ({
         ),
       };
     });
+    _.map(planData, (row) => {
+      if (row.ajuste_carga > 0) {
+        arrayPlan.push({
+          idProducto: row.idProducto,
+          sku: row.producto,
+          ajuste_carga: row.ajuste_carga,
+          pedido: row.pedido,
+        });
+      }
+    });
     setPlan(planData);
+    setRealPlan(arrayPlan);
     setFilteredPlan(planData);
   }, [list, sliced]);
 
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>
+      {console.log(realPlan)}
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
         <div className="flex justify-between w-full">
           <Typography variant="h6" sx={{ mb: 2 }}>
@@ -169,7 +213,7 @@ const ProgrammerTable = ({
               handleChangeDate={handleChangeDate}
             />
             <Button
-              variant="outlined"
+              variant="contained"
               sx={{ ml: 2 }}
               onClick={handleClickProgramer}
               disabled={!plan.some((obj) => obj.ajuste_carga !== 0)}

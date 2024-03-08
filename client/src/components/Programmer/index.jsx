@@ -107,6 +107,7 @@ const Programmer = () => {
             <ProgrammerTable
               sliced={sliced?.pedido}
               date={date}
+              realPlan={realPlan}
               setRealPlan={setRealPlan}
               handleChangeDate={handleChangeDate}
               list={requirements}

@@ -151,7 +151,9 @@ export function FileUploader({
         </div>
         <div className="mb-2">
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
-            {`1. Pedido ${moment(date).format("DD [de] MMM")}.xlsx`}
+            {`1. Pedido ${moment(date)
+              .add(1, "day")
+              .format("DD [de] MMM")}.xlsx`}
           </Typography>
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
             {`2. Inventario Nacional.csv`}
