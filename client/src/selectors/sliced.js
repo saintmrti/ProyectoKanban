@@ -7,12 +7,12 @@ export const getHistory = createSelector(
   ({ requirement }) => requirement.data,
   (sliced, requirement) => {
     if (_.isEmpty(sliced)) return {};
+    const arrReq = Object.values(requirement);
     const history = Object.values(
-      sliced?.pedidos.reduce((acc, { producto, pedido, fecha }) => {
-        const dayOfWeek = moment(fecha).utc().format("dddd");
-        const skuData = acc[producto] || {
+      arrReq.reduce((acc, { producto, plan_ajustado }) => {
+        const skuData = {
           sku: producto,
-          plan: _.find(requirement, { producto: producto })?.plan_ajustado || 0,
+          plan: plan_ajustado || 0,
           lunes: null,
           martes: null,
           miercoles: null,
@@ -22,28 +22,38 @@ export const getHistory = createSelector(
           total: 0,
           dif: 0,
         };
-        switch (dayOfWeek) {
-          case "Monday":
-            skuData.lunes = pedido;
-            break;
-          case "Tuesday":
-            skuData.martes = pedido;
-            break;
-          case "Wednesday":
-            skuData.miercoles = pedido;
-            break;
-          case "Thursday":
-            skuData.jueves = pedido;
-            break;
-          case "Friday":
-            skuData.viernes = pedido;
-            break;
-          case "Saturday":
-            skuData.sabado = pedido;
-            break;
+
+        const slicedData = sliced?.pedidos.find(
+          (item) => item.producto === producto
+        );
+
+        if (slicedData) {
+          const { pedido, fecha } = slicedData;
+          const dayOfWeek = moment(fecha).utc().format("dddd");
+          switch (dayOfWeek) {
+            case "Monday":
+              skuData.lunes = pedido;
+              break;
+            case "Tuesday":
+              skuData.martes = pedido;
+              break;
+            case "Wednesday":
+              skuData.miercoles = pedido;
+              break;
+            case "Thursday":
+              skuData.jueves = pedido;
+              break;
+            case "Friday":
+              skuData.viernes = pedido;
+              break;
+            case "Saturday":
+              skuData.sabado = pedido;
+              break;
+          }
+          skuData.total += pedido;
+          skuData.dif = skuData.plan === 0 ? 0 : skuData.plan - skuData.total;
         }
-        skuData.total += pedido;
-        skuData.dif = skuData.plan === 0 ? 0 : skuData.plan - skuData.total;
+
         acc[producto] = skuData;
         return acc;
       }, {})

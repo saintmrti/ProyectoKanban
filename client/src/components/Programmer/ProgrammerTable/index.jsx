@@ -49,18 +49,21 @@ const ProgrammerTable = ({
   date,
   handleChangeDate,
   sliced,
+  openDelete,
+  setOpenDelete,
 }) => {
+  const today = moment(date).format("DD MMM");
+  const tomorrow = moment(date).add(1, "days").format("DD MMM");
+
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
   const [load, setLoad] = useState(null);
   const [filteredPlan, setFilteredPlan] = useState([]);
   const [product, setProduct] = useState(null);
+
   const handleEditClick = (index) => {
     setProduct(index);
   };
-
-  const today = moment(date).format("DD MMM");
-  const tomorrow = moment(date).add(1, "days").format("DD MMM");
 
   const handleSaveClick = () => {
     if (
@@ -131,18 +134,6 @@ const ProgrammerTable = ({
 
   const handleClickProgramer = () => {
     setOpenDialog(!openDialog);
-    // const arrayPlan = [];
-    // _.map(plan, (row) => {
-    //   if (row.ajuste_carga > 0) {
-    //     arrayPlan.push({
-    //       idProducto: row.idProducto,
-    //       sku: row.producto,
-    //       ajuste_carga: row.ajuste_carga,
-    //       pedido: row.pedido,
-    //     });
-    //   }
-    // });
-    // setRealPlan(arrayPlan);
   };
 
   const calculateInvFinal3 = (inv_final_1, prox_salida, pedido) => {
@@ -199,7 +190,6 @@ const ProgrammerTable = ({
 
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>
-      {console.log(realPlan)}
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
         <div className="flex justify-between w-full">
           <Typography variant="h6" sx={{ mb: 2 }}>
@@ -212,6 +202,14 @@ const ProgrammerTable = ({
               date={date}
               handleChangeDate={handleChangeDate}
             />
+            <Button
+              variant="outlined"
+              sx={{ ml: 2 }}
+              onClick={() => setOpenDelete(!openDelete)}
+              disabled={list.length === 0}
+            >
+              Eliminar
+            </Button>
             <Button
               variant="contained"
               sx={{ ml: 2 }}
@@ -294,7 +292,7 @@ const ProgrammerTable = ({
                     {row.bpt_cedis}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.wip_programa_hoy}
+                    {row.programa_hoy || 0}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {row.salida_hoy}

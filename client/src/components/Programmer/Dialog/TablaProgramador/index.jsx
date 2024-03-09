@@ -333,7 +333,6 @@ export default function TablaProgramador({
             </StyledTableCell>
           </TableRow>
         </TableHead>
-        {console.log(totales)}
         <TableBody>
           {data.map((row, rowIndex) => (
             <StyledTableRow key={rowIndex}>

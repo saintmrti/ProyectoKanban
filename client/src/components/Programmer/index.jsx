@@ -19,6 +19,7 @@ import { fetchSlicedRequest } from "../../slices/sliced";
 import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
 import AlertDialog from "./Dialog/AlertDialog";
+import AlertDelete from "./AlertDelete";
 // import CloseIcon from "@mui/icons-material/Close";
 // import WeeklyInventory from "./WeeklyInventory";
 import { FileUploader } from "./FileUploader";
@@ -30,6 +31,7 @@ const Programmer = () => {
   const dispatch = useDispatch();
   const [deleteBtn, setDeleteBtn] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [realPlan, setRealPlan] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -113,6 +115,8 @@ const Programmer = () => {
               list={requirements}
               openDialog={openDialog}
               setOpenDialog={setOpenDialog}
+              openDelete={openDelete}
+              setOpenDelete={setOpenDelete}
             />
           ) : (
             <Box sx={{ height: "calc(100vh - 163px)" }}>
@@ -152,6 +156,7 @@ const Programmer = () => {
             realPlan={realPlan}
             setRealPlan={setRealPlan}
           />
+          <AlertDelete date={date} open={openDelete} setOpen={setOpenDelete} />
         </>
       )}
     </>

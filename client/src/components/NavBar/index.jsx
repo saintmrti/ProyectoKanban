@@ -39,7 +39,10 @@ export default function NavBar() {
             component="img"
             src={logo}
             alt="Logo"
-            sx={{ width: 100, mr: "auto" }}
+            sx={{
+              width: 100,
+              mr: "auto",
+            }}
           />
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button

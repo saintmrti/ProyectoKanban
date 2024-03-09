@@ -54,7 +54,6 @@ export default function ProductionForm({
       fecha_mezclado: `${date} ${values.mezcladora_inicio}:00`,
       destino: values.destino,
     };
-    // setOriginalPlanProd([...originalPlanProd, production_order]);
     dispatch(insertProductionRequest({ production_order }));
     setProduct(null);
     reset({

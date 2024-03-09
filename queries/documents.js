@@ -25,7 +25,9 @@ module.exports.getSummary = async (conn, date) => {
 
   const { data: pr } = await conn.query(`
     SELECT * FROM Qualtia_Plan_rebanado
-    WHERE CONVERT(date, fecha) =  '${date}';
+    WHERE CONVERT(date, fecha) =  '${moment(date)
+      .subtract(1, "days")
+      .format("YYYY-MM-DD")}';
   `);
 
   const { data: KgCarga } = await conn.query(`

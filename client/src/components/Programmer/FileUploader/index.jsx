@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
@@ -54,6 +54,7 @@ export function FileUploader({
     data,
   } = useSelector((state) => state.documents);
   const dispatch = useDispatch();
+  const fileInput = useRef(null);
   const [filesRejected, setFilesRejected] = useState([]);
   const [errorFiles, setErrorFiles] = useState([]);
   const onDrop = (acceptedFiles, rejectedFiles) => {
@@ -74,6 +75,18 @@ export function FileUploader({
         validatorFiles(result);
       }
     });
+  };
+
+  const handleButtonClick = () => {
+    // trigger the click event of the hidden file input
+    fileInput.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    // Agrega los archivos seleccionados a selectedFiles
+    setSelectedFiles((prevFiles) => [...prevFiles, ...event.target.files]);
+    console.log([...selectedFiles, ...event.target.files]);
+    validatorFiles([...selectedFiles, ...event.target.files]);
   };
 
   const handleDeleteFile = (file) => {
@@ -351,13 +364,31 @@ export function FileUploader({
                     Generar Programa
                   </Button>
                 ) : (
-                  <Button
-                    variant="contained"
-                    disabled={errorFiles.length > 0 || selectedFiles.length > 4}
-                    onClick={() => onUpload()}
-                  >
-                    Aceptar
-                  </Button>
+                  <Fragment>
+                    {errorFiles.length > 0 ? (
+                      <div>
+                        <input
+                          type="file"
+                          style={{ display: "none" }}
+                          ref={fileInput}
+                          onChange={handleFileChange}
+                          multiple // Permite seleccionar varios archivos
+                        />
+                        <Button variant="contained" onClick={handleButtonClick}>
+                          Subir más archivos
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={selectedFiles.length > 4}
+                        onClick={() => onUpload()}
+                      >
+                        Aceptar
+                      </Button>
+                    )}
+                  </Fragment>
                 )}
               </div>
             </Grid>
