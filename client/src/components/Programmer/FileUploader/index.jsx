@@ -133,10 +133,26 @@ export function FileUploader({
         wee = true;
       }
     });
-    if (!req) errorFiles.push("El archivo de requerimiento no se encontro");
-    if (!inv) errorFiles.push("El archivo de inventario no se encontro");
-    if (!ord) errorFiles.push("El archivo de pedido no se encontro");
-    if (!wee) errorFiles.push("El archivo de semana no se encontro");
+    if (!ord)
+      errorFiles.push(
+        `El archivo "Pedido ${moment(date).format(
+          "DD [de] MMM"
+        )}.xlsx" no se encontro`
+      );
+    if (!inv)
+      errorFiles.push(`El archivo "Inventario Nacional.csv" no se encontro`);
+    if (!req)
+      errorFiles.push(
+        `El archivo "Requerimiento Celda ${moment(date)
+          .subtract(1, "days")
+          .format("DD-MM-YY")}.xlsx" no se encontro`
+      );
+    if (!wee)
+      errorFiles.push(
+        `El archivo "Acumulado Rebanados Sem ${moment(date).format(
+          "YYYY"
+        )}.xlsx" no se encontro`
+      );
 
     setSelectedFiles(files);
     setErrorFiles(errorFiles);
@@ -164,15 +180,15 @@ export function FileUploader({
         </div>
         <div className="mb-2">
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
-            {`1. Pedido ${moment(date)
-              .add(1, "day")
-              .format("DD [de] MMM")}.xlsx`}
+            {`1. Pedido ${moment(date).format("DD [de] MMM")}.xlsx`}
           </Typography>
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
             {`2. Inventario Nacional.csv`}
           </Typography>
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
-            {`3. Requerimiento Celda ${moment(date).format("DD-MM-YY")}.xlsx`}
+            {`3. Requerimiento Celda ${moment(date)
+              .subtract(1, "days")
+              .format("DD-MM-YY")}.xlsx`}
           </Typography>
           <Typography sx={{ fontSize: "1.2rem" }} variant="h6" component="div">
             {`4. Acumulado Rebanados Sem ${moment(date).format("YYYY")}.xlsx`}

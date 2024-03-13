@@ -53,7 +53,7 @@ const ProgrammerTable = ({
   setOpenDelete,
 }) => {
   const today = moment(date).format("DD MMM");
-  const tomorrow = moment(date).add(1, "days").format("DD MMM");
+  const yesterday = moment(date).subtract(1, "days").format("DD MMM");
 
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
@@ -191,11 +191,11 @@ const ProgrammerTable = ({
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full overflow-auto">
           <Typography variant="h6" sx={{ mb: 2 }}>
             Programador
           </Typography>
-          <div className="ml-auto flex items-center">
+          <div className="ml-auto flex items-center mt-1">
             <GroupFilter
               setFilteredPlan={setFilteredPlan}
               plan={plan}
@@ -242,16 +242,16 @@ const ProgrammerTable = ({
                   <b>BPT + CEDIS</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <b>WIP + Pgm {today}</b>
+                  <b>WIP + Pgm {yesterday}</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <b>Salida {today}</b>
+                  <b>Salida {yesterday}</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <b>Inv Final 1</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <b>Salida {tomorrow}</b>
+                  <b>Salida {today}</b>
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <b>Inv Final 2</b>

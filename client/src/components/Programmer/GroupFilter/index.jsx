@@ -88,9 +88,9 @@ const GroupFilter = ({ setFilteredPlan, plan, date, handleChangeDate }) => {
         size="small"
         value={searchText}
         onChange={handleSearchChange}
-        sx={{ width: "15rem", mr: 2 }}
+        sx={{ width: "12rem", mr: 2 }}
       />
-      <FormControl sx={{ width: "15rem", mr: 2 }} size="small">
+      <FormControl sx={{ width: "12rem", mr: 2 }} size="small">
         <InputLabel id="filtro-negativos">Ajustar</InputLabel>
         <Select
           labelId="filtro-negativos"
@@ -103,7 +103,7 @@ const GroupFilter = ({ setFilteredPlan, plan, date, handleChangeDate }) => {
           <MenuItem value="familyN">Negativos</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ width: "15rem" }} size="small">
+      <FormControl sx={{ width: "12rem" }} size="small">
         <InputLabel id="list-selector-label">Grupo</InputLabel>
         <Select
           labelId="list-selector-label"
@@ -127,7 +127,7 @@ const GroupFilter = ({ setFilteredPlan, plan, date, handleChangeDate }) => {
         size="small"
         value={date}
         onChange={handleDateChange}
-        sx={{ ml: 2, width: "15rem" }}
+        sx={{ ml: 2, width: "12rem" }}
       />
     </>
   );

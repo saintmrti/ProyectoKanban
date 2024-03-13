@@ -27,12 +27,6 @@ module.exports.parseWeeks = (fileContent) => {
   }
 
   function agruparDatos(datosExtraidos) {
-    // const registers = datosExtraidos.filter(
-    //   (register) =>
-    //     typeof register[0] === "string" &&
-    //     typeof register[1] === "string" &&
-    //     Number.isInteger(register[7])
-    // );
     _.forEach(datosExtraidos, function (register) {
       const producto = {
         sku: register[0],
@@ -42,24 +36,23 @@ module.exports.parseWeeks = (fileContent) => {
       registros.push(producto);
     });
   }
-  // De la fila 1 a la 8
-  const filasAExtraer1 = Array.from({ length: 45 }, (_, index) => index + 13);
-  // de la N a la CE
+  const filasAExtraer = Array.from({ length: 144 }, (_, index) => index + 13);
   const columnasAExtraer = Array.from({ length: 16 - 6 }, (_, index) =>
     xlsx.utils.encode_col(index + 3)
   );
 
-  const filasAExtraer2 = Array.from({ length: 86 }, (_, index) => index + 72);
-  //console.log(filasAExtraer, columnasAExtraer)
-
-  // Uso de las funciones
   const sheet = leerArchivoExcel(fileContent, sheetName);
-  const datosExtraidos1 = extraerDatos(sheet, filasAExtraer1, columnasAExtraer);
-  const datosExtraidos2 = extraerDatos(sheet, filasAExtraer2, columnasAExtraer);
-  agruparDatos(datosExtraidos1);
-  agruparDatos(datosExtraidos2);
+  const datosExtraidos = extraerDatos(sheet, filasAExtraer, columnasAExtraer);
+  agruparDatos(datosExtraidos);
   const productosFiltrados = registros.filter(
-    (producto) => producto.sku !== "" && producto.descripcion !== ""
+    (producto) =>
+      producto.sku !== "" &&
+      producto.descripcion !== "" &&
+      producto.plan_ajustado !== "" &&
+      producto.plan_ajustado !== "Plan Ajustado" &&
+      producto.sku !== "Sku" &&
+      typeof producto.descripcion === "string" &&
+      !/^[\d.]+$/.test(producto.descripcion.trim())
   );
   return productosFiltrados;
 };
