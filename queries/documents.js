@@ -31,7 +31,7 @@ module.exports.getSummary = async (conn, date) => {
   `);
 
   const { data: KgCarga } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_min_kg_carga
+    SELECT * FROM Qualtia_Planeacion_min_kg_carga
     WHERE CONVERT(date, fecha) = '2024-01-25';
   `);
 
