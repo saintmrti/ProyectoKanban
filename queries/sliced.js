@@ -7,14 +7,14 @@ module.exports.getRequirements = async (conn, date) => {
     .subtract(1, "day")
     .format("YYYY-MM-DD");
   const { data: pedido } = await conn.query(`
-    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Plan_rebanado AS p
-    INNER JOIN Qualtia_Prod_producto_cat AS c
+    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Planeacion_ordenes AS p
+    INNER JOIN Qualtia_Planeacion_cat_sku AS c
     ON c.id = p.idProducto
     WHERE CAST(fecha AS DATE) = '${date}';
   `);
   const { data: pedidos } = await conn.query(`
-    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Plan_rebanado AS p
-    INNER JOIN Qualtia_Prod_producto_cat AS c
+    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Planeacion_ordenes AS p
+    INNER JOIN Qualtia_Planeacion_cat_sku AS c
     ON c.id = p.idProducto
     WHERE CAST(fecha AS DATE) BETWEEN '${startDay}' AND '${endDay}';
   `);
@@ -33,11 +33,11 @@ module.exports.insertRequirement = async (conn, { products, date }) => {
     .format("YYYY-MM-DD");
 
   await conn.query(`
-    DELETE FROM Qualtia_Plan_rebanado WHERE CAST(fecha AS DATE) = '${date}';
+    DELETE FROM Qualtia_Planeacion_ordenes WHERE CAST(fecha AS DATE) = '${date}';
   `);
 
   await conn.query(`
-    INSERT INTO Qualtia_Plan_rebanado (fecha, idProducto, ajuste_carga, pedido) VALUES
+    INSERT INTO Qualtia_Planeacion_ordenes (fecha, idProducto, ajuste_carga, pedido) VALUES
     ${products
       .map(
         (product) =>
@@ -47,14 +47,14 @@ module.exports.insertRequirement = async (conn, { products, date }) => {
   `);
 
   const { data: pedido } = await conn.query(`
-    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Plan_rebanado AS p
-    INNER JOIN Qualtia_Prod_producto_cat AS c
+    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Planeacion_ordenes AS p
+    INNER JOIN Qualtia_Planeacion_cat_sku AS c
     ON c.id = p.idProducto
     WHERE CAST(fecha AS DATE) = '${date}';
   `);
   const { data: pedidos } = await conn.query(`
-    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Plan_rebanado AS p
-    INNER JOIN Qualtia_Prod_producto_cat AS c
+    SELECT p.pedido, p.fecha, p.ajuste_carga, c.id, c.producto FROM Qualtia_Planeacion_ordenes AS p
+    INNER JOIN Qualtia_Planeacion_cat_sku AS c
     ON c.id = p.idProducto
     WHERE CAST(fecha AS DATE) BETWEEN '${startDay}' AND '${endDay}';
   `);

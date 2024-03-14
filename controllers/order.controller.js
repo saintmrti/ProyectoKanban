@@ -92,7 +92,7 @@ module.exports.uploadOrder = async (cn, res, data, date) => {
       )
       .join(",");
     await cn.query(`
-        INSERT INTO Qualtia_Plan_pedido
+        INSERT INTO Qualtia_Planeacion_wip
         (peso_promedio, producto, descripcion, cocer_embutido, cocimiento, enfriamiento, madurado, camaras, empaque, incompletas, repetidas, total_piezas, canastillas, tarimas, total_Kilos, fecha)
         VALUES ${values}
     `);
@@ -104,7 +104,7 @@ module.exports.uploadOrder = async (cn, res, data, date) => {
 
 module.exports.orderExist = async (conn, date) => {
   const { data } = await conn.query(`
-    SELECT * FROM Qualtia_Plan_pedido
+    SELECT * FROM Qualtia_Planeacion_wip
     WHERE CONVERT(date, fecha) = '${date}';
     `);
   return data;

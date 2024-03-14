@@ -79,7 +79,7 @@ module.exports.uploadWeeks = async (cn, res, data, date) => {
     .join(",");
 
   await cn.query(`
-    INSERT INTO Qualtia_Plan_ajustado
+    INSERT INTO Qualtia_Planeacion_14weeks
     (producto, descripcion, plan_ajustado, fecha)
     VALUES ${values}
   `);
@@ -87,7 +87,7 @@ module.exports.uploadWeeks = async (cn, res, data, date) => {
 
 module.exports.weeksExist = async (conn, date) => {
   const { data } = await conn.query(`
-    SELECT * FROM Qualtia_Plan_ajustado
+    SELECT * FROM Qualtia_Planeacion_14weeks
     WHERE CONVERT(date, fecha) = '${date}';
     `);
   return data;

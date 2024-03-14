@@ -82,7 +82,7 @@ module.exports.uploadInventory = async (cn, res, data, date) => {
         .join(",");
 
       await cn.query(`
-        INSERT INTO Qualtia_Prod_inv_nacional
+        INSERT INTO Qualtia_Planeacion_inv_nacional
         (bpt, cedis, almacen, producto, descripcion, cla, origen, inv_seguridad, inv_net_trans, sug_nivelar, inv_neteable, inv_disp, transito_real, punto_reorden, fecha)
         SELECT * FROM (VALUES ${tempTableValues}) AS TempTable(bpt, cedis, almacen, producto, descripcion, cla, origen, inv_seguridad, inv_net_trans, sug_nivelar, inv_neteable,
         inv_disp, transito_real, punto_reorden, fecha)
@@ -99,7 +99,7 @@ module.exports.uploadInventory = async (cn, res, data, date) => {
 
 module.exports.inventoryExist = async (conn, date) => {
   const { data } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_inv_nacional
+    SELECT * FROM Qualtia_Planeacion_inv_nacional
     WHERE CONVERT(date, fecha) = '${date}';
     `);
   return data;

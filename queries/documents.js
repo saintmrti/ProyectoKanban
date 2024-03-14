@@ -3,28 +3,28 @@ const today = moment().format("YYYY-MM-DD");
 
 module.exports.getSummary = async (conn, date) => {
   const { data: productos } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_producto_cat;
+    SELECT * FROM Qualtia_Planeacion_cat_sku;
   `);
 
   const { data: inv_nacional } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_inv_nacional
+    SELECT * FROM Qualtia_Planeacion_inv_nacional
     WHERE CONVERT(date, fecha) = '${date}';
   `);
 
   const { data: requirement } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_requerimiento
+    SELECT * FROM Qualtia_Planeacion_requerimiento
     WHERE CONVERT(date, fecha) BETWEEN '${moment(date)
       .subtract(1, "days")
       .format("YYYY-MM-DD")}' AND '${date}';
   `);
 
   const { data: wip_programa } = await conn.query(`
-    SELECT * FROM Qualtia_Plan_pedido
+    SELECT * FROM Qualtia_Planeacion_wip
     WHERE CONVERT(date, fecha) = '${date}';
   `);
 
   const { data: pr } = await conn.query(`
-    SELECT * FROM Qualtia_Plan_rebanado
+    SELECT * FROM Qualtia_Planeacion_ordenes
     WHERE CONVERT(date, fecha) =  '${moment(date)
       .subtract(1, "days")
       .format("YYYY-MM-DD")}';
@@ -36,7 +36,7 @@ module.exports.getSummary = async (conn, date) => {
   `);
 
   const { data: sem } = await conn.query(`
-    SELECT * FROM Qualtia_Plan_ajustado
+    SELECT * FROM Qualtia_Planeacion_14weeks
     WHERE CONVERT(date, fecha) = '${date}';
   `);
 
@@ -54,7 +54,7 @@ module.exports.getSummary = async (conn, date) => {
 // module.exports.insertInventory = async (conn, invNacional) => {
 //   if (invNacional.length > 0) {
 //     await conn.query(`
-//         INSERT INTO Qualtia_Prod_inv_req (fecha, idProducto, inv_bpt, inv_cedis, bpt_cedis, tiendita, prox_salida, min_kg_carga, salida_hoy, wip_programa_hoy) VALUES
+//         INSERT INTO Qualtia_Planeacion_pedido (fecha, idProducto, inv_bpt, inv_cedis, bpt_cedis, tiendita, prox_salida, min_kg_carga, salida_hoy, wip_programa_hoy) VALUES
 //         ${invNacional
 //           .map(
 //             ({
@@ -73,7 +73,7 @@ module.exports.getSummary = async (conn, date) => {
 //           .join(",")}
 //       `);
 //     const { data } = await conn.query(`
-//       SELECT * FROM Qualtia_Prod_inv_req WHERE fecha = '2023-12-01';
+//       SELECT * FROM Qualtia_Planeacion_pedido WHERE fecha = '2023-12-01';
 //     `);
 //     return data;
 //   }

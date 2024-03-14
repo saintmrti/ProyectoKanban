@@ -49,23 +49,6 @@ module.exports.parseRequirement = (fileContent) => {
       total: item[19] || 0,
     }));
   }
-
-  // function agruparDatos(datosExtraidos) {
-  //   const filasAgrupadas = [];
-  //   const encabezados = datosExtraidos[0];
-
-  //   for (let i = 1; i < datosExtraidos.length; i++) {
-  //     const fila = {};
-  //     encabezados.forEach((encabezado, index) => {
-  //       const nombreColumna = encabezado.toString();
-  //       fila[nombreColumna] = datosExtraidos[i][index] || 0;
-  //     });
-
-  //     filasAgrupadas.push(fila);
-  //   }
-
-  //   return filasAgrupadas;
-  // }
   const filasAExtraer = Array.from({ length: 117 }, (_, index) => index + 6);
   const columnasAExtraer = Array.from({ length: 20 }, (_, index) =>
     xlsx.utils.encode_col(index + 1)
@@ -91,7 +74,7 @@ module.exports.uploadRequirement = async (cn, res, data, date) => {
       .join(",");
 
     await cn.query(`
-      INSERT INTO Qualtia_Prod_requerimiento 
+      INSERT INTO Qualtia_Planeacion_requerimiento 
       (producto, descripcion, linea, origen, bptmy_maximo, bptmy_minimo, cedmty, cedchih, cedlan, cedgdl, cedcul, cedtij, cedmer, cedleon, cedver, cedmex, cedtep, QyQ, carnemart, total, fecha)
       VALUES ${values}
   `);
@@ -106,7 +89,7 @@ module.exports.uploadRequirement = async (cn, res, data, date) => {
 
 module.exports.requirementExist = async (conn, date) => {
   const { data } = await conn.query(`
-    SELECT * FROM Qualtia_Prod_requerimiento
+    SELECT * FROM Qualtia_Planeacion_requerimiento
     WHERE CONVERT(date, fecha) = '${date}';
     `);
   return data;
