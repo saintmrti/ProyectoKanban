@@ -72,5 +72,10 @@ module.exports.deleteRequirement = async (conn, date) => {
     WHERE CONVERT(date, fecha) = '${date}';
   `);
 
+  await conn.query(`
+    DELETE FROM Qualtia_Plan_rebanado
+    WHERE CONVERT(date, fecha) = '${date}';
+  `);
+
   return {};
 };

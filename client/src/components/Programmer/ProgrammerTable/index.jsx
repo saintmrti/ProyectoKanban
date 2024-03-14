@@ -327,11 +327,9 @@ const ProgrammerTable = ({
                           onChange={(e) => setLoad(e.target.value)}
                           size="small"
                         />
-                        {/* <Tooltip title="guardar"> */}
                         <IconButton size="small" onClick={handleSaveClick}>
                           <SaveIcon />
                         </IconButton>
-                        {/* </Tooltip> */}
                       </div>
                     ) : (
                       <div className="flex justify-center items-center">
