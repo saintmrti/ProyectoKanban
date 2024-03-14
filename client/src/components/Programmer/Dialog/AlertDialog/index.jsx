@@ -50,7 +50,7 @@ export default function AlertDialog({
         <div className="flex justify-between items-center">
           <DialogTitle id="alert-dialog-title">Calcular Capacidad</DialogTitle>
           <FormControl
-            sx={{ width: "12rem", marginRight: "20px" }}
+            sx={{ width: "12rem", marginRight: "20px", display: "none" }}
             size="small"
           >
             <InputLabel id="list-selector-label">Programador</InputLabel>
