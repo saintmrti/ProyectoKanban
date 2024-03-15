@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-// import SpeedDial from "@mui/material/SpeedDial";
-// import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
@@ -20,8 +18,6 @@ import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
 import AlertDialog from "./Dialog/AlertDialog";
 import AlertDelete from "./AlertDelete";
-// import CloseIcon from "@mui/icons-material/Close";
-// import WeeklyInventory from "./WeeklyInventory";
 import { FileUploader } from "./FileUploader";
 import { changeDate } from "../../slices/date";
 import { Spinner } from "../Spinner";
@@ -84,27 +80,6 @@ const Programmer = () => {
         <h1>Error</h1>
       ) : (
         <>
-          {/* {!open ? (
-            <Box
-              sx={{ position: "fixed", mt: 3, right: "1rem", top: "6.5rem" }}
-            >
-              <SpeedDial
-                ariaLabel="SpeedDial basic example"
-                sx={{ position: "absolute", bottom: 3, right: 3 }}
-                icon={<AddIcon onClick={handleOnClick} />}
-              ></SpeedDial>
-            </Box>
-            // <div></div>
-          ) : (
-            <>
-              <CloseIcon
-                sx={{ position: "absolute", top: 84, right: 20 }}
-                fontSize="medium"
-                onClick={() => setOpen(!open)}
-              />
-              <WeeklyInventory />
-            </>
-          )} */}
           {Object.keys(requirements).length > 0 ? (
             <ProgrammerTable
               sliced={sliced?.pedido}

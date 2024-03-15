@@ -150,12 +150,11 @@ const ProgrammerTable = ({
   };
 
   useEffect(() => {
-    const arrayPlan = [];
     const planData = _.map(list, (row) => {
       const pedido_actual =
-        _.find(sliced, { id: row?.idProducto })?.pedido || 0;
+        _.find(sliced, { idProducto: row?.idProducto })?.pedido || 0;
       const ajuste_actual =
-        _.find(sliced, { id: row?.idProducto })?.ajuste_carga || 0;
+        _.find(sliced, { idProducto: row?.idProducto })?.ajuste_carga || 0;
       return {
         ...row,
         ajuste_carga: ajuste_actual,
@@ -173,23 +172,32 @@ const ProgrammerTable = ({
         ),
       };
     });
-    _.map(planData, (row) => {
-      if (row.ajuste_carga > 0) {
-        arrayPlan.push({
-          idProducto: row.idProducto,
-          sku: row.producto,
-          ajuste_carga: row.ajuste_carga,
-          pedido: row.pedido,
-        });
-      }
-    });
     setPlan(planData);
-    setRealPlan(arrayPlan);
     setFilteredPlan(planData);
   }, [list, sliced]);
 
+  useEffect(() => {
+    if (sliced?.length > 0) {
+      const order = [];
+      _.map(sliced, (row) => {
+        if (row.ajuste_carga > 0) {
+          order.push({
+            idProducto: row.idProducto,
+            sku: row.producto,
+            ajuste_carga: row.ajuste_carga,
+            pedido: row.pedido,
+          });
+        }
+      });
+      setRealPlan(order);
+    } else {
+      setRealPlan([]);
+    }
+  }, [sliced]);
+
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>
+      {console.log(realPlan)}
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
         <div className="flex justify-between w-full overflow-auto">
           <Typography variant="h6" sx={{ mb: 2 }}>

@@ -119,7 +119,7 @@ export default function TablaProgramador({
   setRealPlan,
   selectProgram,
 }) {
-  const [data, setData] = useState(realPlan);
+  const [data, setData] = useState([]);
   const [totales, setTotales] = useState({
     totalKgPlan: 0,
     barrasTotales: 0,
@@ -130,33 +130,33 @@ export default function TablaProgramador({
     totalMinUtilizados: 0,
   });
 
-  function Cell({ value, setRealPlan, row }) {
-    const [editableValue, setEditableValue] = useState(value);
-
+  function Cell({ initialValue, edit, row }) {
+    const [value, setValue] = useState(initialValue);
     const handleChange = (event) => {
-      setEditableValue(event.target.value);
-    };
-
-    const handleFoco = () => {
-      if (setRealPlan) {
-        setRealPlan((prevPlan) => {
-          const updatedArrayPlan = prevPlan.map((item) =>
-            item.idProducto === row.idProducto
-              ? { ...item, pedido: editableValue }
-              : item
-          );
-          return updatedArrayPlan;
-        });
+      const newValue = event.target.value;
+      if (newValue > 0 && newValue !== "") {
+        setValue(newValue);
       }
     };
 
-    return setRealPlan ? (
+    const handleBlur = () => {
+      setRealPlan((prevPlan) => {
+        const updatedArrayPlan = prevPlan.map((item) =>
+          item.idProducto === row.idProducto
+            ? { ...item, pedido: parseInt(value) }
+            : item
+        );
+        return updatedArrayPlan;
+      });
+    };
+
+    return edit ? (
       <StyledTableCell align="center" sx={{ width: "10%" }}>
         <Input
           type="number"
-          value={editableValue}
+          value={value}
           onChange={handleChange}
-          onBlur={handleFoco}
+          onBlur={handleBlur}
           style={{ fontSize: "inherit" }}
         />
       </StyledTableCell>
@@ -205,7 +205,7 @@ export default function TablaProgramador({
       totalTiempoDeCambio: 0,
       totalMinUtilizados: 0,
     });
-    const newData = data.map((obj, index, arr) => {
+    const newData = _.map(realPlan, (obj, index, arr) => {
       let skuActual = obj["sku"];
       let skuAnterior = index > 0 ? arr[index - 1]["sku"] : "";
       let kgHr = obtenerKgHr(obj["sku"]);
@@ -250,7 +250,7 @@ export default function TablaProgramador({
     });
     setData(newData);
     setDatosParaTablaRes(sumaMinUtilizados);
-  }, [selectProgram]);
+  }, [selectProgram, realPlan]);
   return (
     <TableContainer
       component={Paper}
@@ -303,8 +303,8 @@ export default function TablaProgramador({
               {columns.map((column) => (
                 <Cell
                   key={column}
-                  value={row[column]}
-                  setRealPlan={column === "pedido" ? setRealPlan : undefined}
+                  initialValue={row[column]}
+                  edit={column === "pedido" ? true : false}
                   row={row}
                 />
               ))}
