@@ -16,7 +16,7 @@ import {
 import { fetchSlicedRequest } from "../../slices/sliced";
 import { getRequirement } from "../../selectors/requirement";
 import ProgrammerTable from "./ProgrammerTable";
-import AlertDialog from "./Dialog/AlertDialog";
+import DialogProgram from "./DialogProgram";
 import AlertDelete from "./AlertDelete";
 import { FileUploader } from "./FileUploader";
 import { changeDate } from "../../slices/date";
@@ -123,7 +123,7 @@ const Programmer = () => {
               </Paper>
             </Box>
           )}
-          <AlertDialog
+          <DialogProgram
             date={date}
             openDialog={openDialog}
             setOpen={setOpenDialog}

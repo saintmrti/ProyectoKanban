@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 
 import { deleteRequirementRequest } from "../../../slices/requirement";
 
-export default function BasicModal({ date, open, setOpen }) {
+export default function AlertDelete({ date, open, setOpen }) {
   const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
   const handleDelete = () => {

@@ -6,17 +6,19 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 
 import DialogTitle from "@mui/material/DialogTitle";
-import TablaProgramador from "../TablaProgramador";
+import TablaProgramador from "./TablaProgramador";
 import Box from "@mui/material/Box";
-import TablaTiempoSTD from "../TablaTiempoSTD";
-import TablaRes from "../TablaRes";
-import { insertSlicedRequest } from "../../../../slices/sliced";
+import TablaTiempoSTD from "./TablaTiempoSTD";
+import TablaRes from "./TablaRes";
+import { insertSlicedRequest } from "../../../slices/sliced";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function AlertDialog({
+export default function DialogProgram({
   open,
   setOpen,
   realPlan,
@@ -25,7 +27,7 @@ export default function AlertDialog({
 }) {
   const dispatch = useDispatch();
   const [datosParaTablaRes, setDatosParaTablaRes] = useState(0);
-  const [selectProgram, setSelectProgram] = useState("MVC 10");
+  const [selectBaler, setSelectBaler] = useState("MVC 10");
 
   const handleOnClick = () => {
     setOpen(!open);
@@ -35,7 +37,7 @@ export default function AlertDialog({
 
   const handleListChange = (e) => {
     const value = e.target.value;
-    setSelectProgram(value);
+    setSelectBaler(value);
   };
 
   return (
@@ -47,17 +49,29 @@ export default function AlertDialog({
         aria-describedby="alert-dialog-description"
         maxWidth="x1"
       >
-        <div className="flex justify-between items-center">
+        <IconButton
+          aria-label="close"
+          size="small"
+          onClick={() => setOpen(false)}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <div className="flex justify-between items-end">
           <DialogTitle id="alert-dialog-title">Calcular Capacidad</DialogTitle>
           <FormControl
-            sx={{ width: "12rem", marginRight: "20px", display: "none" }}
+            sx={{ width: "12rem", marginRight: "3rem" }}
             size="small"
           >
             <InputLabel id="list-selector-label">Programador</InputLabel>
             <Select
               labelId="list-selector-label"
               id="list-selector"
-              defaultValue="MVC 10"
+              value={selectBaler}
               label="Select List"
               onChange={handleListChange}
             >
@@ -67,12 +81,13 @@ export default function AlertDialog({
             </Select>
           </FormControl>
         </div>
-        <DialogContent sx={{ margin: "0px", overflowY: "auto" }}>
+        {console.log(realPlan)}
+        <DialogContent sx={{ overflowY: "auto", paddingTop: 2 }}>
           <TablaProgramador
             realPlan={realPlan}
             setDatosParaTablaRes={setDatosParaTablaRes}
             setRealPlan={setRealPlan}
-            selectProgram={selectProgram}
+            selectBaler={selectBaler}
           />
         </DialogContent>
         <DialogContent sx={{ display: "flex", gap: 1 }}>
@@ -80,7 +95,9 @@ export default function AlertDialog({
           <TablaRes total={datosParaTablaRes} minutosPorDia={1080} />
         </DialogContent>
         <DialogActions sx={{ marginRight: "20px" }}>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button variant="outlined" onClick={() => setOpen(false)}>
+            Cancelar
+          </Button>
           <Button onClick={handleOnClick} variant="contained">
             Guardar
           </Button>

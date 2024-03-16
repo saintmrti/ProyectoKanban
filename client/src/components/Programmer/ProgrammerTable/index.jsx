@@ -10,16 +10,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
+// import SaveIcon from "@mui/icons-material/Save";
 import IconButton from "@mui/material/IconButton";
-// import Tooltip from "@mui/material/Tooltip";
-import TextField from "@mui/material/TextField";
+// import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import GroupFilter from "../GroupFilter";
+import DialogProduct from "../DialogProduct";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -57,80 +57,26 @@ const ProgrammerTable = ({
 
   const theme = useTheme();
   const [plan, setPlan] = useState([]);
-  const [load, setLoad] = useState(null);
+  const [open, setOpen] = useState(false);
   const [filteredPlan, setFilteredPlan] = useState([]);
   const [product, setProduct] = useState(null);
 
-  const handleEditClick = (index) => {
-    setProduct(index);
+  const handleEditClick = (sku) => {
+    setProduct(sku);
+    setOpen(true);
   };
 
-  const handleSaveClick = () => {
-    if (
-      load !== null &&
-      load !== undefined &&
-      !isNaN(load) &&
-      load.trim() !== ""
-    ) {
-      const loadValue = parseInt(load);
-      const pedido = (id) =>
-        loadValue * (_.find(list, { idProducto: id })?.min_kg_carga || 0);
-      if (!isNaN(loadValue)) {
-        const updatedData = plan.map((row) =>
-          row.idProducto === product
-            ? {
-                ...row,
-                ajuste_carga: loadValue,
-                pedido: pedido(product),
-                inv_final_3: calculateInvFinal3(
-                  row?.inv_final_1,
-                  row?.prox_salida,
-                  pedido(product)
-                ),
-                dif_inv_final: calculateDifInvFinal(
-                  row?.inv_final_1,
-                  row?.prox_salida,
-                  row?.tiendita,
-                  pedido(product)
-                ),
-              }
-            : row
-        );
-        setPlan(updatedData);
-        const productExist = realPlan.some((row) => row.idProducto === product);
-        if (productExist) {
-          if (loadValue > 0) {
-            const updatedRealPlan = realPlan.map((row) =>
-              row.idProducto === product
-                ? {
-                    ...row,
-                    ajuste_carga: loadValue,
-                    pedido: pedido(product),
-                  }
-                : row
-            );
-            setRealPlan(updatedRealPlan);
-          } else {
-            const updatedRealPlan = realPlan.filter(
-              (row) => row.idProducto !== product
-            );
-            setRealPlan(updatedRealPlan);
-          }
-        } else {
-          setRealPlan([
-            ...realPlan,
-            {
-              idProducto: product,
-              sku: _.find(list, { idProducto: product })?.producto,
-              ajuste_carga: loadValue,
-              pedido: pedido(product),
-            },
-          ]);
-        }
-      }
-    }
-    setProduct(null);
-  };
+  // const handleSaveClick = () => {
+  //   if (
+  //     load !== null &&
+  //     load !== undefined &&
+  //     !isNaN(load) &&
+  //     load.trim() !== ""
+  //   ) {
+  //     const loadValue = parseInt(load);
+  //   }
+  //   setProduct(null);
+  // };
 
   const handleClickProgramer = () => {
     setOpenDialog(!openDialog);
@@ -155,10 +101,12 @@ const ProgrammerTable = ({
         _.find(sliced, { idProducto: row?.idProducto })?.pedido || 0;
       const ajuste_actual =
         _.find(sliced, { idProducto: row?.idProducto })?.ajuste_carga || 0;
+      const destino = _.find(sliced, { idProducto: row?.idProducto })?.destino;
       return {
         ...row,
         ajuste_carga: ajuste_actual,
         pedido: pedido_actual,
+        destino: destino,
         inv_final_3: calculateInvFinal3(
           row?.inv_final_1,
           row?.prox_salida,
@@ -186,6 +134,7 @@ const ProgrammerTable = ({
             sku: row.producto,
             ajuste_carga: row.ajuste_carga,
             pedido: row.pedido,
+            destino: row.destino,
           });
         }
       });
@@ -197,7 +146,6 @@ const ProgrammerTable = ({
 
   return (
     <Box sx={{ height: "calc(100vh - 163px)" }}>
-      {console.log(realPlan)}
       <Paper sx={{ width: "100%", height: "100%", overflow: "hidden", p: 2 }}>
         <div className="flex justify-between w-full overflow-auto">
           <Typography variant="h6" sx={{ mb: 2 }}>
@@ -321,7 +269,19 @@ const ProgrammerTable = ({
                     {row.programar}
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {product && product === row?.idProducto ? (
+                    <div className="flex justify-evenly items-center">
+                      {
+                        _.find(plan, { idProducto: row?.idProducto })
+                          ?.ajuste_carga
+                      }
+                      <IconButton
+                        size="small"
+                        onClick={() => handleEditClick(row)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </div>
+                    {/* {product && product === row?.idProducto ? (
                       <div className="flex justify-center items-center">
                         <TextField
                           sx={{ width: "8rem", mr: 1 }}
@@ -345,16 +305,14 @@ const ProgrammerTable = ({
                           _.find(plan, { idProducto: row?.idProducto })
                             ?.ajuste_carga
                         }
-                        {/* <Tooltip title="editar"> */}
                         <IconButton
                           size="small"
                           onClick={() => handleEditClick(row.idProducto)}
                         >
                           <EditIcon />
                         </IconButton>
-                        {/* </Tooltip> */}
                       </div>
-                    )}
+                    )} */}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     {_.find(plan, { idProducto: row?.idProducto })?.pedido}
@@ -392,6 +350,17 @@ const ProgrammerTable = ({
             </TableBody>
           </Table>
         </TableContainer>
+        <DialogProduct
+          open={open}
+          setOpen={setOpen}
+          plan={plan}
+          setPlan={setPlan}
+          realPlan={realPlan}
+          setRealPlan={setRealPlan}
+          product={product}
+          calculateInvFinal3={calculateInvFinal3}
+          calculateDifInvFinal={calculateDifInvFinal}
+        />
       </Paper>
     </Box>
   );

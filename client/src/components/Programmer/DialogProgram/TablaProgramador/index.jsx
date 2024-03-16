@@ -80,18 +80,6 @@ const dataProgram = [
   },
 ];
 
-const columns = [
-  "PRIORIDAD",
-  "sku",
-  "pedido",
-  "barras",
-  "KG/HR",
-  "HR UTILIZADA",
-  "Tiempos STD de producción",
-  "Tiempo de cambio",
-  "MIN UTILIZADOS",
-];
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.primary.dark,
@@ -117,7 +105,7 @@ export default function TablaProgramador({
   realPlan,
   setDatosParaTablaRes,
   setRealPlan,
-  selectProgram,
+  selectBaler,
 }) {
   const [data, setData] = useState([]);
   const [totales, setTotales] = useState({
@@ -130,57 +118,21 @@ export default function TablaProgramador({
     totalMinUtilizados: 0,
   });
 
-  function Cell({ initialValue, edit, row }) {
-    const [value, setValue] = useState(initialValue);
-    const handleChange = (event) => {
-      const newValue = event.target.value;
-      if (newValue > 0 && newValue !== "") {
-        setValue(newValue);
-      }
-    };
-
-    const handleBlur = () => {
-      setRealPlan((prevPlan) => {
-        const updatedArrayPlan = prevPlan.map((item) =>
-          item.idProducto === row.idProducto
-            ? { ...item, pedido: parseInt(value) }
-            : item
-        );
-        return updatedArrayPlan;
-      });
-    };
-
-    return edit ? (
-      <StyledTableCell align="center" sx={{ width: "10%" }}>
-        <Input
-          type="number"
-          value={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          style={{ fontSize: "inherit" }}
-        />
-      </StyledTableCell>
-    ) : (
-      <StyledTableCell align="center">{value}</StyledTableCell>
-    );
-  }
-
   function obtenerKgHr(skuBuscado) {
     const tiemposRebanado = _.find(dataProgram, {
-      nombre: selectProgram,
+      nombre: selectBaler,
     })?.tiemposDeRebanado;
     if (skuBuscado && tiemposRebanado && tiemposRebanado.length > 0) {
-      const resultado = tiemposRebanado.filter(
-        (dato) => dato.SKU === skuBuscado
-      );
+      const resultado = _.filter(tiemposRebanado, { SKU: skuBuscado });
       return resultado.length > 0 ? resultado[0].KgPorHora : 0;
     } else {
       return 0;
     }
   }
+
   function obtenerTiempodeCambio(fila, columna) {
     const tiemposCambio = _.find(dataProgram, {
-      nombre: selectProgram,
+      nombre: selectBaler,
     })?.tiempoCambio;
     if (
       tiemposCambio &&
@@ -194,6 +146,20 @@ export default function TablaProgramador({
     }
   }
 
+  const handleChange = (event, id) => {
+    const newValue = event.target.value;
+    if (newValue > 0 && newValue !== "") {
+      setRealPlan((prevPlan) => {
+        const updatedArrayPlan = prevPlan.map((item) =>
+          item.idProducto === id
+            ? { ...item, pedido: parseInt(newValue) }
+            : item
+        );
+        return updatedArrayPlan;
+      });
+    }
+  };
+
   useEffect(() => {
     let sumaMinUtilizados = 0;
     setTotales({
@@ -205,7 +171,10 @@ export default function TablaProgramador({
       totalTiempoDeCambio: 0,
       totalMinUtilizados: 0,
     });
-    const newData = _.map(realPlan, (obj, index, arr) => {
+    const filterByBaler = _.filter(realPlan, (item) => {
+      return item.destino === selectBaler;
+    });
+    const newData = _.map(filterByBaler, (obj, index, arr) => {
       let skuActual = obj["sku"];
       let skuAnterior = index > 0 ? arr[index - 1]["sku"] : "";
       let kgHr = obtenerKgHr(obj["sku"]);
@@ -239,25 +208,25 @@ export default function TablaProgramador({
 
       return {
         ...obj,
-        PRIORIDAD: index + 1,
-        "KG/HR": kgHr,
-        "HR UTILIZADA": hrUtilizada.toFixed(1),
-        "Tiempos STD de producción": tiemSTDdeProduccion.asMinutes(),
-        "Tiempo de cambio": tiempoDeCambio === 0 ? 0 : tiempoDeCambio,
-        "MIN UTILIZADOS": minUtilizados.asMinutes().toFixed(1),
+        prioridad: index + 1,
+        kg_hora: kgHr,
+        hr_utilizada: hrUtilizada.toFixed(1),
+        tiempo_std: tiemSTDdeProduccion.asMinutes(),
+        tiempo_cambio: tiempoDeCambio === 0 ? 0 : tiempoDeCambio,
+        min_utilizados: minUtilizados.asMinutes().toFixed(1),
         barras: barras,
       };
     });
     setData(newData);
     setDatosParaTablaRes(sumaMinUtilizados);
-  }, [selectProgram, realPlan]);
+  }, [selectBaler, realPlan]);
   return (
     <TableContainer
       component={Paper}
       sx={{
-        overflowY: "auto",
-        marginBottom: "0",
+        overflow: "auto",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+        maxHeight: 300,
       }}
     >
       <Table sx={{ minWidth: 80 }} aria-label="simple table" size="small">
@@ -278,7 +247,7 @@ export default function TablaProgramador({
               KG Plan
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
-              # Barras <br /> Ingresar
+              # Barras
             </StyledTableCell>
             <StyledTableCell align="left" colSpan={1}>
               KG/HR
@@ -298,16 +267,40 @@ export default function TablaProgramador({
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, rowIndex) => (
-            <StyledTableRow key={rowIndex}>
-              {columns.map((column) => (
-                <Cell
-                  key={column}
-                  initialValue={row[column]}
-                  edit={column === "pedido" ? true : false}
-                  row={row}
+          {_.map(data, (row) => (
+            <StyledTableRow key={row.idProducto}>
+              <StyledTableCell align="center" sx={{ width: "5%" }}>
+                {row.prioridad}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.sku}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                <Input
+                  type="number"
+                  value={row.pedido}
+                  onChange={(e) => handleChange(e, row.idProducto)}
+                  style={{ fontSize: "inherit" }}
                 />
-              ))}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.barras}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.kg_hora}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.hr_utilizada}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.tiempo_std}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.tiempo_cambio}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ width: "10%" }}>
+                {row.min_utilizados}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
           <StyledTableRow>
